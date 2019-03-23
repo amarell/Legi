@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legi/src/compenents/ListKategori.dart' as listKategori;
+import 'package:legi/src/list_campaign.dart';
 class KategoriScreen extends StatefulWidget {
   KategoriScreen({Key key}) : super(key: key);
   @override
@@ -76,6 +77,12 @@ class _KategoriScreenState extends State<KategoriScreen> {
                 ),
                 onTap: (){
                   print('rrr');
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (contex) =>
+                    ListCampaign(idCampaign:listKategori.list[index]['id'], namaKategori:listKategori.list[index]['name'],)
+                      
+                  )
+                  );
                 },
               ),
             ),
