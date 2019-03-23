@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:legi/src/compenents/ListKategori.dart' as listKategori;
 
 class Dashboard extends StatefulWidget {
   @override
@@ -11,6 +13,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+
+    
 
     Widget image_carousel = new Container(
       height: 200.0,
@@ -106,6 +110,7 @@ class _DashboardState extends State<Dashboard> {
             InkWell(
               onTap: (){
                 SessionManager.logout();
+                Navigator.of(context).pushReplacementNamed('/login_page');
               },
               child: ListTile(
                 title: Text('Logout'),
@@ -115,21 +120,27 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      body: new ListView(
+      body:  new Column(
         children: <Widget>[
           //ini image carousel
           image_carousel,
 
           //ini padding caegories
-          new Padding(padding: const EdgeInsets.all(8.0),
-          child: new Text('News Campaign', style: TextStyle(inherit: true, fontSize: 16.0, fontFamily: "WorkSansSemiBold", color: Colors.grey ),  ),),
-
+          new Padding(padding: const EdgeInsets.all(4.0),
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: new Text('News Campaign')),),
           //ini horizontal list view
             NewsCampaign(),
-
-             new Padding(padding: const EdgeInsets.all(8.0),
-          child: new Text('Kategori Campaign', style: TextStyle(inherit: true, fontSize: 16.0, fontFamily: "WorkSansSemiBold" ),),),
-        ],
+          //kategori campaign
+            new Padding(padding: const EdgeInsets.all(8.0),
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: new Text('Kategori Campaign')),),
+            Flexible(child: KategoriScreen()),
+            
+         
+          ],
       ),
     );
   }
