@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:legi/src/detail_campaign.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 
 
@@ -80,6 +81,9 @@ class _ListCampaignState extends State<ListCampaign> {
         return InkWell(
           onTap: (){
             print(campaigns);
+            Navigator.push(context, new MaterialPageRoute(builder: (context){
+                          return new DetailCampaign(campaign: campaigns[index],);
+                        }));
           },
           child: Card(
             
