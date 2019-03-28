@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legi/src/API/api.dart';
-import 'package:legi/src/compenents/listview_campaign.dart';
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:legi/src/detail_campaign.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 
@@ -74,11 +71,7 @@ class _ListCampaignState extends State<ListCampaign> {
     appBar: AppBar(
       backgroundColor: Colors.greenAccent[400],
         title: Text('Lets Giving'),
-        actions: <Widget>[
-          new IconButton(icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
-        ],
     ),
-    
     body: ListView.builder(
       itemCount: campaigns.length,
       itemBuilder: (context, index){
@@ -91,39 +84,12 @@ class _ListCampaignState extends State<ListCampaign> {
           },
           child: Card(
             
-           child: Container(
-             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-             child: Row(
-               children: [
-                 Expanded(
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Container(
-                         padding: const EdgeInsets.only(bottom: 8.0),
-                         child: Image.asset('assets/images/ede581967c723778d5332717ac56e0c7.png'),
-
-                       ),
-                       Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text(campaigns[index].judul_campaign, style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),),
-                       ),
-                        Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text("target Donasi: Rp. "+campaigns[index].target_donasi, style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),),
-                       ),
-                       
-                       
-                     ],
-                   ),
-                 ),
-               ],
-             ),
-           ),
+            child: Column(
+              children: <Widget>[
+                Image.asset('assets/images/ede581967c723778d5332717ac56e0c7.png', fit: BoxFit.cover, height: 100.0,),
+                Text(campaigns[index].judul_campaign),
+              ],
+            ),
           ),
         );
       },
