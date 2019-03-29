@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -20,6 +21,8 @@ class _DetailCampaignState extends State<DetailCampaign> {
 
   @override
   Widget build(BuildContext context) {
+    final NumberFormat formatter = NumberFormat.simpleCurrency(
+      locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     return Scaffold(
       appBar: AppBar(
       backgroundColor: Colors.greenAccent[400],
@@ -124,15 +127,15 @@ class _DetailCampaignState extends State<DetailCampaign> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         TextIcon(
-                          icon: FontAwesomeIcons.bed,
-                          text: "Target Donasi:\n ${campaign.target_donasi ?? "#"} ",
+                          icon: FontAwesomeIcons.handHoldingUsd,
+                          text: "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
                         ),
                         TextIcon(
-                          icon: FontAwesomeIcons.shower,
-                          text: "Batas waktu:\n ${campaign.batas_waktu ?? "#"} ",
+                          icon: FontAwesomeIcons.clock,
+                          text: "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
                         ),
                         TextIcon(
-                          icon: FontAwesomeIcons.car,
+                          icon: FontAwesomeIcons.user,
                           text: "Dibuat oleh:\n ${campaign.nama_user ?? "#"} ",
                         ),
                       ],

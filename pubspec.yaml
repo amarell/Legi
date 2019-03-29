@@ -29,6 +29,7 @@ dependencies:
   carousel_pro: ^0.0.13
   flutter_html: ^0.9.6
   bmnav: ^0.3.4
+  intl: ^0.15.8
 
 dev_dependencies:
   flutter_test:
