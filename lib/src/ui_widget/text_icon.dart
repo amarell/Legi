@@ -19,7 +19,7 @@ class TextIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isColumn) {
       return Container(
-        height: 50.0,
+        height: 70.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

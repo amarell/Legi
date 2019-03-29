@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
-
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/dom.dart' as dom;
 class DetailCampaign extends StatefulWidget {
   
   DetailCampaign({Key key, this.campaign}) :super(key : key);
@@ -156,7 +157,11 @@ class _DetailCampaignState extends State<DetailCampaign> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(campaign.deskripsi),
+                    child: 
+                      Html(
+                        data: campaign.deskripsi,
+                      )
+                    
                   ),
 
                 ],
