@@ -24,6 +24,26 @@ class _DetailCampaignState extends State<DetailCampaign> {
       backgroundColor: Colors.greenAccent[400],
         title: Text('Lets Giving'),
     ),
+    backgroundColor: Colors.grey[300],
+    bottomNavigationBar: Container(
+      color: Theme.of(context).primaryColor,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Builder(
+              builder: (context) => FlatButton.icon(
+                onPressed: (){
+                  print('clicked');
+                },
+                icon: Icon(Icons.launch),
+                label: Text("Donasi Sekarang"),
+                textColor: Colors.white,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
     body: CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
@@ -104,11 +124,11 @@ class _DetailCampaignState extends State<DetailCampaign> {
                       children: <Widget>[
                         TextIcon(
                           icon: FontAwesomeIcons.bed,
-                          text: "Target Donasi: ${campaign.target_donasi ?? "#"} ",
+                          text: "Target Donasi:\n ${campaign.target_donasi ?? "#"} ",
                         ),
                         TextIcon(
                           icon: FontAwesomeIcons.shower,
-                          text: "Batas waktu: ${campaign.batas_waktu ?? "#"} ",
+                          text: "Batas waktu:\n ${campaign.batas_waktu ?? "#"} ",
                         ),
                         TextIcon(
                           icon: FontAwesomeIcons.car,
@@ -124,6 +144,23 @@ class _DetailCampaignState extends State<DetailCampaign> {
               color: Colors.white,
               margin: const EdgeInsets.symmetric(vertical: 4.0),
               padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Deskripsi",
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 20),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Text(campaign.deskripsi),
+                  ),
+
+                ],
+              ),
             ),
           ]),
         ),
