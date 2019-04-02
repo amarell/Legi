@@ -7,6 +7,7 @@ class Campaign{
   final String ajakan;
   final String deskripsi;
   final int target_donasi;
+  //final int jumlah_dana;
   final String ditujukan;
   final int batas_waktu;
   final String foto_campaign;
@@ -22,6 +23,7 @@ class Campaign{
       no_hp: json['no_hp'],
       ajakan: json['ajakan'],
       deskripsi: json['deskripsi'],
+     // jumlah_dana:   int.parse(json['jumlah_dana']),
       target_donasi: int.parse(json['target_donasi']),
       ditujukan: json['ditujukan'],
       batas_waktu: int.parse(json['batas_waktu']),

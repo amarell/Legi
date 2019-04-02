@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -38,6 +39,11 @@ class _DetailCampaignState extends State<DetailCampaign> {
               builder: (context) => FlatButton.icon(
                 onPressed: (){
                   print('clicked');
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) =>
+                    FormDonation(idCampaign: campaign.id_campaign,)
+                  )
+                  );
                 },
                 icon: Icon(Icons.launch),
                 label: Text("Donasi Sekarang"),

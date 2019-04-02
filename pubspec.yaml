@@ -30,6 +30,7 @@ dependencies:
   flutter_html: ^0.9.6
   bmnav: ^0.3.4
   intl: ^0.15.8
+  charts_flutter: ^0.6.0
 
 dev_dependencies:
   flutter_test:
