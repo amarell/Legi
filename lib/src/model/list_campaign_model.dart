@@ -8,11 +8,15 @@ class Campaign{
   final String deskripsi;
   final int target_donasi;
   //final int jumlah_dana;
-  final String ditujukan;
-  final int batas_waktu;
+  //final String ditujukan;
+  final String batas_waktu;
   final String foto_campaign;
+  final String link;
+  final int dana_terkumpul;
+  final String tanggal_mulai;
+  
 
-  Campaign({this.id_campaign, this.nama_kategori, this.nama_user, this.judul_campaign, this.no_hp, this.ajakan, this.deskripsi, this.target_donasi, this.ditujukan, this.batas_waktu, this.foto_campaign});
+  Campaign({this.id_campaign, this.nama_kategori, this.nama_user, this.judul_campaign, this.no_hp, this.ajakan, this.deskripsi, this.target_donasi, this.batas_waktu, this.foto_campaign, this.link, this.dana_terkumpul, this.tanggal_mulai});
   
    factory Campaign.fromJson(Map<String, dynamic> json) {
     return new Campaign(
@@ -25,9 +29,12 @@ class Campaign{
       deskripsi: json['deskripsi'],
      // jumlah_dana:   int.parse(json['jumlah_dana']),
       target_donasi: int.parse(json['target_donasi']),
-      ditujukan: json['ditujukan'],
-      batas_waktu: int.parse(json['batas_waktu']),
+      batas_waktu: json['batas_waktu'],
       foto_campaign: json['foto_campaign'],
+      link: json['link'],
+      dana_terkumpul: int.parse(json['dana_terkumpul']),
+      tanggal_mulai: json['tanggal_mulai'],
+
     );
   }
     

@@ -10,4 +10,12 @@ class API {
       "id_kategori":idKat,
     });
   }
+
+  static Future getListHistory(idUser){
+    var url=baseUrl+'/history_donasi.php';
+    print(idUser);
+    return http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
 }

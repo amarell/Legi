@@ -9,27 +9,27 @@ class NewsCampaign extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
           Category(
-            image_location: 'assets/images/2.jpg',
+            image_location: 'assets/login_logo.png',
             image_caption: 'nenda',
           ),
         ],

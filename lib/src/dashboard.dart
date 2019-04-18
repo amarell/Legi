@@ -3,7 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
-import 'package:legi/src/compenents/ListKategori.dart' as listKategori;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -11,9 +11,33 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+    String _nama ='';
+    String _email='';
+    
+    void initState(){
+      super.initState();
+      _getData();
+      print(_nama);
+    }
+
+  //final prefs = await SharedPreferences.getInstance();
+  _getData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+     _nama=(prefs.getString('nama') ?? ''); 
+     _email=(prefs.getString('email') ?? '');
+
+    });
+  }
+  
+  
+    
+    
   @override
   Widget build(BuildContext context) {
 
+    
+    
     
 
     Widget image_carousel = new Container(
@@ -49,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
         child: new ListView(
           children: <Widget>[
             //header
-            new UserAccountsDrawerHeader(accountName: Text('Burhanudin'), accountEmail: Text('buburwakhid@gmail.com'),
+            new UserAccountsDrawerHeader(accountName: Text('$_nama'), accountEmail: Text('$_email'),
             currentAccountPicture: GestureDetector(
               child: new CircleAvatar(
                 backgroundColor: Colors.grey,
@@ -144,4 +168,6 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+  
 }
+

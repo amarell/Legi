@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:legi/src/API/api.dart';
-import 'dart:async';
-
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:legi/src/detail_campaign.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 
@@ -68,6 +66,8 @@ class _ListCampaignState extends State<ListCampaign> {
 //    //return parsed.map<Campaign>((json) => new Campaign.fromJson(json)).toList();
     
 //   }
+
+  
   
   @override
   Widget build(BuildContext context) {
@@ -84,6 +84,45 @@ class _ListCampaignState extends State<ListCampaign> {
     body: ListView.builder(
       itemCount: campaigns.length,
       itemBuilder: (context, index){
+        var targetDonasi=[
+          TargetDonasi('target', campaigns[index].target_donasi, Colors.blue[200]),
+        ];
+
+        var pencapaianDonasi=[
+          TargetDonasi('target', campaigns[index].dana_terkumpul,Colors.blue),
+        ]; 
+
+        var series=[
+          charts.Series(
+              domainFn: (TargetDonasi target,_)=>target.target,
+            measureFn: (TargetDonasi target,_)=>target.jumlah,
+            colorFn: (TargetDonasi target,_)=>target.color,
+            id: 'Pencapaian',
+            data: pencapaianDonasi,
+            //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}'
+            ),
+          charts.Series(
+            domainFn: (TargetDonasi target,_)=>target.target,
+            measureFn: (TargetDonasi target,_)=>target.jumlah,
+            id: 'Target',
+            data: targetDonasi,
+            //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}',
+            colorFn: (TargetDonasi target,_)=>target.color,
+            
+            ),
+            
+        ];
+
+        var chart = charts.BarChart(
+          series,
+          barGroupingType: charts.BarGroupingType.stacked,
+          vertical: false,
+          barRendererDecorator: charts.BarLabelDecorator<String>(),
+          domainAxis: charts.OrdinalAxisSpec(renderSpec: charts.NoneRenderSpec()),
+          
+        );
+
+
         final NumberFormat formatter = NumberFormat.simpleCurrency(
       locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
         return InkWell(
@@ -114,6 +153,17 @@ class _ListCampaignState extends State<ListCampaign> {
                                             fontWeight: FontWeight.bold,
                                           ),),
                        ),
+                       Padding(
+                         padding: EdgeInsets.all(0.0),
+                         child: Column(
+                           children: <Widget>[
+                             SizedBox(
+                               height: 50,
+                               child: chart,
+                             )
+                           ],
+                         ),
+                       ),
                         Padding(
                          padding: EdgeInsets.all(8.0),
                          child: Text("target Donasi: "+ formatter.format(campaigns[index].target_donasi), style: TextStyle(
@@ -136,4 +186,13 @@ class _ListCampaignState extends State<ListCampaign> {
       
     );
   }
+}
+
+class TargetDonasi{
+  final String target;
+  final int jumlah;
+  final charts.Color color;
+
+  TargetDonasi(this.target, this.jumlah, Color color)
+  :this.color=charts.Color(r: color.red, g: color.green, b: color.blue,a: color.alpha);
 }

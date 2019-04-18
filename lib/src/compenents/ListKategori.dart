@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 List list = [
  {
     "id": "1",
-    "name": "Business",
+    "name": "Pendidikan",
     "icon": Icons.work,
     "color": Colors.teal
   },
   {
-    "id": "technology",
+    "id": "2",
     "name": "Technology",
     "icon": Icons.smartphone,
     "color": Colors.grey[600]
   },
   {
-    "id": "science-and-nature",
+    "id": "3",
     "name": "Science and Nature",
     "icon": Icons.nature_people,
     "color": Colors.green[600]
   },
   {
-    "id": "sport",
+    "id": "4",
     "name": "Sports",
     "icon": Icons.directions_bike,
     "color": Colors.deepOrange

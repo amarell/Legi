@@ -129,22 +129,25 @@ class _DetailCampaignState extends State<DetailCampaign> {
                         bottom: BorderSide(color: Colors.grey, width: 0.4),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        TextIcon(
-                          icon: FontAwesomeIcons.handHoldingUsd,
-                          text: "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
-                        ),
-                        TextIcon(
-                          icon: FontAwesomeIcons.clock,
-                          text: "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
-                        ),
-                        TextIcon(
-                          icon: FontAwesomeIcons.user,
-                          text: "Dibuat oleh:\n ${campaign.nama_user ?? "#"} ",
-                        ),
-                      ],
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          TextIcon(
+                            icon: FontAwesomeIcons.handHoldingUsd,
+                            text: "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
+                          ),
+                          TextIcon(
+                            icon: FontAwesomeIcons.clock,
+                            text: "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
+                          ),
+                          TextIcon(
+                            icon: FontAwesomeIcons.user,
+                            text: "Dibuat oleh:\n ${campaign.nama_user ?? "#"} ",
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
