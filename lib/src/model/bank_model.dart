@@ -3,6 +3,7 @@ class BankModel{
   final String namaBank;
   final String noRek;
 
-  BankModel(this.idBank, this.namaBank, this.noRek);
-  
+  BankModel({this.idBank, this.namaBank, this.noRek});
+
+  factory BankModel.fromJson()  
 }
