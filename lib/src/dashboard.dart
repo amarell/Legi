@@ -3,6 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
@@ -98,28 +99,33 @@ class _DashboardState extends State<Dashboard> {
             InkWell(
               onTap: (){},
               child: ListTile(
-                title: Text('My Account'),
+                title: Text('Dompet'),
                 leading: Icon(Icons.person, color: Colors.red,),
               ),
             ),
             InkWell(
-              onTap: (){},
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => BuatDonasi()
+                ));
+              },
               child: ListTile(
-                title: Text('My Order'),
+                title: Text('Buat Donasi'),
                 leading: Icon(Icons.shopping_basket, color: Colors.red,),
               ),
             ),
             InkWell(
               onTap: (){},
               child: ListTile(
-                title: Text('Categories'),
+                title: Text('Zakat'),
                 leading: Icon(Icons.dashboard, color: Colors.red,),
               ),
             ),
             InkWell(
               onTap: (){},
               child: ListTile(
-                title: Text('Favorit'),
+                title: Text('Withdraw Dompet'),
                 leading: Icon(Icons.favorite, color: Colors.red,),
               ),
             ),
@@ -127,7 +133,14 @@ class _DashboardState extends State<Dashboard> {
             InkWell(
               onTap: (){},
               child: ListTile(
-                title: Text('Setting'),
+                title: Text('Dompet'),
+                leading: Icon(Icons.settings, color: Colors.grey,),
+              ),
+            ),
+            InkWell(
+              onTap: (){},
+              child: ListTile(
+                title: Text('FAQ'),
                 leading: Icon(Icons.settings, color: Colors.grey,),
               ),
             ),
@@ -141,6 +154,7 @@ class _DashboardState extends State<Dashboard> {
                 leading: Icon(Icons.help, color: Colors.grey,),
               ),
             ),
+            
           ],
         ),
       ),

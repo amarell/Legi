@@ -1,13 +1,113 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:legi/src/API/api.dart';
+import 'package:legi/src/model/read_profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Account extends StatefulWidget {
   @override
   _AccountState createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
+  String _idUser='';
+  var akun = new List<ReadProfile>();
   final String url = 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/09/04/15/lionel-messi-0.jpg?';
   final Color green = Color(0xFF1E8161);
+  
+  var exnama, exemail,exidUser,extelpon,exalamat,exavatar,exktp;
+
+  ReadProfile rp;
+
+  void initState(){
+      super.initState();
+      this.setState((){
+        _getData();
+      });
+       
+      //_getDataUserg();
+      
+    }
+
+    _getData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+     _idUser=(prefs.getString('id') ?? '');
+
+    });
+    _getUserDetail();
+  }
+  _getUserDetail(){
+    //_getData()d;
+    print('haha $_idUser');
+    API.getDetailUser(_idUser).then((responses){
+      setState(() {
+        print('fgfdsfg $_idUser');
+        final list = json.decode(responses.body);
+        akun=(list['login'] as List).map<ReadProfile>((json)=> new ReadProfile.fromJson(json)).toList();
+        //rp = new ReadProfile.fromJson(list);
+        // print(rp.email);
+        // exnama= rp.nama;
+        // exemail=rp.email;
+        // exidUser=rp.idUser;
+        // extelpon=rp.telpon;
+        // exalamat=rp.alamat;
+        // exavatar=rp.alamat;
+        // exktp=rp.ktp;
+        print(akun);
+        exnama=akun[0].nama;
+        exemail=akun[0].email;
+        extelpon=akun[0].telpon;
+        print(exnama);
+      });
+
+    });
+  }
+
+  
+
+  // Future<dynamic> _getDataUser() async{
+
+  //   final response = await http.post('http://192.168.43.64/API/read_profile.php', body: {
+  //     "id_user": _idUser,
+  //   });
+  //   Map userMap = convert.jsonDecode(response.body);
+  //   if(response.statusCode==200){
+  //     var success = userMap['success'];
+  //     var data =userMap['login'][0];
+  //     if (success == '1') {
+  //       var user = new ReadProfile.fromJson(data);
+  //       print(user.nama+'\n');
+        
+        
+  //       print(data);
+
+  //       exnama= user.nama;
+  //       exemail=user.email;
+  //       exidUser=user.idUser;
+  //       extelpon=user.telpon;
+  //       exalamat=user.alamat;
+  //       exavatar=user.alamat;
+  //       exktp=user.ktp;
+
+  //       print(exnama);
+       
+  //     }else if(success=='0'){
+  //       print(data);
+  //     }else{
+  //       print('gagal');
+  //     }
+  //   }
+ 
+  //   return userMap;
+  // }
+
+  @override
+  void dispose() {
+    
+    super.dispose();
+  }
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +127,34 @@ class _AccountState extends State<Account> {
           )
         ],
       ),
-      body: SingleChildScrollView(
+      bottomNavigationBar: Container(
+      color: Colors.green,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Builder(
+              builder: (context) => FlatButton.icon(
+                onPressed: (){
+                  
+                  
+                },
+                icon: Icon(Icons.launch),
+                label: Text("Update Profile"),
+                textColor: Colors.white,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+      body:  SingleChildScrollView(
         scrollDirection: Axis.vertical,
               child: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(top: 16),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/2,
+              height: MediaQuery.of(context).size.height/2.6,
               decoration: BoxDecoration(
                 color: green,
                 borderRadius: BorderRadius.only(
@@ -74,6 +194,7 @@ class _AccountState extends State<Account> {
                             image: NetworkImage(url)
                           )
                         ),
+                        
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 16),
@@ -106,78 +227,34 @@ class _AccountState extends State<Account> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 32),
-                    child: Text('Herman Jimenez',
+                    child: (exnama != null) ? Text(exnama,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.bold
                       ),
-                    ),
+                    )
+                    : Center(child: CircularProgressIndicator(),) ,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Icon(Icons.group_add, color: Colors.white,),
-                            Text('Friends',
-                              style: TextStyle(
-                                color: Colors.white
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Icon(Icons.group, color: Colors.white,),
-                            Text('Groups',
-                              style: TextStyle(
-                                  color: Colors.white
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Icon(Icons.videocam, color: Colors.white,),
-                            Text('Videos',
-                              style: TextStyle(
-                                  color: Colors.white
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Icon(Icons.favorite, color: Colors.white,),
-                            Text('Likes',
-                              style: TextStyle(
-                                  color: Colors.white
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
+                  
                 ],
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height/1.4,
               padding: EdgeInsets.all(42),
-              child: Column(
+              child: (exemail != null) ? Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
                           Icon(Icons.table_chart, color: Colors.grey,),
-                          Text('Leaders',
+                          Text('Username: ' +exnama,
                           style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.bold
@@ -185,10 +262,13 @@ class _AccountState extends State<Account> {
                           )
                         ],
                       ),
-                      Column(
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
                           Icon(Icons.show_chart, color: Colors.grey,),
-                          Text('Level up',
+                          Text('Nama Lengkap: burhanudin wakhid',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold
@@ -196,10 +276,13 @@ class _AccountState extends State<Account> {
                           )
                         ],
                       ),
-                      Column(
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
                           Icon(Icons.card_giftcard, color: Colors.grey,),
-                          Text('Leaders',
+                          Text('Email: ' +exemail,
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold
@@ -207,34 +290,56 @@ class _AccountState extends State<Account> {
                           )
                         ],
                       ),
-                    ],
-                  ),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
-                          Icon(Icons.code, color: Colors.grey,),
-                          Text('QR code')
+                          Icon(Icons.card_giftcard, color: Colors.grey,),
+                          Text('Alamat: ' + 'exalamat',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold
+                            ),
+                          )
                         ],
                       ),
-                      Column(
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
-                          Icon(Icons.blur_circular, color: Colors.grey,),
-                          Text('Daily bonus')
+                          Icon(Icons.card_giftcard, color: Colors.grey,),
+                          Text('Telepon: ' + extelpon,
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold
+                            ),
+                          )
                         ],
                       ),
-                      Column(
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
+                      Row(
                         children: <Widget>[
-                          Icon(Icons.visibility, color: Colors.grey,),
-                          Text('Visitors')
+                          Icon(Icons.card_giftcard, color: Colors.grey,),
+                          Text('No Ktp: ' +'exktp',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold
+                            ),
+                          )
                         ],
                       ),
+                      SizedBox(height: 7,),
+                      Divider(),
+                      SizedBox(height: 7,),
                     ],
                   ),
                 ],
-              ),
+              )
+              : Center(child: CircularProgressIndicator(),) ,
             )
           ],
         ),

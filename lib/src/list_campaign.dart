@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:legi/src/detail_campaign.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ListCampaign extends StatefulWidget {
     ListCampaign({Key key, this.idCampaign="1", this.namaKategori="2"}) : super(key: key);
@@ -134,7 +134,7 @@ class _ListCampaignState extends State<ListCampaign> {
           },
           child: Card(
             
-           child: Container(
+           child: (campaigns != null) ? Container(
              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
              child: Row(
                children: [
@@ -164,6 +164,20 @@ class _ListCampaignState extends State<ListCampaign> {
                            ],
                          ),
                        ),
+                       Padding(
+                         padding: EdgeInsets.all(0.0),
+                         child: LinearPercentIndicator(
+                           width: MediaQuery.of(context).size.width - 50,
+                           animation: true,
+                           lineHeight: 20.0,
+                           animationDuration: 2000,
+                           percent: 0.9,
+                           center: Text('90%'),
+                           linearStrokeCap: LinearStrokeCap.roundAll,
+                           progressColor: Colors.green,
+                          
+                         ),
+                       ),
                         Padding(
                          padding: EdgeInsets.all(8.0),
                          child: Text("target Donasi: "+ formatter.format(campaigns[index].target_donasi), style: TextStyle(
@@ -177,7 +191,8 @@ class _ListCampaignState extends State<ListCampaign> {
                  ),
                ],
              ),
-           ),
+           )
+           : Center(child: CircularProgressIndicator(),) ,
           ),
         );
       },

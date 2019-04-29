@@ -18,4 +18,12 @@ class API {
       "id_user":'$idUser',
     });
   }
+
+  static Future getDetailUser(idUser){
+    var url=baseUrl+'/read_profile.php';
+    print(idUser);
+    return http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
 }
