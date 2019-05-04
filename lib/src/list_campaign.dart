@@ -91,6 +91,13 @@ class _ListCampaignState extends State<ListCampaign> {
         var pencapaianDonasi=[
           TargetDonasi('target', campaigns[index].dana_terkumpul,Colors.blue),
         ]; 
+        var average= campaigns[index].dana_terkumpul/campaigns[index].target_donasi.round();
+        double average2= num.parse(average.toStringAsFixed(2));
+        var average3= campaigns[index].dana_terkumpul/campaigns[index].target_donasi*100.round();
+        String haha= average3.toStringAsFixed(2);
+        
+        //double ave=average*100;
+       // String persen = double.parse(ave.toString());
 
         var series=[
           charts.Series(
@@ -153,26 +160,16 @@ class _ListCampaignState extends State<ListCampaign> {
                                             fontWeight: FontWeight.bold,
                                           ),),
                        ),
-                       Padding(
-                         padding: EdgeInsets.all(0.0),
-                         child: Column(
-                           children: <Widget>[
-                             SizedBox(
-                               height: 50,
-                               child: chart,
-                             )
-                           ],
-                         ),
-                       ),
+                       
                        Padding(
                          padding: EdgeInsets.all(0.0),
                          child: LinearPercentIndicator(
-                           width: MediaQuery.of(context).size.width - 50,
+                           width: MediaQuery.of(context).size.width -10,
                            animation: true,
                            lineHeight: 20.0,
                            animationDuration: 2000,
-                           percent: 0.9,
-                           center: Text('90%'),
+                           percent: average2,
+                           center: Text(haha+"%"),
                            linearStrokeCap: LinearStrokeCap.roundAll,
                            progressColor: Colors.green,
                           

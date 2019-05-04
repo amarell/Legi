@@ -5,7 +5,6 @@ import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:html/dom.dart' as dom;
 class DetailCampaign extends StatefulWidget {
   
   DetailCampaign({Key key, this.campaign}) :super(key : key);

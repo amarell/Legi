@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:legi/src/detail_history.dart';
 import 'package:legi/src/model/history_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,7 +83,9 @@ class _HistoryState extends State<History> {
       itemBuilder: (context, index){
         return InkWell(
           onTap: (){
-            
+            Navigator.push(context, new MaterialPageRoute(builder: (context){
+                          return new DetailHistory(historys: history[index],);
+                        }));
           },
           child: Card(
             child: Container(

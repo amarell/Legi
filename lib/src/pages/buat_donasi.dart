@@ -93,15 +93,15 @@ class _DateTimePicker extends StatelessWidget {
             onPressed: () { _selectDate(context); },
           ),
         ),
-        const SizedBox(width: 12.0),
-        Expanded(
-          flex: 3,
-          child: _InputDropdown(
-            valueText: selectedTime.format(context),
-            valueStyle: valueStyle,
-            onPressed: () { _selectTime(context); },
-          ),
-        ),
+        // const SizedBox(width: 12.0),
+        // Expanded(
+        //   flex: 3,
+        //   child: _InputDropdown(
+        //     valueText: selectedTime.format(context),
+        //     valueStyle: valueStyle,
+        //     onPressed: () { _selectTime(context); },
+        //   ),
+        // ),
       ],
     );
   }
@@ -114,11 +114,9 @@ class BuatDonasi extends StatefulWidget {
 }
 
 class _BuatDonasiState extends State<BuatDonasi> {
-  DateTime _fromDate = DateTime.now();
+  // DateTime _fromDate = DateTime.now();
   DateTime _fromDate2 = DateTime.now();
-  TimeOfDay _fromTime = const TimeOfDay(hour: 7, minute: 28);
-  DateTime _toDate = DateTime.now();
-  TimeOfDay _toTime = const TimeOfDay(hour: 7, minute: 28);
+  // TimeOfDay _fromTime = const TimeOfDay(hour: 7, minute: 28);
 
   TextEditingController contJudulCampaign = new TextEditingController();
   TextEditingController contidKategori = new TextEditingController();
@@ -132,8 +130,33 @@ class _BuatDonasiState extends State<BuatDonasi> {
   
   TextEditingController contFoto = new TextEditingController();
 
+  void _openImagePicker(BuildContext context){
+      showModalBottomSheet(context: context, builder: (BuildContext context){
+        return Container(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: [Text("Pick An Image"),
+              SizedBox(height: 10.0,),
+              FlatButton(
+                textColor: Theme.of(context).primaryColor,
+                child: Text("use Camera"),
+                onPressed: (){},
+              ),
+              SizedBox(height: 5.0,),
+              FlatButton(
+                textColor: Theme.of(context).primaryColor,
+                child: Text("Use Gallery"),
+                onPressed: (){},
+              )
+            ],
+          ),
+        );
+      });
+    }
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Lets Giving'),
@@ -209,50 +232,17 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   ),
                 ),
                 const SizedBox(height: 24.0,),
-                Text("Masukan tanggal mulai", style: TextStyle(fontSize: 15.0),),
+                Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
-                TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Tanggal Mulai',
-                ),
-                style: Theme.of(context).textTheme.display1.copyWith(fontSize: 20.0),
-              ),
-              _DateTimePicker(
-                labelText: 'From',
-                selectedDate: _fromDate,
-                selectedTime: _fromTime,
-                selectDate: (DateTime date) {
-                  setState(() {
-                    _fromDate = date;
-                  });
-                },
-                selectTime: (TimeOfDay time) {
-                  setState(() {
-                    _fromTime = time;
-                  });
-                },
-              ),
-              const SizedBox(height: 24.0),
-                TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Batas Waktu',
-                ),
-                style: Theme.of(context).textTheme.display1.copyWith(fontSize: 20.0),
-              ),
               _DateTimePicker(
                 labelText: 'to',
                 selectedDate: _fromDate2,
-                selectedTime: _fromTime,
                 selectDate: (DateTime date) {
                   setState(() {
                     _fromDate2 = date;
                   });
                 },
-                selectTime: (TimeOfDay time) {
-                  setState(() {
-                    _fromTime = time;
-                  });
-                },
+                
               ),
               const SizedBox(height: 24.0,),
                 Text("Masukan link ", style: TextStyle(fontSize: 15.0),),
@@ -307,10 +297,12 @@ class _BuatDonasiState extends State<BuatDonasi> {
                     helperText: 'Keep it short, this is just a demo.',
                     labelText: 'Deskripsi',
                   ),
-                  maxLines: 3,
+                  maxLines: 9,
                 ),
                 OutlineButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    _openImagePicker(context);
+                  },
                   borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
