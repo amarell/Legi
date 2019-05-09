@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -121,6 +124,8 @@ class _BuatDonasiState extends State<BuatDonasi> {
   DateTime _fromDate2 = DateTime.now();
   // TimeOfDay _fromTime = const TimeOfDay(hour: 7, minute: 28);
 
+  File _imageFile;
+
   TextEditingController contJudulCampaign = new TextEditingController();
   TextEditingController contidKategori = new TextEditingController();
   TextEditingController contlink = new TextEditingController();
@@ -133,23 +138,37 @@ class _BuatDonasiState extends State<BuatDonasi> {
   
   TextEditingController contFoto = new TextEditingController();
 
+  void _getImage(BuildContext context, ImageSource source){
+    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image){
+      Navigator.pop(context);
+      setState(() {
+       _imageFile=image; 
+      });
+    });
+  }
+
   void _openImagePicker(BuildContext context){
       showModalBottomSheet(context: context, builder: (BuildContext context){
         return Container(
           padding: EdgeInsets.all(10.0),
+          height: 150.0,
           child: Column(
             children: [Text("Pick An Image"),
               SizedBox(height: 10.0,),
               FlatButton(
                 textColor: Theme.of(context).primaryColor,
                 child: Text("use Camera"),
-                onPressed: (){},
+                onPressed: (){
+                  _getImage(context, ImageSource.camera);
+                },
               ),
               SizedBox(height: 5.0,),
               FlatButton(
                 textColor: Theme.of(context).primaryColor,
                 child: Text("Use Gallery"),
-                onPressed: (){},
+                onPressed: (){
+                  _getImage(context, ImageSource.gallery);
+                },
               )
             ],
           ),
@@ -239,7 +258,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
             child: Builder(
               builder: (context) => FlatButton.icon(
                 onPressed: (){
-                  print(_fromDate2);
+                  print(_fromDate2.toString().substring(0,10));
                   print(_mySelection);
                   
                 },
