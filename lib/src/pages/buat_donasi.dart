@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:legi/src/API/api.dart';
+import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
@@ -125,6 +128,18 @@ class _BuatDonasiState extends State<BuatDonasi> {
   // TimeOfDay _fromTime = const TimeOfDay(hour: 7, minute: 28);
 
   File _imageFile;
+  String _mySelection;
+
+  String _idMember='';
+
+  _getData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+     _idMember=(prefs.getString('id') ?? '');
+
+    });
+   _getCampaign();
+  }
 
   TextEditingController contJudulCampaign = new TextEditingController();
   TextEditingController contidKategori = new TextEditingController();
@@ -176,7 +191,32 @@ class _BuatDonasiState extends State<BuatDonasi> {
       });
     }
 
-    String _mySelection;
+    Future submitCampaign(File imageFile) async{
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var uri = Uri.parse("http://192.168.43.64/API/submit_campaign.php");
+    var request = new http.MultipartRequest("post", uri);
+    var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
+  request.fields['id_member']=_idMember;
+    request.fields['id_kategori']=_mySelection;
+    request.fields['link']=contlink.text;
+    request.fields['judul_campaign'] = contJudulCampaign.text;
+    request.fields['no_hp']=contnohp.text;
+    request.fields['ajakan']=contAjakan.text;
+    request.fields['deskripsi']=contDeskripsi.text;
+    request.fields['target_donasi']=contTargetDonasi.text;
+    request.fields['batas_waktu']=_fromDate2.toString().substring(0,10);
+    request.files.add(multiPartFile);
+
+    var response = await request.send();
+    if(response.statusCode==200){
+      print("image berhasil upload");
+    }else{
+      print("gagal");
+    }
+  }
+
+    
 
   final String url = "http://localhost/API/list_kategori.php";
 
@@ -238,7 +278,8 @@ class _BuatDonasiState extends State<BuatDonasi> {
   @override
   void initState() {
     super.initState();
-    _getCampaign();
+    //_getCampaign();
+    _getData();
     print(data);
   }
 
@@ -260,6 +301,9 @@ class _BuatDonasiState extends State<BuatDonasi> {
                 onPressed: (){
                   print(_fromDate2.toString().substring(0,10));
                   print(_mySelection);
+                  print(_idMember);
+                  print(contTargetDonasi.text);
+                  submitCampaign(_imageFile);
                   
                 },
                 icon: Icon(Icons.launch),
@@ -295,13 +339,13 @@ class _BuatDonasiState extends State<BuatDonasi> {
                 Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
                 TextFormField(
-                  controller: contAjakan,
+                  controller: contTargetDonasi,
                   textCapitalization: TextCapitalization.words,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    hintText: 'Masukan Jenis',
-                    labelText: 'Jenis Campaign*',
+                    hintText: 'Masukan Target Donasi',
+                    labelText: 'Target Donasi*',
                   ),
                 ),
                 const SizedBox(height: 24.0,),
@@ -325,7 +369,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                 Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
               _DateTimePicker(
-                labelText: 'to',
+                labelText: 'Batas Waktu*',
                 selectedDate: _fromDate2,
                 selectDate: (DateTime date) {
                   setState(() {
@@ -401,7 +445,16 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 10.0,),
+                _imageFile == null ? Text("pick an image") 
+                  : Image.file(
+                    _imageFile,
+                    fit: BoxFit.cover,
+                    height: 300,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.topCenter,
+                  ),
               
              ],
           ),
