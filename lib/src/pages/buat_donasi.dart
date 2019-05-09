@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:legi/src/API/api.dart';
 
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
@@ -154,6 +157,72 @@ class _BuatDonasiState extends State<BuatDonasi> {
       });
     }
 
+    String _mySelection;
+
+  final String url = "http://localhost/API/list_kategori.php";
+
+  List data; 
+   Future<String> getSWData() async {
+    var res = await http
+        .post(url);
+    var resBody = json.decode(res.body);
+    //var data2 =resBody['data'][0];
+
+    setState(() {
+      data = resBody['data'];
+    });
+
+    print(resBody);
+
+    return "Sucess";
+  }
+  Future<dynamic> _kategori() async{
+   
+    
+   
+    final response =await http.post('http://localhost/API/list_kategori.php');
+  //Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
+
+  Map userMap = json.decode(response.body);
+   // var jsonResponse= convert.jsonDecode(response.body);
+    if(response.statusCode==200){
+      var success = userMap['success'];
+      var data2 =userMap['data'][0];
+      if (success == '1') {
+        setState(() {
+          data=data2;
+        });
+        print(data2);
+       
+      }else if(success == '0'){
+        //print(jsonResponse);
+      }
+    }
+ 
+    return userMap;
+  }
+
+  _getCampaign(){
+    API.getKategori().then((responses){
+      setState(() {
+       final list = json.decode(responses.body); 
+       print(list);
+       setState(() {
+        data=list['data']; 
+       });
+      //  campaigns = (list['data'] as List).map<Campaign>((json) => new Campaign.fromJson(json)).toList();
+      //  print(campaigns);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCampaign();
+    print(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     
@@ -170,7 +239,8 @@ class _BuatDonasiState extends State<BuatDonasi> {
             child: Builder(
               builder: (context) => FlatButton.icon(
                 onPressed: (){
-                  
+                  print(_fromDate2);
+                  print(_mySelection);
                   
                 },
                 icon: Icon(Icons.launch),
@@ -198,13 +268,12 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    icon: Icon(Icons.person),
                     hintText: 'Masukan nama campaign',
                     labelText: 'Nama Campaign *',
                   ),
                 ),
                 const SizedBox(height: 24.0,),
-                Text("Masukan jenis campaign", style: TextStyle(fontSize: 15.0),),
+                Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
                 TextFormField(
                   controller: contAjakan,
@@ -212,25 +281,27 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    icon: Icon(Icons.person),
                     hintText: 'Masukan Jenis',
                     labelText: 'Jenis Campaign*',
                   ),
                 ),
                 const SizedBox(height: 24.0,),
-                Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
+                Text("Masukan Kategori", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contTargetDonasi,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    icon: Icon(Icons.person),
-                    hintText: 'Masukan target donasi',
-                    labelText: 'Target Donasi*',
-                  ),
-                ),
+                (data!= null) ? DropdownButton(
+                  items: data.map((item){
+                    return DropdownMenuItem(
+                      child: Text(item['nama_kategori']),
+                      value: item['id_kategori'],
+                    );
+                  }).toList(),
+                  onChanged: (newVal){
+                    setState(() {
+                     _mySelection = newVal; 
+                    });
+                  },
+                  value: _mySelection,
+                ) : Center(child: CircularProgressIndicator(),),
                 const SizedBox(height: 24.0,),
                 Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
                const SizedBox(height: 24.0),
@@ -253,7 +324,6 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    icon: Icon(Icons.person),
                     hintText: 'Masukan link',
                     labelText: 'Link Campaign*',
                   ),
@@ -267,7 +337,6 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    icon: Icon(Icons.person),
                     hintText: 'Masukan no hp',
                     labelText: 'No Hp*',
                   ),
@@ -281,7 +350,6 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
-                    icon: Icon(Icons.person),
                     hintText: 'Masukan ajakan',
                     labelText: 'Ajakan Campaign*',
                   ),

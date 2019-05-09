@@ -26,4 +26,9 @@ class API {
       "id_user":'$idUser',
     });
   }
+
+  static Future getKategori(){
+    var url=baseUrl+'/list_kategori.php';
+    return http.post(url);
+  }
 }

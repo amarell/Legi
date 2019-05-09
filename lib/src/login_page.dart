@@ -677,6 +677,8 @@ Future<dynamic> _login() async{
           prefs.setString('id', user.idUser);
           prefs.setString('nama', user.namaUser);
           prefs.setString('email', user.emailUser);
+          prefs.setString('id_dompet', user.idDompet);
+          prefs.setString('jumlah_dompet', user.saldoDompet);
         });
         print(data);
         SessionManager.setIsLogin(true);

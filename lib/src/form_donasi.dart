@@ -21,10 +21,13 @@ class _FormDonationState extends State<FormDonation> {
   final idCampaign;
 
   String _idUser='';
+  String _idDompet='';
+  int _saldoDompet;
   void initState(){
       super.initState();
       _getData();
       print(_idUser);
+      print(_idDompet);
     }
 
    String _radioValue = "";
@@ -41,6 +44,7 @@ class _FormDonationState extends State<FormDonation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
      _idUser=(prefs.getString('id') ?? '');
+     _idDompet=(prefs.getString('id_dompet') ?? '');
 
     });
   }
