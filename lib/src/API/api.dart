@@ -31,4 +31,12 @@ class API {
     var url=baseUrl+'/list_kategori.php';
     return http.post(url);
   }
+
+  static Future getLisRiwayatDompet(idDompet){
+    var url=baseUrl+'/riwayat_dompet.php';
+    return http.post(url, body: {
+      "id_dompet":'$idDompet',
+    });
+  }
+
 }
