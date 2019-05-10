@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/pages/detail_riwayat_dompet.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:legi/src/model/riwayat_dompet_model.dart';
@@ -59,9 +60,9 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
       locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
         return InkWell(
           onTap: (){
-            // Navigator.push(context, new MaterialPageRoute(builder: (context){
-            //               return new DetailHistory(historys: history[index],);
-            //             }));
+            Navigator.push(context, new MaterialPageRoute(builder: (context){
+                          return new DetailRiwayatDompet(dompet: rwDompet[index],);
+                        }));
           },
           child: Card(
             child: Container(

@@ -39,4 +39,11 @@ class API {
     });
   }
 
+  static Future getDataDompet(idUser){
+    var url=baseUrl+'/info_dompet.php';
+    return http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
+
 }

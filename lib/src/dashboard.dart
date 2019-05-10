@@ -17,6 +17,7 @@ class _DashboardState extends State<Dashboard> {
     String _nama ='';
     String _email='';
     String _saldoDompet='';
+    String _idUser='';
     
     void initState(){
       super.initState();
@@ -31,9 +32,11 @@ class _DashboardState extends State<Dashboard> {
      _nama=(prefs.getString('nama') ?? ''); 
      _email=(prefs.getString('email') ?? '');
      _saldoDompet=(prefs.getString('jumlah_dompet') ?? '');
-
+     _idUser=(prefs.getString('id') ?? '');
     });
   }
+
+  
   
   
     
@@ -140,6 +143,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: (){
                 var jmlDompet=int.parse(_saldoDompet);
                 print(jmlDompet+5+6);
+                print(_idUser);
               },
               child: ListTile(
                 title: Text('Zakat'),
