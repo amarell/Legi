@@ -121,7 +121,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                     child: Text('Status: '+ history.statusDonasi),
                     
                   ),
-                  OutlineButton(
+                  history.statusDonasi == 'proses' ? OutlineButton(
                   onPressed: (){
                     _openImagePicker(context);
                   },
@@ -136,7 +136,7 @@ class _DetailHistoryState extends State<DetailHistory> {
 
                     ],
                   ),
-                ),
+                ) : Text('. .'),
                 SizedBox(height: 10.0,),
                 _imageFile == null ? Text("pick an image") 
                   : Image.file(

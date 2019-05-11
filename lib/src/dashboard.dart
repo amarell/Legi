@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:legi/src/API/api.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:legi/src/pages/dompet.dart';
+import 'dart:convert';
 import 'package:legi/src/pages/riwayat_dompet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +17,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  var datadompet= new List<InfoDompetModel>();
     String _nama ='';
     String _email='';
     String _saldoDompet='';
@@ -34,8 +38,26 @@ class _DashboardState extends State<Dashboard> {
      _saldoDompet=(prefs.getString('jumlah_dompet') ?? '');
      _idUser=(prefs.getString('id') ?? '');
     });
+    _getHistory();
   }
 
+  _getHistory() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      //_getData();
+      print('haha $_idUser');
+      API.getDataDompet(_idUser).then((responses){
+        setState(() {
+          print('gsgsg $_idUser');
+          final list = json.decode(responses.body);
+          print(list);
+          datadompet=(list['data'] as List).map<InfoDompetModel>((json)=> new InfoDompetModel.fromJson(json)).toList();
+          
+          prefs.setString('jumlah_dompet', datadompet[0].saldoDompet);
+
+        });
+
+      });
+    }
   
   
   
