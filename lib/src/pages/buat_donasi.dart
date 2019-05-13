@@ -194,7 +194,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
     Future submitCampaign(File imageFile) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("http://192.168.43.64/API/submit_campaign.php");
+    var uri = Uri.parse("http://192.168.43.64/legi/API/submit_campaign.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
   request.fields['id_member']=_idMember;
@@ -218,7 +218,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
     
 
-  final String url = "http://localhost/API/list_kategori.php";
+  final String url = "http://localhost/legi/API/list_kategori.php";
 
   List data; 
    Future<String> getSWData() async {
@@ -239,7 +239,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
    
     
    
-    final response =await http.post('http://localhost/API/list_kategori.php');
+    final response =await http.post('http://localhost/legi/API/list_kategori.php');
   //Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
 
   Map userMap = json.decode(response.body);

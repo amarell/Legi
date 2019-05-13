@@ -658,7 +658,7 @@ Future<dynamic> _login() async{
     }
    
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    final response =await http.post('http://192.168.43.64/API/login.php', body: {
+    final response =await http.post('http://192.168.43.64/legi/API/login.php', body: {
       "email": loginEmailController.text,
       "password": loginPasswordController.text,
     });
@@ -706,7 +706,7 @@ Future<dynamic> _login() async{
     }
    
    
-    final response =await http.post('http://192.168.43.64/API/register.php', body: {
+    final response =await http.post('http://192.168.43.64/legi/API/register.php', body: {
       "nama": signupNameController.text,
       "email": signupEmailController.text,
       "password": signupPasswordController.text,

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-const baseUrl = 'http://192.168.43.64/API';
+const baseUrl = 'http://192.168.43.64/legi/API';
 
 class API {
   static Future getListCampaign(idKat){

@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:legi/src/API/api.dart';
+import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -20,9 +22,10 @@ class _FormDonationState extends State<FormDonation> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final idCampaign;
 
+  var datadompet= new List<InfoDompetModel>();
   String _idUser='';
   String _idDompet='';
-  int _saldoDompet;
+  var _saldoDOmpet='';
   void initState(){
       super.initState();
       _getData();
@@ -47,15 +50,66 @@ class _FormDonationState extends State<FormDonation> {
      _idDompet=(prefs.getString('id_dompet') ?? '');
 
     });
+    _getDataDompet();
   }
+
+   _getDataDompet() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      //_getData();
+      print('haha $_idUser');
+      API.getDataDompet(_idUser).then((responses){
+        setState(() {
+          print('gsgsg $_idUser');
+          final list = convert.jsonDecode(responses.body);
+          print(list);
+          datadompet=(list['data'] as List).map<InfoDompetModel>((json)=> new InfoDompetModel.fromJson(json)).toList();
+          
+          prefs.setString('jumlah_dompet', datadompet[0].saldoDompet);
+          _saldoDOmpet=datadompet[0].saldoDompet;
+
+        });
+
+      });
+    }
 
   Future<dynamic> _donasi()async{
     if(jumlah_donasi.text.isEmpty){
       showInSnackBar('jumlah donasi tidak boleh di kosongi');
     }else if(int.parse(jumlah_donasi.text) <= 10000){
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
+    }else if(_radioValue=='0'){
+      if(int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())){
+        showInSnackBar('saldo dompet anda tidak memenuhi');
+      }else{
+            final response =await http.post('http://192.168.43.64/legi/API/donasi_campaign_dompet.php', body: {
+            "id_user": _idUser,
+            "id_campaign": idCampaign,
+            "jumlah_dana": jumlah_donasi.text,
+            "metode_pembayaran": 'dompet',
+            "status_donasi": 'verifikasi',
+            "id_dompet": _idDompet,
+            "guna_pembayaran": 'donasi',
+            
+          });
+
+          Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
+          //var jsonResponse= convert.jsonDecode(response.body);
+          if(response.statusCode==200){
+            var success = jsonResponse['success'];
+            if (success == '1') {
+              print('berhasil donasi');
+              showInSnackBar('Berhasil Donasi');
+            
+            }else if(success == '0'){
+              showInSnackBar('Donasi Gagal');
+              print(jsonResponse);
+            }
+          }
+      
+          return jsonResponse;
+        } 
     }else{
-      final response =await http.post('http://192.168.43.64/API/donasi_campaig.php', body: {
+      final response =await http.post('http://192.168.43.64/legi/API/donasi_campaig.php', body: {
       "id_user": _idUser,
       "id_campaign": idCampaign,
       "jumlah_dana": jumlah_donasi.text,
@@ -165,11 +219,9 @@ class _FormDonationState extends State<FormDonation> {
                     Row(
                       children: <Widget>[
                         Radio(
-                      value: "1",
+                      value: "0",
                       groupValue: _radioValue,
-                      onChanged: (value){
-                        print('radio $value');
-                      },
+                      onChanged: _radioAction,
                     ),
                     Text('Dompet'),
                       ],
@@ -197,11 +249,21 @@ class _FormDonationState extends State<FormDonation> {
                     Row(
                       children: <Widget>[
                         Radio(
-                      value: "6",
+                      value: "7",
                       groupValue: _radioValue,
                       onChanged: _radioAction,
                     ),
-                    Text('Bank BCA'),
+                    Text('BRI'),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Radio(
+                      value: "9",
+                      groupValue: _radioValue,
+                      onChanged: _radioAction,
+                    ),
+                    Text('May Bank'),
                       ],
                     ),
                     
