@@ -80,6 +80,7 @@ class _FormDonationState extends State<FormDonation> {
     }else if(_radioValue=='0'){
       if(int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())){
         showInSnackBar('saldo dompet anda tidak memenuhi');
+        
       }else{
             final response =await http.post('http://192.168.43.64/legi/API/donasi_campaign_dompet.php', body: {
             "id_user": _idUser,
