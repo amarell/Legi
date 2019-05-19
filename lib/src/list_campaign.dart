@@ -168,7 +168,7 @@ class _ListCampaignState extends State<ListCampaign> {
                            animation: true,
                            lineHeight: 20.0,
                            animationDuration: 2000,
-                           percent: average2,
+                           percent: (average2 >= 1.0) ? average2=1.0: average2,
                            center: Text(haha+"%"),
                            linearStrokeCap: LinearStrokeCap.roundAll,
                            progressColor: Colors.green,

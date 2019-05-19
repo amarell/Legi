@@ -4,6 +4,7 @@ import 'package:legi/src/API/api.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:legi/src/pages/dompet.dart';
@@ -133,7 +134,19 @@ class _DashboardState extends State<Dashboard> {
                 ));
               },
               child: ListTile(
-                title: Text('Dompet'),
+                title: Text('Tambah Saldo Dompet'),
+                leading: Icon(Icons.person, color: Colors.red,),
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => DompetDashboard()
+                ));
+              },
+              child: ListTile(
+                title: Text('Dashboard Dompet'),
                 leading: Icon(Icons.person, color: Colors.red,),
               ),
             ),

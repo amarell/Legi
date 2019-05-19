@@ -6,6 +6,10 @@ import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'dart:io';
+
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class FormDonation extends StatefulWidget {
   FormDonation({Key key, this.idCampaign}) : super(key: key);
@@ -25,6 +29,7 @@ class _FormDonationState extends State<FormDonation> {
   var datadompet= new List<InfoDompetModel>();
   String _idUser='';
   String _idDompet='';
+  String _emailUser='';
   var _saldoDOmpet='';
   void initState(){
       super.initState();
@@ -48,6 +53,7 @@ class _FormDonationState extends State<FormDonation> {
     setState(() {
      _idUser=(prefs.getString('id') ?? '');
      _idDompet=(prefs.getString('id_dompet') ?? '');
+     _emailUser=(prefs.getString('email') ?? '');
 
     });
     _getDataDompet();
@@ -71,6 +77,43 @@ class _FormDonationState extends State<FormDonation> {
 
       });
     }
+
+    _sendEmail(String email) async{
+      String username = 'buburwakhid@gmail.com';
+      String password = 'tandonbanyu';
+      final smtpServer = gmail(username, password);
+
+  // Use the SmtpServer class to configure an SMTP server:
+  // final smtpServer = new SmtpServer('smtp.domain.com');
+  // See the named arguments of SmtpServer for further configuration
+  // options.  
+  
+  // Create our message.
+  final message = new Message()
+    ..from = new Address(username, 'Your name')
+    ..recipients.add(email)
+    ..subject = 'Test Dart Mailer library :: 😀 :: ${new DateTime.now()}'
+    ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+  // Use [catchExceptions]: true to prevent [send] from throwing.
+  // Note that the default for [catchExceptions] will change from true to false
+  // in the future!
+    final sendReports = await send(message, smtpServer);
+
+    sendReports.forEach((sr){
+      if(sr.sent)
+        print('message sent');
+      else{
+        print('Message not sent.');
+      for (var p in sr.validationProblems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+      }  
+    });
+  
+    }
+
+
 
   Future<dynamic> _donasi()async{
     if(jumlah_donasi.text.isEmpty){
@@ -99,6 +142,7 @@ class _FormDonationState extends State<FormDonation> {
             var success = jsonResponse['success'];
             if (success == '1') {
               print('berhasil donasi');
+              _sendEmail(_emailUser);
               showInSnackBar('Berhasil Donasi');
             
             }else if(success == '0'){
@@ -124,6 +168,7 @@ class _FormDonationState extends State<FormDonation> {
       var success = jsonResponse['success'];
       if (success == '1') {
         print('berhasil donasi');
+        _sendEmail(_emailUser);
         showInSnackBar('Berhasil Donasi');
        
       }else if(success == '0'){
