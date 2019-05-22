@@ -46,4 +46,18 @@ class API {
     });
   }
 
+  static Future getLisRiwayatDompetDonasi(idDompet){
+    var url=baseUrl+'/riwayat_dompet_donasi.php';
+    return http.post(url, body: {
+      "id_dompet":'$idDompet',
+    });
+  }
+
+  static Future getLisRiwayatDompetWithdraw(idDompet){
+    var url=baseUrl+'/riwayat_dompet_withdraw.php';
+    return http.post(url, body: {
+      "id_dompet":'$idDompet',
+    });
+  }
+
 }

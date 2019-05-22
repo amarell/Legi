@@ -4,6 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/dompet.dart';
+import 'package:legi/src/pages/riwayat_dompet.dart';
+import 'package:legi/src/pages/riwayat_dompet_donasi.dart';
+import 'package:legi/src/pages/riwayat_dompet_withdraw.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 
@@ -131,19 +134,31 @@ class _DompetDashboardState extends State<DompetDashboard> {
                             Theme.of(context).accentColor.withOpacity(0.025),
                         children: <Widget>[
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                               Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => RiwayatDompet()));
+                            },
                             child: ListTile(
                               title: Text('Tambah Saldo Dompet'),
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => RiwayatDompetDonasi()));
+                            },
                             child: ListTile(
                               title: Text('Donasi Dengan Dompet'),
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => RiwayatDompetWithdraw()));
+                            },
                             child: ListTile(
                               title: Text('Withdraw Dompet'),
                             ),

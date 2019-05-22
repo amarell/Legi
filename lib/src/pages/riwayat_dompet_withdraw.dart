@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:legi/src/API/api.dart';
-import 'package:legi/src/model/riwayat_dompet_donasi_model.dart';
+import 'package:legi/src/model/riwayat_dompet_withdraw_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'package:legi/src/API/api.dart';
 
-class RiwayatDompetDonasi extends StatefulWidget {
+class RiwayatDompetWithdraw extends StatefulWidget {
   @override
-  _RiwayatDompetDonasiState createState() => _RiwayatDompetDonasiState();
+  _RiwayatDompetWithdrawState createState() => _RiwayatDompetWithdrawState();
 }
 
-class _RiwayatDompetDonasiState extends State<RiwayatDompetDonasi> {
+class _RiwayatDompetWithdrawState extends State<RiwayatDompetWithdraw> {
   String _idDompet='';
-  var rwDompet = new List<RiwayatDompetDonasiModel>();
+  var rwDompet = new List<RiwayatDompetWithdrawModel>();
 
   void initState(){
       super.initState();
@@ -32,13 +32,13 @@ class _RiwayatDompetDonasiState extends State<RiwayatDompetDonasi> {
   
 
   _getLisRiwayatDompet(){
-    //_getData();l
+    //_getData();
     API.getLisRiwayatDompetDonasi(_idDompet).then((responses){
       setState(() {
         print('gsgsg $_idDompet');
         final list = json.decode(responses.body);
         print(list);
-        rwDompet=(list['data'] as List).map<RiwayatDompetDonasiModel>((json)=> new RiwayatDompetDonasiModel.fromJson(json)).toList();
+        rwDompet=(list['data'] as List).map<RiwayatDompetWithdrawModel>((json)=> new RiwayatDompetWithdrawModel.fromJson(json)).toList();
       });
 
     });
