@@ -76,6 +76,7 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
                                             fontWeight: FontWeight.bold,
                                           ),),
                        ),
+                       Divider(),
                   Padding(
                          padding: EdgeInsets.all(8.0),
                          child: Text('Jumlah Dana: '+formatter.format(rwDompet[index].jumlahDana)),

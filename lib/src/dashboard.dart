@@ -18,59 +18,50 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  var datadompet= new List<InfoDompetModel>();
-    String _nama ='';
-    String _email='';
-    String _saldoDompet='';
-    String _idUser='';
-    
-    void initState(){
-      super.initState();
-      _getData();
-      print(_nama);
-    }
+  var datadompet = new List<InfoDompetModel>();
+  String _nama = '';
+  String _email = '';
+  String _saldoDompet = '';
+  String _idUser = '';
+
+  void initState() {
+    super.initState();
+    _getData();
+    print(_nama);
+  }
 
   //final prefs = await SharedPreferences.getInstance();
-  _getData() async{
+  _getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-     _nama=(prefs.getString('nama') ?? ''); 
-     _email=(prefs.getString('email') ?? '');
-     _saldoDompet=(prefs.getString('jumlah_dompet') ?? '');
-     _idUser=(prefs.getString('id') ?? '');
+      _nama = (prefs.getString('nama') ?? '');
+      _email = (prefs.getString('email') ?? '');
+      _saldoDompet = (prefs.getString('jumlah_dompet') ?? '');
+      _idUser = (prefs.getString('id') ?? '');
     });
     _getHistory();
   }
 
-  _getHistory() async{
+  _getHistory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      //_getData();
-      print('haha $_idUser');
-      API.getDataDompet(_idUser).then((responses){
-        setState(() {
-          print('gsgsg $_idUser');
-          final list = json.decode(responses.body);
-          print(list);
-          datadompet=(list['data'] as List).map<InfoDompetModel>((json)=> new InfoDompetModel.fromJson(json)).toList();
-          
-          prefs.setString('jumlah_dompet', datadompet[0].saldoDompet);
+    //_getData();
+    print('haha $_idUser');
+    API.getDataDompet(_idUser).then((responses) {
+      setState(() {
+        print('gsgsg $_idUser');
+        final list = json.decode(responses.body);
+        print(list);
+        datadompet = (list['data'] as List)
+            .map<InfoDompetModel>((json) => new InfoDompetModel.fromJson(json))
+            .toList();
 
-        });
-
+        prefs.setString('jumlah_dompet', datadompet[0].saldoDompet);
       });
-    }
-  
-  
-  
-    
-    
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    
-    
-    
-
     Widget image_carousel = new Container(
       height: 200.0,
       child: new Carousel(
@@ -80,165 +71,198 @@ class _DashboardState extends State<Dashboard> {
           AssetImage('assets/images/tb_slide_2.jpg'),
           AssetImage('assets/images/tb_slide_1.jpg'),
           AssetImage('assets/images/tb_slide_2.jpg'),
-
         ],
         autoplay: true,
         animationCurve: Curves.fastOutSlowIn,
         animationDuration: Duration(milliseconds: 1000),
         dotSize: 4.0,
         indicatorBgPadding: 2.0,
-
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent[400],
+        backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
         actions: <Widget>[
-          new IconButton(icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
-          new IconButton(icon: Icon(Icons.shopping_cart, color: Colors.white,), onPressed: (){})
+          new IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              onPressed: () {}),
+          new IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+              onPressed: () {})
         ],
       ),
       drawer: new Drawer(
         child: new ListView(
           children: <Widget>[
             //header
-            new UserAccountsDrawerHeader(accountName: Text('$_nama'), accountEmail: Text('$_email'+'$_saldoDompet'),
-            currentAccountPicture: GestureDetector(
-              child: new CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.person, color: Colors.white,)
-
+            new UserAccountsDrawerHeader(
+              accountName: Text('$_nama'),
+              accountEmail: Text('$_email' + '$_saldoDompet'),
+              currentAccountPicture: GestureDetector(
+                child: new CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    )),
               ),
-            ),
-            decoration: new BoxDecoration(
-              color: Colors.greenAccent[400],
-            ),
+              decoration: new BoxDecoration(
+                color: Colors.greenAccent[400],
+              ),
             ),
 
             //Body
-            
+
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text('Home Page'),
-                leading: Icon(Icons.home, color: Colors.red,),
+                leading: Icon(
+                  Icons.home,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => Dompet()
-                ));
+                    builder: (BuildContext context) => Dompet()));
               },
               child: ListTile(
                 title: Text('Tambah Saldo Dompet'),
-                leading: Icon(Icons.person, color: Colors.red,),
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => DompetDashboard()
-                ));
+                    builder: (BuildContext context) => DompetDashboard()));
               },
               child: ListTile(
                 title: Text('Dashboard Dompet'),
-                leading: Icon(Icons.person, color: Colors.red,),
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => RiwayatDompet()
-                ));
+                    builder: (BuildContext context) => RiwayatDompet()));
               },
               child: ListTile(
                 title: Text('Riwayat Dompet'),
-                leading: Icon(Icons.person, color: Colors.red,),
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => BuatDonasi()
-                ));
+                    builder: (BuildContext context) => BuatDonasi()));
               },
               child: ListTile(
                 title: Text('Buat Donasi'),
-                leading: Icon(Icons.shopping_basket, color: Colors.red,),
+                leading: Icon(
+                  Icons.shopping_basket,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
-                var jmlDompet=int.parse(_saldoDompet);
-                print(jmlDompet+5+6);
+              onTap: () {
+                var jmlDompet = int.parse(_saldoDompet);
+                print(jmlDompet + 5 + 6);
                 print(_idUser);
               },
               child: ListTile(
                 title: Text('Zakat'),
-                leading: Icon(Icons.dashboard, color: Colors.red,),
+                leading: Icon(
+                  Icons.dashboard,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text('Withdraw Dompet'),
-                leading: Icon(Icons.favorite, color: Colors.red,),
+                leading: Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
               ),
             ),
             Divider(),
-            
+
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text('FAQ'),
-                leading: Icon(Icons.settings, color: Colors.grey,),
+                leading: Icon(
+                  Icons.settings,
+                  color: Colors.grey,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 SessionManager.logout();
                 Navigator.of(context).pushReplacementNamed('/login_page');
               },
               child: ListTile(
                 title: Text('Logout'),
-                leading: Icon(Icons.help, color: Colors.grey,),
+                leading: Icon(
+                  Icons.help,
+                  color: Colors.grey,
+                ),
               ),
             ),
-            
           ],
         ),
       ),
-      body:  new Column(
+      body: new Column(
         children: <Widget>[
           //ini image carousel
           image_carousel,
 
           //ini padding caegories
-          new Padding(padding: const EdgeInsets.all(4.0),
+          new Padding(
+            padding: const EdgeInsets.all(4.0),
             child: Container(
                 alignment: Alignment.centerLeft,
-                child: new Text('News Campaign')),),
+                child: new Text('News Campaign')),
+          ),
           //ini horizontal list view
-            NewsCampaign(),
+          NewsCampaign(),
           //kategori campaign
-            new Padding(padding: const EdgeInsets.all(8.0),
+          new Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Container(
                 alignment: Alignment.centerLeft,
-                child: new Text('Kategori Campaign')),),
-            Flexible(child: KategoriScreen()),
-            
-         
-          ],
+                child: new Text('Kategori Campaign')),
+          ),
+          Flexible(child: KategoriScreen()),
+        ],
       ),
     );
   }
-  
 }
-

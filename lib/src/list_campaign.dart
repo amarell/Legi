@@ -9,30 +9,33 @@ import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ListCampaign extends StatefulWidget {
-    ListCampaign({Key key, this.idCampaign="1", this.namaKategori="2"}) : super(key: key);
-    final idCampaign;
-    final namaKategori;
+  ListCampaign({Key key, this.idCampaign = "1", this.namaKategori = "2"})
+      : super(key: key);
+  final idCampaign;
+  final namaKategori;
+
   @override
   _ListCampaignState createState() => _ListCampaignState(
-    idCampaign: this.idCampaign,
-    namaKategori: this.namaKategori
-  );
+      idCampaign: this.idCampaign, namaKategori: this.namaKategori);
 }
 
 class _ListCampaignState extends State<ListCampaign> {
   _ListCampaignState({this.idCampaign, this.namaKategori});
+
   final idCampaign;
   final namaKategori;
 
   var campaigns = new List<Campaign>();
 
-  _getCampaign(){
-    API.getListCampaign(idCampaign).then((responses){
+  _getCampaign() {
+    API.getListCampaign(idCampaign).then((responses) {
       setState(() {
-       final list = json.decode(responses.body); 
-       print(list);
-       campaigns = (list['data'] as List).map<Campaign>((json) => new Campaign.fromJson(json)).toList();
-       print(campaigns);
+        final list = json.decode(responses.body);
+        print(list);
+        campaigns = (list['data'] as List)
+            .map<Campaign>((json) => new Campaign.fromJson(json))
+            .toList();
+        print(campaigns);
       });
     });
   }
@@ -42,169 +45,164 @@ class _ListCampaignState extends State<ListCampaign> {
     super.initState();
     _getCampaign();
   }
+
   @override
   void dispose() {
-    
     super.dispose();
   }
-  
 
-//   Future<List<Campaign>> fetchCampaign(http.Client client) async {
-//   final response =     
-//   await client.post('http://192.168.43.64/API/list_campaign.php', body: {
-//     'id_kategori': idCampaign,
-//   });
 
-//   // Use the compute function to run parsePhotos in a separate isolate
-//   return compute(parseCampaign, response.body);
-//   }
-// // A function that will convert a response body into a List<Photo>
-//   List<Campaign> parseCampaign(String responseBody) {
-//     final parsed = json.decode(responseBody);
-//     //print(parsed);
-//     return (parsed['data'] as List).map<Campaign>((json) => new Campaign.fromJson(json)).toList();
-//    //return parsed.map<Campaign>((json) => new Campaign.fromJson(json)).toList();
-    
-//   }
-
-  
-  
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-    appBar: AppBar(
-      backgroundColor: Colors.greenAccent[400],
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
         actions: <Widget>[
-          new IconButton(icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
+          new IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              onPressed: () {}),
         ],
-    ),
-    
-    body: ListView.builder(
-      itemCount: campaigns.length,
-      itemBuilder: (context, index){
-        var targetDonasi=[
-          TargetDonasi('target', campaigns[index].target_donasi, Colors.blue[200]),
-        ];
+      ),
+      body: ListView.builder(
+        itemCount: campaigns.length,
+        itemBuilder: (context, index) {
+          var targetDonasi = [
+            TargetDonasi(
+                'target', campaigns[index].target_donasi, Colors.blue[200]),
+          ];
 
-        var pencapaianDonasi=[
-          TargetDonasi('target', campaigns[index].dana_terkumpul,Colors.blue),
-        ]; 
-        var average= campaigns[index].dana_terkumpul/campaigns[index].target_donasi.round();
-        double average2= num.parse(average.toStringAsFixed(2));
-        var average3= campaigns[index].dana_terkumpul/campaigns[index].target_donasi*100.round();
-        String haha= average3.toStringAsFixed(2);
-        
-        //double ave=average*100;
-       // String persen = double.parse(ave.toString());
+          var pencapaianDonasi = [
+            TargetDonasi(
+                'target', campaigns[index].dana_terkumpul, Colors.blue),
+          ];
+          var average = campaigns[index].dana_terkumpul /
+              campaigns[index].target_donasi.round();
+          double average2 = num.parse(average.toStringAsFixed(2));
+          var average3 = campaigns[index].dana_terkumpul /
+              campaigns[index].target_donasi *
+              100.round();
+          String haha = average3.toStringAsFixed(2);
 
-        var series=[
-          charts.Series(
-              domainFn: (TargetDonasi target,_)=>target.target,
-            measureFn: (TargetDonasi target,_)=>target.jumlah,
-            colorFn: (TargetDonasi target,_)=>target.color,
-            id: 'Pencapaian',
-            data: pencapaianDonasi,
-            //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}'
+          //double ave=average*100;
+          // String persen = double.parse(ave.toString());
+
+          var series = [
+            charts.Series(
+              domainFn: (TargetDonasi target, _) => target.target,
+              measureFn: (TargetDonasi target, _) => target.jumlah,
+              colorFn: (TargetDonasi target, _) => target.color,
+              id: 'Pencapaian',
+              data: pencapaianDonasi,
+              //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}'
             ),
-          charts.Series(
-            domainFn: (TargetDonasi target,_)=>target.target,
-            measureFn: (TargetDonasi target,_)=>target.jumlah,
-            id: 'Target',
-            data: targetDonasi,
-            //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}',
-            colorFn: (TargetDonasi target,_)=>target.color,
-            
+            charts.Series(
+              domainFn: (TargetDonasi target, _) => target.target,
+              measureFn: (TargetDonasi target, _) => target.jumlah,
+              id: 'Target',
+              data: targetDonasi,
+              //labelAccessorFn: (TargetDonasi target,_)=>'${target.target} : ${target.jumlah.toString()}',
+              colorFn: (TargetDonasi target, _) => target.color,
             ),
-            
-        ];
+          ];
 
-        var chart = charts.BarChart(
-          series,
-          barGroupingType: charts.BarGroupingType.stacked,
-          vertical: false,
-          barRendererDecorator: charts.BarLabelDecorator<String>(),
-          domainAxis: charts.OrdinalAxisSpec(renderSpec: charts.NoneRenderSpec()),
-          
-        );
+          var chart = charts.BarChart(
+            series,
+            barGroupingType: charts.BarGroupingType.stacked,
+            vertical: false,
+            barRendererDecorator: charts.BarLabelDecorator<String>(),
+            domainAxis:
+                charts.OrdinalAxisSpec(renderSpec: charts.NoneRenderSpec()),
+          );
 
-
-        final NumberFormat formatter = NumberFormat.simpleCurrency(
-      locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
-        return InkWell(
-          onTap: (){
-            print(campaigns);
-            Navigator.push(context, new MaterialPageRoute(builder: (context){
-                          return new DetailCampaign(campaign: campaigns[index],);
-                        }));
-          },
-          child: Card(
-            
-           child: (campaigns != null) ? Container(
-             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-             child: Row(
-               children: [
-                 Expanded(
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Container(
-                         padding: const EdgeInsets.only(bottom: 8.0),
-                         child: Image.asset('assets/images/ede581967c723778d5332717ac56e0c7.png'),
-
-                       ),
-                       Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text(campaigns[index].judul_campaign, style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),),
-                       ),
-                       
-                       Padding(
-                         padding: EdgeInsets.all(0.0),
-                         child: LinearPercentIndicator(
-                           width: MediaQuery.of(context).size.width -10,
-                           animation: true,
-                           lineHeight: 20.0,
-                           animationDuration: 2000,
-                           percent: (average2 >= 1.0) ? average2=1.0: average2,
-                           center: Text(haha+"%"),
-                           linearStrokeCap: LinearStrokeCap.roundAll,
-                           progressColor: Colors.green,
-                          
-                         ),
-                       ),
-                        Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text("target Donasi: "+ formatter.format(campaigns[index].target_donasi), style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),),
-                       ),
-                       
-                       
-                     ],
-                   ),
-                 ),
-               ],
-             ),
-           )
-           : Center(child: CircularProgressIndicator(),) ,
-          ),
-        );
-      },
-    ),
-      
-      
+          final NumberFormat formatter = NumberFormat.simpleCurrency(
+              locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
+          return InkWell(
+            onTap: () {
+              print(campaigns);
+              Navigator.push(context, new MaterialPageRoute(builder: (context) {
+                return new DetailCampaign(
+                  campaign: campaigns[index],
+                );
+              }));
+            },
+            child: Card(
+              child: (campaigns != null)
+                  ? Container(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Image.asset(
+                                      'assets/images/ede581967c723778d5332717ac56e0c7.png'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    campaigns[index].judul_campaign,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(0.0),
+                                  child: LinearPercentIndicator(
+                                    width:
+                                        MediaQuery.of(context).size.width - 10,
+                                    animation: true,
+                                    lineHeight: 20.0,
+                                    animationDuration: 2000,
+                                    percent: (average2 >= 1.0)
+                                        ? average2 = 1.0
+                                        : average2,
+                                    center: Text(haha + "%"),
+                                    linearStrokeCap: LinearStrokeCap.roundAll,
+                                    progressColor: Colors.green,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "target Donasi: " +
+                                        formatter.format(
+                                            campaigns[index].target_donasi),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
 
-class TargetDonasi{
+class TargetDonasi {
   final String target;
   final int jumlah;
   final charts.Color color;
 
   TargetDonasi(this.target, this.jumlah, Color color)
-  :this.color=charts.Color(r: color.red, g: color.green, b: color.blue,a: color.alpha);
+      : this.color = charts.Color(
+            r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }
