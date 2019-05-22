@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:legi/src/API/api.dart';
 import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
+import 'package:legi/src/model/list_donatur_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'dart:convert';
 
 class DetailCampaign extends StatefulWidget {
   DetailCampaign({Key key, this.campaign}) : super(key: key);
@@ -21,52 +24,34 @@ class _DetailCampaignState extends State<DetailCampaign> {
 
   final campaign;
 
+  var donatur = new List<ListDonaturModel>();
 
-   List<Widget> _textTab() => [
-        Tab(text: "Home"),
-        Tab(text: "Articles"),
-        Tab(text: "User"),
-      ];
+  
 
-  List<Widget> _tabTwoParameters() => [
-        Tab(
-          text: "Home",
-          icon: Icon(Icons.home),
-        ),
-        Tab(text: "Articles", icon: Icon(Icons.book)),
-        Tab(
-          text: "User",
-          icon: Icon(Icons.account_box),
-        ),
-      ];
 
-  TabBar _tabBarLabel() => TabBar(
-        tabs: _tabTwoParameters(),
-        labelColor: Colors.red,
-        labelPadding: EdgeInsets.symmetric(vertical: 10),
-        labelStyle: TextStyle(fontSize: 20),
-        unselectedLabelColor: Colors.lightBlue,
-        unselectedLabelStyle: TextStyle(fontSize: 14),
-        onTap: (index) {
-          var content = "";
-          switch (index) {
-            case 0:
-              content = "Home";
-              break;
-            case 1:
-              content = "Articles";
-              break;
-            case 2:
-              content = "User";
-              break;
-            default:
-              content = "Other";
-              break;
-          }
-          print("You are clicking the $content");
-        },
-      );
-    
+  void initState() {
+    super.initState();
+    _getDonatur();
+    //_getHistory();
+  }
+
+  _getDonatur() {
+    //_getData();
+    var haha =campaign.id_campaign;
+    print('haha '+campaign.id_campaign);
+    API.getLisDonatur(haha).then((responses) {
+      setState(() {
+        print('gsgsg $haha');
+        final list = json.decode(responses.body);
+        print(list);
+        donatur = (list['data'] as List)
+            .map<ListDonaturModel>((json) => new ListDonaturModel.fromJson(json))
+            .toList();
+      });
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +84,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                         textColor: Colors.white,
                       ),
                 ),
-              )
+              ) 
             ],
           ),
         ),
@@ -266,8 +251,46 @@ class _DetailCampaignState extends State<DetailCampaign> {
                     ),
                   ),
                   Container(
-                    height: 200.0,
-                    color: Colors.green,
+                    height: 400,
+                      child: ListView.builder(
+                        //  scrollDirection: Axis.vertical,
+                         shrinkWrap: true,
+                         itemCount: donatur.length,
+                         itemBuilder: (context, index){
+                           return InkWell(
+            onTap: () {
+              
+            },
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        donatur[index].namaUser,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Jumlah Donasi: ' +
+                          formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),),
+                    ),
+                    
+                  ],
+                ),
+              ),
+            ),
+          );
+                         }, 
+                        ),
+                      
                   ),
                   Container(
                     height: 200.0,

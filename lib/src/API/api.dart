@@ -60,4 +60,18 @@ class API {
     });
   }
 
+  static Future getLisDonatur(idCampaign){
+    var url=baseUrl+'/list_donatur.php';
+    return http.post(url, body: {
+      "id_campaign":'$idCampaign',
+    });
+  }
+
+  static Future getLisUpdateBerita(idCampaign){
+    var url=baseUrl+'/list_update_berita.php';
+    return http.post(url, body: {
+      "id_campaign":'$idCampaign',
+    });
+  }
+
 }
