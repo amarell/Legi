@@ -33,7 +33,7 @@ class _RiwayatDompetWithdrawState extends State<RiwayatDompetWithdraw> {
 
   _getLisRiwayatDompet(){
     //_getData();
-    API.getLisRiwayatDompetDonasi(_idDompet).then((responses){
+    API.getLisRiwayatDompetWithdraw(_idDompet).then((responses){
       setState(() {
         print('gsgsg $_idDompet');
         final list = json.decode(responses.body);
@@ -69,7 +69,7 @@ class _RiwayatDompetWithdrawState extends State<RiwayatDompetWithdraw> {
                 children: <Widget>[
                   Padding(
                          padding: EdgeInsets.all(8.0),
-                         child: Text('Guna Pembayaran: '+rwDompet[index].gunaPembayaran, style: TextStyle(
+                         child: Text('No Rekening Tujuan: '+rwDompet[index].noRek, style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),),
                        ),
@@ -80,7 +80,7 @@ class _RiwayatDompetWithdrawState extends State<RiwayatDompetWithdraw> {
                        ),
                   Padding(
                          padding: EdgeInsets.all(8.0),
-                         child: Text('Status: '+rwDompet[index].statusTransaksi),
+                         child: Text('Status: '+rwDompet[index].status),
                        ),     
                 ],
               ),

@@ -6,8 +6,6 @@ import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'dart:io';
-
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
@@ -135,15 +133,17 @@ class _FormDonationState extends State<FormDonation> {
           "status_donasi": 'verifikasi',
           "id_dompet": _idDompet,
           "guna_pembayaran": 'donasi',
+          "dibuat_oleh": dibuatOleh,
 
         });
-
+        CircularProgressIndicator();
         Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
         //var jsonResponse= convert.jsonDecode(response.body);
         if (response.statusCode == 200) {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
+            CircularProgressIndicator();
             _sendEmail(_emailUser);
             showInSnackBar('Berhasil Donasi');
           } else if (success == '0') {

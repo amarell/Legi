@@ -10,6 +10,7 @@ import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:legi/src/pages/dompet.dart';
 import 'dart:convert';
 import 'package:legi/src/pages/riwayat_dompet.dart';
+import 'package:legi/src/pages/zakat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
@@ -115,7 +116,7 @@ class _DashboardState extends State<Dashboard> {
                     )),
               ),
               decoration: new BoxDecoration(
-                color: Colors.greenAccent[400],
+                color: Color(0xFF0091EA),
               ),
             ),
 
@@ -127,20 +128,6 @@ class _DashboardState extends State<Dashboard> {
                 title: Text('Home Page'),
                 leading: Icon(
                   Icons.home,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => Dompet()));
-              },
-              child: ListTile(
-                title: Text('Tambah Saldo Dompet'),
-                leading: Icon(
-                  Icons.person,
                   color: Colors.red,
                 ),
               ),
@@ -163,24 +150,10 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => RiwayatDompet()));
-              },
-              child: ListTile(
-                title: Text('Riwayat Dompet'),
-                leading: Icon(
-                  Icons.person,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => BuatDonasi()));
               },
               child: ListTile(
-                title: Text('Buat Donasi'),
+                title: Text('Buat Campaign'),
                 leading: Icon(
                   Icons.shopping_basket,
                   color: Colors.red,
@@ -189,24 +162,14 @@ class _DashboardState extends State<Dashboard> {
             ),
             InkWell(
               onTap: () {
-                var jmlDompet = int.parse(_saldoDompet);
-                print(jmlDompet + 5 + 6);
-                print(_idUser);
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => Zakat()));
               },
               child: ListTile(
                 title: Text('Zakat'),
                 leading: Icon(
                   Icons.dashboard,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                title: Text('Withdraw Dompet'),
-                leading: Icon(
-                  Icons.favorite,
                   color: Colors.red,
                 ),
               ),

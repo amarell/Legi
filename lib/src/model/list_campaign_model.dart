@@ -29,7 +29,7 @@ class Campaign{
       deskripsi: json['deskripsi'],
       dibuatOleh: json['dibuat_oleh'],
       target_donasi: int.parse(json['target_donasi']),
-      batas_waktu: json['batas_waktu'],
+      batas_waktu: (json['batas_waktu']!=null) ? json['batas_waktu']:'Admin',
       foto_campaign: json['foto_campaign'],
       link: json['link'],
       dana_terkumpul: int.parse(json['dana_terkumpul']),

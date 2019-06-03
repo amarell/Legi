@@ -171,93 +171,99 @@ class _DetailCampaignState extends State<DetailCampaign> {
             height: 500.0,
             child: TabBarView(
                 children: <Widget>[
-                  Container(
-                    height: 400.0,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(16),
-                    margin: const EdgeInsets.only(bottom: 4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          campaign.judul_campaign,
-                          style: Theme.of(context)
-                              .textTheme
-                              .title
-                              .copyWith(fontSize: 24.0),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 16.0),
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(color: Colors.grey, width: 0.4),
-                              bottom: BorderSide(color: Colors.grey, width: 0.4),
+                  Column(
+                    children: <Widget>[
+                      Flexible(
+                        // height: 400.0,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.all(16),
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              campaign.judul_campaign,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .title
+                                  .copyWith(fontSize: 24.0),
                             ),
-                          ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                TextIcon(
-                                  icon: FontAwesomeIcons.handHoldingUsd,
-                                  text:
-                                      "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 16.0),
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.grey, width: 0.4),
+                                  bottom: BorderSide(color: Colors.grey, width: 0.4),
                                 ),
-                                TextIcon(
-                                  icon: FontAwesomeIcons.clock,
-                                  text:
-                                      "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
+                              ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    TextIcon(
+                                      icon: FontAwesomeIcons.handHoldingUsd,
+                                      text:
+                                          "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
+                                    ),
+                                    TextIcon(
+                                      icon: FontAwesomeIcons.clock,
+                                      text:
+                                          "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
+                                    ),
+                                    TextIcon(
+                                      icon: FontAwesomeIcons.user,
+                                      text:
+                                          "Dibuat oleh:\n ${campaign.nama_user ?? "Admin"} ",
+                                    ),
+                                  ],
                                 ),
-                                TextIcon(
-                                  icon: FontAwesomeIcons.user,
-                                  text:
-                                      "Dibuat oleh:\n ${campaign.nama_user ?? "Admin"} ",
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    margin: const EdgeInsets.symmetric(vertical: 4.0),
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Deskripsi",
-                          style: Theme.of(context)
-                              .textTheme
-                              .title
-                              .copyWith(fontSize: 20),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Deskripsi",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .title
+                                  .copyWith(fontSize: 20),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                child: Html(
+                                  data: campaign.deskripsi,
+                                )),
+                          ],
                         ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Html(
-                              data: campaign.deskripsi,
-                            )),
-                      ],
-                    ),
+                      ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 400,
-                      child: ListView.builder(
-                        //  scrollDirection: Axis.vertical,
-                         shrinkWrap: true,
-                         itemCount: donatur.length,
-                         itemBuilder: (context, index){
-                           return InkWell(
+                  Column(
+                    children: <Widget>[
+                      Flexible(
+                        // height: 400,
+                          child: ListView.builder(
+                            //  scrollDirection: Axis.vertical,
+                             shrinkWrap: true,
+                             itemCount: donatur.length,
+                             itemBuilder: (context, index){
+                               return InkWell(
             onTap: () {
               
             },
@@ -265,32 +271,34 @@ class _DetailCampaignState extends State<DetailCampaign> {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        donatur[index].namaUser,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            donatur[index].namaUser,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Divider(),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Jumlah Donasi: ' +
-                          formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),),
-                    ),
-                    
-                  ],
+                        Divider(),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('Jumlah Donasi: ' +
+                              formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),),
+                        ),
+                        
+                      ],
                 ),
               ),
             ),
           );
-                         }, 
-                        ),
-                      
+                             }, 
+                            ),
+                          
+                      ),
+                    ],
                   ),
                   Container(
                     height: 200.0,

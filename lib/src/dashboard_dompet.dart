@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/dompet.dart';
+import 'package:legi/src/pages/form_withdraw.dart';
 import 'package:legi/src/pages/riwayat_dompet.dart';
 import 'package:legi/src/pages/riwayat_dompet_donasi.dart';
 import 'package:legi/src/pages/riwayat_dompet_withdraw.dart';
@@ -72,9 +73,7 @@ class _DompetDashboardState extends State<DompetDashboard> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 50,
-                child: Card(
+              Card(
                   // This ensures that the Card's children are clipped correctly.
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -118,7 +117,10 @@ class _DompetDashboardState extends State<DompetDashboard> {
                       ),
                       Divider(),
                       InkWell(
-                        onTap: () {},
+                        onTap: () { Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => FormWithdraw()));
+                        },
                         child: ListTile(
                           title: Text('Withdraw Dompet'),
                           leading: Icon(
@@ -169,7 +171,6 @@ class _DompetDashboardState extends State<DompetDashboard> {
                     ],
                   ),
                 ),
-              ),
             ],
           ),
         ),
