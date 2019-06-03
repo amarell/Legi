@@ -319,144 +319,146 @@ class _BuatDonasiState extends State<BuatDonasi> {
       child: SafeArea(
         top: false,
           bottom: false,
-          child: ListView(
-             padding: const EdgeInsets.all(16.0),
-             children: <Widget>[
-               const SizedBox(height: 24.0,),
-                Text("Masukan Nama Campaign", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contJudulCampaign,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan nama campaign',
-                    labelText: 'Nama Campaign *',
+          child: Form(
+                      child: ListView(
+               padding: const EdgeInsets.all(16.0),
+               children: <Widget>[
+                 const SizedBox(height: 24.0,),
+                  Text("Masukan Nama Campaign", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  TextFormField(
+                    controller: contJudulCampaign,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan nama campaign',
+                      labelText: 'Nama Campaign *',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24.0,),
-                Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contTargetDonasi,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan Target Donasi',
-                    labelText: 'Target Donasi*',
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  TextFormField(
+                    controller: contTargetDonasi,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan Target Donasi',
+                      labelText: 'Target Donasi*',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24.0,),
-                Text("Masukan Kategori", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                (data!= null) ? DropdownButton(
-                  items: data.map((item){
-                    return DropdownMenuItem(
-                      child: Text(item['nama_kategori']),
-                      value: item['id_kategori'],
-                    );
-                  }).toList(),
-                  onChanged: (newVal){
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan Kategori", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  (data!= null) ? DropdownButton(
+                    items: data.map((item){
+                      return DropdownMenuItem(
+                        child: Text(item['nama_kategori']),
+                        value: item['id_kategori'],
+                      );
+                    }).toList(),
+                    onChanged: (newVal){
+                      setState(() {
+                       _mySelection = newVal; 
+                      });
+                    },
+                    value: _mySelection,
+                  ) : Center(child: CircularProgressIndicator(),),
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                _DateTimePicker(
+                  labelText: 'Batas Waktu*',
+                  selectedDate: _fromDate2,
+                  selectDate: (DateTime date) {
                     setState(() {
-                     _mySelection = newVal; 
+                      _fromDate2 = date;
                     });
                   },
-                  value: _mySelection,
-                ) : Center(child: CircularProgressIndicator(),),
+                  
+                ),
                 const SizedBox(height: 24.0,),
-                Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-              _DateTimePicker(
-                labelText: 'Batas Waktu*',
-                selectedDate: _fromDate2,
-                selectDate: (DateTime date) {
-                  setState(() {
-                    _fromDate2 = date;
-                  });
-                },
+                  Text("Masukan link ", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  TextFormField(
+                    controller: contlink,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan link',
+                      labelText: 'Link Campaign*',
+                    ),
+                  ),
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan no hp", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  TextFormField(
+                    controller: contnohp,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan no hp',
+                      labelText: 'No Hp*',
+                    ),
+                  ),
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan ajakan", style: TextStyle(fontSize: 15.0),),
+                 const SizedBox(height: 24.0),
+                  TextFormField(
+                    controller: contAjakan,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan ajakan',
+                      labelText: 'Ajakan Campaign*',
+                    ),
+                  ),
+                  const SizedBox(height: 24.0,),
+                  Text("Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
+                  const SizedBox(height: 12.0,),
+                  TextFormField(
+                    controller: contDeskripsi,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Tell us about deskripsi',
+                      helperText: 'Keep it short, this is just a demo.',
+                      labelText: 'Deskripsi',
+                    ),
+                    maxLines: 9,
+                  ),
+                  OutlineButton(
+                    onPressed: (){
+                      _openImagePicker(context);
+                    },
+                    borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.camera_alt),
+                        SizedBox(width: 5.0,),
+                        Text('Add Image'),
+
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  _imageFile == null ? Text("pick an image") 
+                    : Image.file(
+                      _imageFile,
+                      fit: BoxFit.cover,
+                      height: 300,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.topCenter,
+                    ),
                 
-              ),
-              const SizedBox(height: 24.0,),
-                Text("Masukan link ", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contlink,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan link',
-                    labelText: 'Link Campaign*',
-                  ),
-                ),
-                const SizedBox(height: 24.0,),
-                Text("Masukan no hp", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contnohp,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan no hp',
-                    labelText: 'No Hp*',
-                  ),
-                ),
-                const SizedBox(height: 24.0,),
-                Text("Masukan ajakan", style: TextStyle(fontSize: 15.0),),
-               const SizedBox(height: 24.0),
-                TextFormField(
-                  controller: contAjakan,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan ajakan',
-                    labelText: 'Ajakan Campaign*',
-                  ),
-                ),
-                const SizedBox(height: 24.0,),
-                Text("Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
-                const SizedBox(height: 12.0,),
-                TextFormField(
-                  controller: contDeskripsi,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Tell us about deskripsi',
-                    helperText: 'Keep it short, this is just a demo.',
-                    labelText: 'Deskripsi',
-                  ),
-                  maxLines: 9,
-                ),
-                OutlineButton(
-                  onPressed: (){
-                    _openImagePicker(context);
-                  },
-                  borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.camera_alt),
-                      SizedBox(width: 5.0,),
-                      Text('Add Image'),
-
-
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.0,),
-                _imageFile == null ? Text("pick an image") 
-                  : Image.file(
-                    _imageFile,
-                    fit: BoxFit.cover,
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.topCenter,
-                  ),
-              
-             ],
+               ],
+            ),
           ),
       ),
     ),

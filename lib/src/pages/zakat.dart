@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -30,6 +32,7 @@ class _ZakatState extends State<Zakat> {
   String _radioValue = "";
 
   TextEditingController jumlah_donasi = new TextEditingController();
+  final _formkey= GlobalKey<FormState>();
 
 
   void _radioAction(String value) {
@@ -83,6 +86,94 @@ class _ZakatState extends State<Zakat> {
     ));
   }
 
+  _sendEmail(String email) async {
+    String username = 'buburwakhid@gmail.com';
+    String password = 'tandonbanyu';
+    final smtpServer = gmail(username, password);
+
+    //pesan di email.
+    final message = new Message()
+      ..from = new Address(username, 'Your name')
+      ..recipients.add(email)
+      ..subject = 'Terimakasih :: 😀 :: ${new DateTime.now()}'
+      ..html = "<h1>Test</h1>\n<p>Terimakasih, anda sudah melakukan donasi :)</p>";
+
+    final sendReports = await send(message, smtpServer);
+
+    sendReports.forEach((sr) {
+      if (sr.sent)
+        print('message sent');
+      else {
+        print('Message not sent.');
+        for (var p in sr.validationProblems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
+    });
+  }
+
+
+  Future<dynamic> _donasi() async {
+    if (_radioValue == '0') {
+      if (int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())) {
+        showInSnackBar('saldo dompet anda tidak memenuhi');
+      } else {
+        final response = await http.post(
+            'http://192.168.43.64/legi/API/donasi_campaign_dompet.php', body: {
+          "id_user": _idUser,
+          "jumlah_dana": jumlah_donasi.text,
+          "metode_pembayaran": 'dompet',
+          "status_donasi": 'verifikasi',
+          "id_dompet": _idDompet,
+          "guna_pembayaran": 'donasi',
+
+        });
+        CircularProgressIndicator();
+        Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
+        //var jsonResponse= convert.jsonDecode(response.body);
+        if (response.statusCode == 200) {
+          var success = jsonResponse['success'];
+          if (success == '1') {
+            print('berhasil donasi');
+            _sendEmail(_emailUser);
+            showInSnackBar('Berhasil Donasi');
+          } else if (success == '0') {
+            showInSnackBar('Donasi Gagal');
+            print(jsonResponse);
+          }
+        }
+
+        return jsonResponse;
+      }
+    } else {
+      final response = await http.post(
+          'http://192.168.43.64/legi/API/donasi_zakat.php', body: {
+        "id_user": _idUser,
+        "jumlah_dana": jumlah_donasi.text,
+        "metode_pembayaran": 'transfer',
+        "id_bank": _radioValue,
+      });
+      
+      CircularProgressIndicator();
+      Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
+      //var jsonResponse= convert.jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        var success = jsonResponse['success'];
+        if (success == '1') {
+          print('berhasil donasi');
+          _sendEmail(_emailUser);
+          showInSnackBar('Berhasil Donasi');
+        } else if (success == '0') {
+          showInSnackBar('Donasi Gagal');
+          print(jsonResponse);
+        }
+      }
+
+      return jsonResponse;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     
@@ -108,6 +199,8 @@ class _ZakatState extends State<Zakat> {
                         // print('$_idUser');
                         // print('$_radioValue');
                         // _donasi();
+                        if(_formkey.currentState.validate())
+                          _donasi();
                       },
                       icon: Icon(Icons.launch),
                       label: Text("CheckOut"),
@@ -122,6 +215,7 @@ class _ZakatState extends State<Zakat> {
         top: false,
         bottom: false,
         child: Form(
+          key: _formkey,
           child: SingleChildScrollView(
             dragStartBehavior: DragStartBehavior.down,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -144,6 +238,13 @@ class _ZakatState extends State<Zakat> {
                     suffixText: 'Rupiah',
                     suffixStyle: TextStyle(color: Colors.green),
                   ),
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Anda belum mengisi jumlah donasi';
+                    }else if(int.parse(value) < 10000){
+                      return 'Donasi Minimal Rp. 10.000';
+                    }
+                  },
                   maxLines: 1,
                 ),
                 const SizedBox(height: 24.0),
