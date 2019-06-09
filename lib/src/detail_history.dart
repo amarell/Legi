@@ -95,81 +95,96 @@ class _DetailHistoryState extends State<DetailHistory> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
       ),
-      backgroundColor: Colors.grey[300],
+      // backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildListDelegate([
-              Container(
-                color: Colors.white,
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "sadf",
-                      style: Theme.of(context)
-                          .textTheme
-                          .title
-                          .copyWith(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text('Nama Bank: ' + history.namaBank),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text('No Rek: ' + history.noRek),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text('Status: ' + history.statusDonasi),
-                    ),
-                    history.statusDonasi == 'proses'
-                        ? OutlineButton(
-                            onPressed: () {
-                              _openImagePicker(context);
-                            },
-                            borderSide: BorderSide(
-                                color: Theme.of(context).accentColor,
-                                width: 2.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.camera_alt),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text('Add Image'),
-                              ],
-                            ),
-                          )
-                        : Text('. .'),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _imageFile == null
-                        ? Text("pick an image")
-                        : Image.file(
-                            _imageFile,
-                            fit: BoxFit.cover,
-                            height: 300,
-                            width: MediaQuery.of(context).size.width,
-                            alignment: Alignment.topCenter,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                              child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+                                child: Container(
+                    color: Colors.white,
+                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Detail",
+                          style: Theme.of(context)
+                              .textTheme
+                              .title
+                              .copyWith(fontSize: 20),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text('Nama Bank: ' + history.namaBank),
+                        ),
+                        Container(
+                          color: Colors.lime[100],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                            child: Text('No Rek: ' + history.noRek),
                           ),
-                    RaisedButton(
-                      onPressed: () {
-                        upload(_imageFile, history.idDonasi);
-                      },
-                      child: Text("upload"),
-                    )
-                  ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text('Status: ' + history.statusDonasi),
+                        ),
+                        history.statusDonasi == 'proses'
+                            ? OutlineButton(
+                                onPressed: () {
+                                  _openImagePicker(context);
+                                },
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 2.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.camera_alt),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text('Add Image'),
+                                  ],
+                                ),
+                              )
+                            : Text(' '),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        _imageFile == null
+                            ? Text("pick an image")
+                            : Image.file(
+                                _imageFile,
+                                fit: BoxFit.cover,
+                                height: 300,
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topCenter,
+                              ),
+                         history.statusDonasi == 'proses'
+                            ? RaisedButton(
+                          onPressed: () {
+                            upload(_imageFile, history.idDonasi);
+                          },
+                          child: Text("upload"),
+                        ) : RaisedButton(
+                          onPressed: null,
+                          child: Text("upload"),
+                        ) 
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ]),

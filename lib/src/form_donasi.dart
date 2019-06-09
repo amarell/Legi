@@ -80,10 +80,43 @@ class _FormDonationState extends State<FormDonation> {
     });
   }
 
-  _sendEmail(String email) async {
-    String username = 'buburwakhid@gmail.com';
-    String password = 'tandonbanyu';
-    final smtpServer = gmail(username, password);
+  _sendEmail(String email, String jumlah) async {
+     String username2 = 'support@letsgiving.com';
+    String password2 = 'Bekonang123';
+
+    // String username = 'buburwakhid@gmail.com';
+    // String password = 'tandonbanyu';
+    // final smtpServer = gmail(username, password);
+
+    // var smtpServer = new SmtpOptions()
+    //                       ..hostName='mail.letsgiving.com'
+    //                       ..port= 465
+    //                       ..username='support@letsgiving.com'
+    //                       ..password='Bekonang123';
+    // var transport = new SmtpTransport(smtpServer);
+
+    final smtpServer= SmtpServer('mail.letsgiving.com', username: username2, password: password2);
+
+
+    
+
+    // var envelop = new Envelope()
+    //                     ..from= new Address(username2, 'Lets Giving - Support')
+    //                     ..recipients.add(email)
+    //                     ..subject = 'Anda berhasil Donasi :: 😀 :: ${new DateTime.now()}'
+    //                     ..html = "<h1>Thanks For your Donation</h1>\n<p>Anda telah berdonasi sebesar  Rp. 50.000</p>";
+    // //kirim email
+    // transport.send(envelop)
+    //   .then((_) => print('email sent success'))
+    //   .catchError((onError) => print('error: $onError')); 
+
+
+      // final sendReports = await send(envelop, transport);
+
+                              
+
+
+
 
     // Use the SmtpServer class to configure an SMTP server:
     // final smtpServer = new SmtpServer('smtp.domain.com');
@@ -92,10 +125,10 @@ class _FormDonationState extends State<FormDonation> {
 
     // Create our message.
     final message = new Message()
-      ..from = new Address(username, 'Your name')
+      ..from = new Address(username2, 'Lets Giving - Support')
       ..recipients.add(email)
-      ..subject = 'Test Dart Mailer library :: 😀 :: ${new DateTime.now()}'
-      ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+      ..subject = 'Anda berhasil Donasi :: 😀 :: ${new DateTime.now()}'
+      ..html = "<h1>Thanks For your Donation</h1>\n<p>Anda telah berdonasi sebesar  Rp. $jumlah</p>";
 
     // Use [catchExceptions]: true to prevent [send] from throwing.
     // Note that the default for [catchExceptions] will change from true to false
@@ -144,8 +177,9 @@ class _FormDonationState extends State<FormDonation> {
           if (success == '1') {
             print('berhasil donasi');
             CircularProgressIndicator();
-            _sendEmail(_emailUser);
+            _sendEmail(_emailUser, jumlah_donasi.text);
             showInSnackBar('Berhasil Donasi');
+            Navigator.of(context).pushReplacementNamed('/history');
           } else if (success == '0') {
             showInSnackBar('Donasi Gagal');
             print(jsonResponse);
@@ -170,8 +204,10 @@ class _FormDonationState extends State<FormDonation> {
         var success = jsonResponse['success'];
         if (success == '1') {
           print('berhasil donasi');
-          _sendEmail(_emailUser);
+          _sendEmail(_emailUser, jumlah_donasi.text);
           showInSnackBar('Berhasil Donasi');
+          Navigator.of(context).pushReplacementNamed('/history');
+          
         } else if (success == '0') {
           showInSnackBar('Donasi Gagal');
           print(jsonResponse);

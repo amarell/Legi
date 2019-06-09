@@ -58,10 +58,10 @@ class _DetailCampaignState extends State<DetailCampaign> {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF0091EA),
-          title: Text('Lets Giving'),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: const Color(0xFF0091EA),
+        //   title: Text('Lets Giving'),
+        // ),
         backgroundColor: Colors.grey[300],
         bottomNavigationBar: Container(
           color: Theme.of(context).primaryColor,
@@ -96,12 +96,13 @@ class _DetailCampaignState extends State<DetailCampaign> {
                 pinned: true,
                 floating: false,
                 expandedHeight: 256,
+                title: Text('Detail Campaign'),
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      Image.asset(
-                        'assets/images/ede581967c723778d5332717ac56e0c7.png',
+                      Image.network(
+                        'http://192.168.43.64/legi/assets/uploads/artikel/'+campaign.foto_campaign,
                         fit: BoxFit.cover,
                       ),
                       // This gradient ensures that the toolbar icons are distinct
@@ -148,15 +149,17 @@ class _DetailCampaignState extends State<DetailCampaign> {
               ),
 
               SliverPersistentHeader(
+                
               
                 delegate: _SliverAppBarDelegate(
                   TabBar(
                     labelColor: Colors.black87,
-                    unselectedLabelColor: Colors.grey,
+                    unselectedLabelColor: Colors.white,
+                    
                     tabs: [
-                      Tab(icon: Icon(Icons.info), text: "Tab 1"),
-                      Tab(icon: Icon(Icons.lightbulb_outline), text: "Tab 2"),
-                      Tab(icon: Icon(Icons.lightbulb_outline), text: "Tab 3"),
+                      Tab(icon: Icon(Icons.info), text: "Deskripsi"),
+                      Tab(icon: Icon(Icons.people), text: "Donatur"),
+                      Tab(icon: Icon(Icons.new_releases), text: "Update"),
                     ],
                   ),
                 ),
@@ -175,81 +178,90 @@ class _DetailCampaignState extends State<DetailCampaign> {
                     children: <Widget>[
                       Flexible(
                         // height: 400.0,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.only(bottom: 4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              campaign.judul_campaign,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .title
-                                  .copyWith(fontSize: 24.0),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 16.0),
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  top: BorderSide(color: Colors.grey, width: 0.4),
-                                  bottom: BorderSide(color: Colors.grey, width: 0.4),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.only(bottom: 4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                campaign.judul_campaign,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .title
+                                    .copyWith(fontSize: 24.0),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 16.0),
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(color: Colors.grey, width: 0.4),
+                                    bottom: BorderSide(color: Colors.grey, width: 0.4),
+                                  ),
+                                ),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      TextIcon(
+                                        icon: FontAwesomeIcons.handHoldingUsd,
+                                        text:
+                                            "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
+                                      ),
+                                      TextIcon(
+                                        icon: FontAwesomeIcons.handHoldingUsd,
+                                        text:
+                                            "Dana Terkumpul:\n ${formatter.format(campaign.dana_terkumpul) ?? "#"} ",
+                                      ),
+                                      TextIcon(
+                                        icon: FontAwesomeIcons.clock,
+                                        text:
+                                            "Sisa Waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
+                                      ),
+                                      TextIcon(
+                                        icon: FontAwesomeIcons.user,
+                                        text:
+                                            "Dibuat oleh:\n ${campaign.nama_user ?? "Admin"} ",
+                                      ),
+                                      
+                                    ],
+                                  ),
                                 ),
                               ),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    TextIcon(
-                                      icon: FontAwesomeIcons.handHoldingUsd,
-                                      text:
-                                          "Target Donasi:\n ${formatter.format(campaign.target_donasi) ?? "#"} ",
-                                    ),
-                                    TextIcon(
-                                      icon: FontAwesomeIcons.clock,
-                                      text:
-                                          "Batas waktu:\n ${campaign.batas_waktu ?? "#"} hari ",
-                                    ),
-                                    TextIcon(
-                                      icon: FontAwesomeIcons.user,
-                                      text:
-                                          "Dibuat oleh:\n ${campaign.nama_user ?? "Admin"} ",
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ),
                       Container(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(vertical: 4.0),
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Deskripsi",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .title
-                                  .copyWith(fontSize: 20),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                child: Html(
-                                  data: campaign.deskripsi,
-                                )),
-                          ],
-                        ),
+                          color: Colors.white,
+                          margin: const EdgeInsets.symmetric(vertical: 4.0),
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Deskripsi",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .title
+                                    .copyWith(fontSize: 20),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  child: Html(
+                                    data: campaign.deskripsi,
+                                  )),
+                            ],
+                          ),
                       ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],

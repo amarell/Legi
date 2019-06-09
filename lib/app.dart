@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legi/splashscreen.dart';
+import 'package:legi/src/history.dart';
 import 'package:legi/src/login.dart';
 import 'package:legi/src/login_page.dart';
 import 'package:legi/src/home.dart';
@@ -11,6 +12,7 @@ class App extends StatelessWidget {
     '/login_page': (context) => LoginPage(),
     '/home' : (context) => Home(),
     '/dompet' : (context) => Dompet(),
+    '/history' : (context) => History(),
   };
 
   @override

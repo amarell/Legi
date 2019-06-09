@@ -54,6 +54,9 @@ class _ListCampaignState extends State<ListCampaign> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.black);
+    final TextStyle descriptionStyle = theme.textTheme.subhead;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0091EA),
@@ -141,44 +144,83 @@ class _ListCampaignState extends State<ListCampaign> {
                               children: [
                                 Container(
                                   padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Image.asset(
-                                      'assets/images/ede581967c723778d5332717ac56e0c7.png'),
-                                ),
+                                  child: Image.network('http://192.168.43.64/legi/assets/uploads/artikel/'+campaigns[index].foto_campaign, fit: BoxFit.cover, height: 100,width: MediaQuery.of(context).size.width,),
+                                  ),
+                                  Divider(),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    campaigns[index].judul_campaign,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                  child: Center(
+                                    child: Text(
+                                      campaigns[index].judul_campaign,
+                                      style: titleStyle,
                                     ),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(0.0),
-                                  child: LinearPercentIndicator(
-                                    width:
-                                        MediaQuery.of(context).size.width - 10,
-                                    animation: true,
-                                    lineHeight: 20.0,
-                                    animationDuration: 2000,
-                                    percent: (average2 >= 1.0)
-                                        ? average2 = 1.0
-                                        : average2,
-                                    center: Text(haha + "%"),
-                                    linearStrokeCap: LinearStrokeCap.roundAll,
-                                    progressColor: Colors.green,
+                                  child: Center(
+                                    child: LinearPercentIndicator(
+                                      width:
+                                          MediaQuery.of(context).size.width - 10,
+                                      animation: true,
+                                      lineHeight: 20.0,
+                                      animationDuration: 2000,
+                                      percent: (average2 >= 1.0)
+                                          ? average2 = 1.0
+                                          : average2,
+                                      center: Text(haha + "%"),
+                                      linearStrokeCap: LinearStrokeCap.roundAll,
+                                      progressColor: Colors.blue[500],
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "target Donasi: " +
-                                        formatter.format(
-                                            campaigns[index].target_donasi),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                                "Dana Terkumpul: "
+                                            ),
+                                            SizedBox(height: 5.0,),
+                                            Text(
+                                              formatter.format(
+                                              campaigns[index].dana_terkumpul),
+                                              style: descriptionStyle.copyWith(color: Colors.black54),
+                                            )
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                                "Sisa Hari: "
+                                            ),
+                                            SizedBox(height: 5.0,),
+                                            Text(
+                                              campaigns[index].batas_waktu+ " hari",
+                                              style: descriptionStyle.copyWith(color: Colors.black54),
+                                            )
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text(
+                                                "Tanggal Mulai: "
+                                            ),
+                                            SizedBox(height: 5.0,),
+                                            Text(
+                                              campaigns[index].tanggal_mulai,
+                                              style: descriptionStyle.copyWith(color: Colors.black54),
+                                            )
+                                        ],
+                                      ),
+                                    ],
+                                  )
                                 ),
                               ],
                             ),
