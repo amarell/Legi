@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:legi/src/model/history_model.dart';
 import 'package:path/path.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:toast/toast.dart';
 
 class DetailHistory extends StatefulWidget {
   DetailHistory({Key key, this.historys}) : super(key: key);
@@ -23,7 +25,7 @@ class _DetailHistoryState extends State<DetailHistory> {
 
   File _imageFile;
 
-  Future upload(File imageFile, idDona) async {
+  Future upload(File imageFile, idDona, context) async {
     var stream =
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
@@ -36,14 +38,20 @@ class _DetailHistoryState extends State<DetailHistory> {
     request.fields['id_donasi'] = idDona;
     request.files.add(multiPartFile);
 
+     _showProgress(context, 'show');
     var response = await request.send();
+    
     if (response.statusCode == 200) {
       print("image berhasil upload");
+      Navigator.of(context).pop();
+      Toast.show("Image berhasil upload", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       print(idDona);
     } else {
       print("gagal");
     }
   }
+
+ 
 
   void _getImage(BuildContext context, ImageSource source) {
     ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
@@ -91,6 +99,18 @@ class _DetailHistoryState extends State<DetailHistory> {
             ),
           );
         });
+  }
+
+   _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
   }
 
   @override
@@ -194,7 +214,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                          history.statusDonasi == 'proses'
                             ? RaisedButton(
                           onPressed: () {
-                            upload(_imageFile, history.idDonasi);
+                            upload(_imageFile, history.idDonasi, context);
                           },
                           child: Text("upload"),
                         ) : RaisedButton(

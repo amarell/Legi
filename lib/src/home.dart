@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:legi/src/dashboard.dart';
 import 'package:legi/src/history.dart';
-import 'package:legi/src/account.dart';
+// import 'package:legi/src/account.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:legi/src/profile_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentTab = 0;
 
-  final List<Widget> screens = [Dashboard(), History(), Account()];
+  final List<Widget> screens = [Dashboard(), History(), ProfilePage()];
   Widget currentScreen = Dashboard();
 
   final PageStorageBucket bucket = PageStorageBucket();

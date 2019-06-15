@@ -660,13 +660,9 @@ class _LoginPageState extends State<LoginPage>
       "email": loginEmailController.text,
       "password": loginPasswordController.text,
     });
-    //Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
-
     Map userMap = convert.jsonDecode(response.body);
-    // var jsonResponse= convert.jsonDecode(response.body);
     if (response.statusCode == 200) {
       var success = userMap['success'];
-      // var data = userMap['login'][0];
       if (success == '1') {
         var data = userMap['login'][0];
         var user = new Login.fromJson(data);
@@ -685,11 +681,8 @@ class _LoginPageState extends State<LoginPage>
       } else if (success == '0') {
         Navigator.of(context).pop();
         showInSnackBar('email atau password anda salah');
-
-        //print(jsonResponse);
       }
     }
-
     return userMap;
   }
 
@@ -724,7 +717,6 @@ class _LoginPageState extends State<LoginPage>
     });
 
     Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
-    //var jsonResponse= convert.jsonDecode(response.body);
     if (response.statusCode == 200) {
       var success = jsonResponse['success'];
       if (success == '1') {
@@ -735,7 +727,6 @@ class _LoginPageState extends State<LoginPage>
         print(jsonResponse);
       }
     }
-
     return jsonResponse;
   }
 

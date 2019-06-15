@@ -50,13 +50,7 @@ class _HistoryState extends State<History> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _getData();
-  //   _getHistory();
-
-  // }
+  
   @override
   void dispose() {
     super.dispose();

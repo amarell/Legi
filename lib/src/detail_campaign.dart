@@ -8,6 +8,7 @@ import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/model/list_donatur_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'dart:convert';
+import 'package:share/share.dart';
 
 class DetailCampaign extends StatefulWidget {
   DetailCampaign({Key key, this.campaign}) : super(key: key);
@@ -51,6 +52,13 @@ class _DetailCampaignState extends State<DetailCampaign> {
     });
   }
 
+  _share(String link){
+    Share.share(
+      'Mari kita bantu saudara kita \n\n'+
+      'https://letsgiving.com/$link'
+    );
+  }
+
   
 
   @override
@@ -63,7 +71,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
         //   backgroundColor: const Color(0xFF0091EA),
         //   title: Text('Lets Giving'),
         // ),
-        backgroundColor: Colors.grey[300],
+        // backgroundColor: Colors.grey[300],
         bottomNavigationBar: Container(
           color: Theme.of(context).primaryColor,
           child: Row(
@@ -154,7 +162,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
               
                 delegate: _SliverAppBarDelegate(
                   TabBar(
-                    labelColor: Colors.black87,
+                    labelColor: Colors.orange[700],
                     unselectedLabelColor: Colors.white,
                     
                     tabs: [
@@ -164,7 +172,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                     ],
                   ),
                 ),
-                pinned: false,
+                pinned: true,
               ),
               
              
@@ -267,6 +275,33 @@ class _DetailCampaignState extends State<DetailCampaign> {
                             ],
                           ),
                       ),
+                      Container(
+                        color: Colors.white,
+                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: <Widget>[
+                            OutlineButton(
+                                onPressed: () {
+                                  _share(campaign.link);
+                                },
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 2.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.share),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text('Share'),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                             ],
                           ),
                         ),
@@ -296,7 +331,8 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             children: <Widget>[
-                              Text(donatur[index].namaUser,
+                              Divider(),
+                              Text(donatur[index].namaUser+': ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -306,11 +342,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           ),
                         ),
                         Divider(),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Jumlah Donasi: ' +
-                              formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),),
-                        ),
+                        
                         
                       ],
                 ),
@@ -353,6 +385,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return new Container(
+      color: Colors.blue[800],
       child: _tabBar,
     );
   }
