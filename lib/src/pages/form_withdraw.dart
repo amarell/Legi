@@ -96,7 +96,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
       showInSnackBar('jumlah pencairan dana anda lebih besar dari saldo dompet anda');
     }else{
       final response = await http.post(
-            'http://192.168.43.64/legi/API/withdraw_dompet.php', body: {
+            'https://letsgiving.com/API/withdraw_dompet.php', body: {
           "id_dompet": _idDompet,
           "nama_bank_tujuan": namaBank.text,
           "nama_pemilik_rek": namaPemilik.text,

@@ -28,7 +28,7 @@ class _DetailHistoryState extends State<DetailHistory> {
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri =
-        Uri.parse("http://192.168.43.64/legi/API/upload_bukti_donasi.php");
+        Uri.parse("https://letsgiving.com/API/upload_bukti_donasi.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length,
         filename: basename(imageFile.path));
@@ -138,6 +138,10 @@ class _DetailHistoryState extends State<DetailHistory> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text('Id Transaksi Anda: '+ history.idDonasi),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: Text('Status: ' + history.statusDonasi),
                         ),
                         history.statusDonasi == 'proses'
@@ -159,7 +163,22 @@ class _DetailHistoryState extends State<DetailHistory> {
                                   ],
                                 ),
                               )
-                            : Text(' '),
+                            : OutlineButton(
+                                onPressed: null,
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 2.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.camera_alt),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text('Add Image'),
+                                  ],
+                                ),
+                              ),
                         SizedBox(
                           height: 10.0,
                         ),

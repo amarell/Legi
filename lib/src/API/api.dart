@@ -1,75 +1,75 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-const baseUrl = 'http://192.168.43.64/legi/API';
+const baseUrl = 'https://letsgiving.com/API';
 
 class API {
-  static Future getListCampaign(idKat){
+  static Future getListCampaign(idKat) async{
     var url =baseUrl+ '/list_campaign.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_kategori":idKat,
     });
   }
 
-  static Future getListHistory(idUser){
+  static Future getListHistory(idUser) async{
     var url=baseUrl+'/history_donasi.php';
     print(idUser);
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_user":'$idUser',
     });
   }
 
-  static Future getDetailUser(idUser){
+  static Future getDetailUser(idUser) async{
     var url=baseUrl+'/read_profile.php';
     print(idUser);
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_user":'$idUser',
     });
   }
 
-  static Future getKategori(){
+  static Future getKategori() async{
     var url=baseUrl+'/list_kategori.php';
-    return http.post(url);
+    return await http.post(url);
   }
 
-  static Future getLisRiwayatDompet(idDompet){
+  static Future getLisRiwayatDompet(idDompet) async{
     var url=baseUrl+'/riwayat_dompet.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_dompet":'$idDompet',
     });
   }
 
-  static Future getDataDompet(idUser){
+  static Future getDataDompet(idUser) async{
     var url=baseUrl+'/info_dompet.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_user":'$idUser',
     });
   }
 
-  static Future getLisRiwayatDompetDonasi(idDompet){
+  static Future getLisRiwayatDompetDonasi(idDompet) async{
     var url=baseUrl+'/riwayat_dompet_donasi.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_dompet":'$idDompet',
     });
   }
 
-  static Future getLisRiwayatDompetWithdraw(idDompet){
+  static Future getLisRiwayatDompetWithdraw(idDompet) async{
     var url=baseUrl+'/riwayat_dompet_withdraw.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_dompet":'$idDompet',
     });
   }
 
-  static Future getLisDonatur(idCampaign){
+  static Future getLisDonatur(idCampaign) async{
     var url=baseUrl+'/list_donatur.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_campaign":'$idCampaign',
     });
   }
 
-  static Future getLisUpdateBerita(idCampaign){
+  static Future getLisUpdateBerita(idCampaign) async{
     var url=baseUrl+'/list_update_berita.php';
-    return http.post(url, body: {
+    return await http.post(url, body: {
       "id_campaign":'$idCampaign',
     });
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -84,44 +85,9 @@ class _FormDonationState extends State<FormDonation> {
      String username2 = 'support@letsgiving.com';
     String password2 = 'Bekonang123';
 
-    // String username = 'buburwakhid@gmail.com';
-    // String password = 'tandonbanyu';
-    // final smtpServer = gmail(username, password);
-
-    // var smtpServer = new SmtpOptions()
-    //                       ..hostName='mail.letsgiving.com'
-    //                       ..port= 465
-    //                       ..username='support@letsgiving.com'
-    //                       ..password='Bekonang123';
-    // var transport = new SmtpTransport(smtpServer);
-
     final smtpServer= SmtpServer('mail.letsgiving.com', username: username2, password: password2);
 
 
-    
-
-    // var envelop = new Envelope()
-    //                     ..from= new Address(username2, 'Lets Giving - Support')
-    //                     ..recipients.add(email)
-    //                     ..subject = 'Anda berhasil Donasi :: 😀 :: ${new DateTime.now()}'
-    //                     ..html = "<h1>Thanks For your Donation</h1>\n<p>Anda telah berdonasi sebesar  Rp. 50.000</p>";
-    // //kirim email
-    // transport.send(envelop)
-    //   .then((_) => print('email sent success'))
-    //   .catchError((onError) => print('error: $onError')); 
-
-
-      // final sendReports = await send(envelop, transport);
-
-                              
-
-
-
-
-    // Use the SmtpServer class to configure an SMTP server:
-    // final smtpServer = new SmtpServer('smtp.domain.com');
-    // See the named arguments of SmtpServer for further configuration
-    // options.
 
     // Create our message.
     final message = new Message()
@@ -157,8 +123,9 @@ class _FormDonationState extends State<FormDonation> {
       if (int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())) {
         showInSnackBar('saldo dompet anda tidak memenuhi');
       } else {
+        _showProgress(context, 'show');
         final response = await http.post(
-            'http://192.168.43.64/legi/API/donasi_campaign_dompet.php', body: {
+            'https://letsgiving.com/API/donasi_campaign_dompet.php', body: {
           "id_user": _idUser,
           "id_campaign": idCampaign,
           "jumlah_dana": jumlah_donasi.text,
@@ -169,15 +136,15 @@ class _FormDonationState extends State<FormDonation> {
           "dibuat_oleh": dibuatOleh,
 
         });
-        CircularProgressIndicator();
+        
         Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
         //var jsonResponse= convert.jsonDecode(response.body);
         if (response.statusCode == 200) {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
-            CircularProgressIndicator();
             _sendEmail(_emailUser, jumlah_donasi.text);
+            _showProgress(context, 'hide');
             showInSnackBar('Berhasil Donasi');
             Navigator.of(context).pushReplacementNamed('/history');
           } else if (success == '0') {
@@ -189,8 +156,10 @@ class _FormDonationState extends State<FormDonation> {
         return jsonResponse;
       }
     } else {
+      // _showDialog(context);
+      _showProgress(context, 'show');
       final response = await http.post(
-          'http://192.168.43.64/legi/API/donasi_campaig.php', body: {
+          'https://letsgiving.com/API/donasi_campaig.php', body: {
         "id_user": _idUser,
         "id_campaign": idCampaign,
         "jumlah_dana": jumlah_donasi.text,
@@ -209,6 +178,7 @@ class _FormDonationState extends State<FormDonation> {
           Navigator.of(context).pushReplacementNamed('/history');
           
         } else if (success == '0') {
+          Navigator.of(context).pop();
           showInSnackBar('Donasi Gagal');
           print(jsonResponse);
         }
@@ -233,6 +203,37 @@ class _FormDonationState extends State<FormDonation> {
       backgroundColor: Colors.blue,
       duration: Duration(seconds: 3),
     ));
+  }
+
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
+  _showDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0)
+            ),
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    );
   }
 
   @override

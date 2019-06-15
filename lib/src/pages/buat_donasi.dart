@@ -218,7 +218,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
     
 
-  final String url = "http://localhost/legi/API/list_kategori.php";
+  final String url = "https://letsgiving.com/API/list_kategori.php";
 
   List data; 
    Future<String> getSWData() async {
@@ -239,7 +239,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
    
     
    
-    final response =await http.post('http://localhost/legi/API/list_kategori.php');
+    final response =await http.post('https://letsgiving.com/API/list_kategori.php');
   //Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
 
   Map userMap = json.decode(response.body);

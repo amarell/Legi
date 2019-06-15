@@ -42,7 +42,7 @@ class _DompetState extends State<Dompet> {
     }else if(int.parse(jumlah_dana.text) <= 10000){
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
     }else{
-      final response =await http.post('http://192.168.43.64/legi/API/tambah_dompet.php', body: {
+      final response =await http.post('https://letsgiving.com/API/tambah_dompet.php', body: {
       "id_dompet": _idDompet,
       "jumlah_dana": jumlah_dana.text,
       "status_transaksi": 'proses',

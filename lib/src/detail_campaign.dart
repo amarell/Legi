@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
@@ -6,7 +7,6 @@ import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/model/list_donatur_model.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'dart:convert';
 
 class DetailCampaign extends StatefulWidget {
@@ -51,10 +51,11 @@ class _DetailCampaignState extends State<DetailCampaign> {
     });
   }
 
-
+  
 
   @override
   Widget build(BuildContext context) {
+    
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     return Scaffold(
@@ -102,7 +103,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                     fit: StackFit.expand,
                     children: <Widget>[
                       Image.network(
-                        'http://192.168.43.64/legi/assets/uploads/artikel/'+campaign.foto_campaign,
+                        'https://letsgiving.com/assets/uploads/artikel/'+campaign.foto_campaign,
                         fit: BoxFit.cover,
                       ),
                       // This gradient ensures that the toolbar icons are distinct
@@ -254,9 +255,15 @@ class _DetailCampaignState extends State<DetailCampaign> {
                               ),
                               Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                  child: Html(
+                                  child: 
+                                  Html(
                                     data: campaign.deskripsi,
-                                  )),
+                                  ),
+                                  // HtmlView(
+                                  //   data: campaign.deskripsi,
+
+                                  // ),
+                                  ),
                             ],
                           ),
                       ),
@@ -287,11 +294,15 @@ class _DetailCampaignState extends State<DetailCampaign> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            donatur[index].namaUser,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Row(
+                            children: <Widget>[
+                              Text(donatur[index].namaUser,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),)
+                            ],
                           ),
                         ),
                         Divider(),

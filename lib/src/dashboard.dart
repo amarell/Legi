@@ -118,6 +118,7 @@ class _DashboardState extends State<Dashboard> {
               decoration: new BoxDecoration(
                 color: Color(0xFF0091EA),
               ),
+            
             ),
 
             //Body

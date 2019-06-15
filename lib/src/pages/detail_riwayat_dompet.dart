@@ -23,7 +23,7 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
   Future upload(File imageFile, idDompet) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("http://192.168.43.64/legi/API/upload_bukti_dompet.php");
+    var uri = Uri.parse("https://letsgiving.com/API/upload_bukti_dompet.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
 

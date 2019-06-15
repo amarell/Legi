@@ -5,6 +5,7 @@ import 'package:legi/src/model/login_model.dart';
 import 'package:legi/style/theme.dart' as Theme;
 import 'dart:async';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -651,10 +652,11 @@ class _LoginPageState extends State<LoginPage>
     if (loginPasswordController.text.isEmpty) {
       showInSnackBar('Password anda tidak boleh kosong');
     }
-
+    
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    _showProgress(context, 'show');
     final response =
-        await http.post('http://192.168.43.64/legi/API/login.php', body: {
+        await http.post('https://letsgiving.com/API/login.php', body: {
       "email": loginEmailController.text,
       "password": loginPasswordController.text,
     });
@@ -664,8 +666,9 @@ class _LoginPageState extends State<LoginPage>
     // var jsonResponse= convert.jsonDecode(response.body);
     if (response.statusCode == 200) {
       var success = userMap['success'];
-      var data = userMap['login'][0];
+      // var data = userMap['login'][0];
       if (success == '1') {
+        var data = userMap['login'][0];
         var user = new Login.fromJson(data);
         print('login berhasi;');
         showInSnackBar('login berhasil');
@@ -680,12 +683,26 @@ class _LoginPageState extends State<LoginPage>
         SessionManager.setIsLogin(true);
         Navigator.of(context).pushReplacementNamed('/home');
       } else if (success == '0') {
-        showInSnackBar('login Gagal');
+        Navigator.of(context).pop();
+        showInSnackBar('email atau password anda salah');
+
         //print(jsonResponse);
       }
     }
 
     return userMap;
+  }
+
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
   }
 
   Future<dynamic> _register() async {
@@ -700,7 +717,7 @@ class _LoginPageState extends State<LoginPage>
     }
 
     final response =
-        await http.post('http://192.168.43.64/legi/API/register.php', body: {
+        await http.post('https://letsgiving.com/API/register.php', body: {
       "nama": signupNameController.text,
       "email": signupEmailController.text,
       "password": signupPasswordController.text,

@@ -14,6 +14,10 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   String _idUser = '';
   var history = new List<HistoryDonasi>();
+  var warnakuning=Colors.yellow[500];
+  var warnabiru= Colors.blue[300];
+  var warnamerah= Colors.red[300];
+
 
   void initState() {
     super.initState();
@@ -56,6 +60,16 @@ class _HistoryState extends State<History> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  _color(status){
+    if(status=="proses"){
+      return warnakuning;
+    }else if(status=="verifikasi"){
+      return warnabiru;
+    }else{
+      return warnamerah;
+    }
   }
 
   @override
@@ -107,9 +121,16 @@ class _HistoryState extends State<History> {
                       child: Text('Jumlah Donasi: ' +
                           formatter.format(history[index].jumlahDana),style: TextStyle(color: Colors.grey),),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Status: ' + history[index].statusDonasi, style: TextStyle(color: Colors.grey)),
+                    Container(
+                      padding: EdgeInsets.only(left: 4.0),
+                      decoration: BoxDecoration(
+                        color: _color(history[index].statusDonasi),
+                        borderRadius: BorderRadius.all(const Radius.circular(40.0))
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Status: ' + history[index].statusDonasi, style: TextStyle(color: Colors.white)),
+                      ),
                     ),
                   ],
                 ),

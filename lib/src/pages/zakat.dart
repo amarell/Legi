@@ -119,7 +119,7 @@ class _ZakatState extends State<Zakat> {
         showInSnackBar('saldo dompet anda tidak memenuhi');
       } else {
         final response = await http.post(
-            'http://192.168.43.64/legi/API/donasi_campaign_dompet.php', body: {
+            'https://letsgiving.com/API/donasi_campaign_dompet.php', body: {
           "id_user": _idUser,
           "jumlah_dana": jumlah_donasi.text,
           "metode_pembayaran": 'dompet',
@@ -147,7 +147,7 @@ class _ZakatState extends State<Zakat> {
       }
     } else {
       final response = await http.post(
-          'http://192.168.43.64/legi/API/donasi_zakat.php', body: {
+          'https://letsgiving.com/API/donasi_zakat.php', body: {
         "id_user": _idUser,
         "jumlah_dana": jumlah_donasi.text,
         "metode_pembayaran": 'transfer',
