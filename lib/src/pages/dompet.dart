@@ -92,7 +92,7 @@ class _DompetState extends State<Dompet> {
       key: _scaffoldKey,
       appBar:  AppBar(
         title: Text('Lets Giving'),
-        backgroundColor: Colors.greenAccent[400],
+        backgroundColor: const Color(0xFF0091EA),
       ),
       bottomNavigationBar: Container(
       color: Theme.of(context).primaryColor,

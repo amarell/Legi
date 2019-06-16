@@ -47,7 +47,7 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: Colors.greenAccent[400],
+      backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
         actions: <Widget>[
           new IconButton(icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),

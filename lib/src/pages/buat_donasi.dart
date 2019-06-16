@@ -289,7 +289,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lets Giving'),
-        backgroundColor: Colors.greenAccent[400],
+        backgroundColor: const Color(0xFF0091EA),
       ),
       bottomNavigationBar: Container(
       color: Theme.of(context).primaryColor,
