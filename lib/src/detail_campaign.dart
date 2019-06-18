@@ -26,10 +26,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
   final campaign;
 
   var donatur = new List<ListDonaturModel>();
-
   
-
-
   void initState() {
     super.initState();
     _getDonatur();

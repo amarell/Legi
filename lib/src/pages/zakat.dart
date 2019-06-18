@@ -96,7 +96,7 @@ class _ZakatState extends State<Zakat> {
       ..from = new Address(username, 'Your name')
       ..recipients.add(email)
       ..subject = 'Terimakasih :: 😀 :: ${new DateTime.now()}'
-      ..html = "<h1>Test</h1>\n<p>Terimakasih, anda sudah melakukan donasi :)</p>";
+      ..html = "<h1>Test</h1>\n<p>Terimakasih, anda sudah melakukan donasi zakat:)</p>";
 
     final sendReports = await send(message, smtpServer);
 

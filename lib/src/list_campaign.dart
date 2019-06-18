@@ -28,11 +28,7 @@ class _ListCampaignState extends State<ListCampaign> {
 
   TextEditingController searchController = TextEditingController();
 
-  
-
   var campaigns = new List<Campaign>();
-
-  
 
   _getCampaign() async{
     API.getListCampaign(idCampaign).then((responses) {
@@ -62,8 +58,6 @@ class _ListCampaignState extends State<ListCampaign> {
     });
 
     return listcam;
-    
-
   }
 
   @override
