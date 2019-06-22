@@ -8,6 +8,7 @@ import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:legi/src/pages/dompet.dart';
+import 'package:legi/src/pages/riwayat_campaign.dart';
 import 'dart:convert';
 import 'package:legi/src/pages/riwayat_dompet.dart';
 import 'package:legi/src/pages/zakat.dart';
@@ -171,6 +172,20 @@ class _DashboardState extends State<Dashboard> {
                 title: Text('Zakat'),
                 leading: Icon(
                   Icons.dashboard,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => RiwayatCampaign()));
+              },
+              child: ListTile(
+                title: Text('List Campaign saya'),
+                leading: Icon(
+                  Icons.change_history,
                   color: Colors.red,
                 ),
               ),

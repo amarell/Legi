@@ -74,4 +74,11 @@ class API {
     });
   }
 
+  static Future getRiwayatCampaign(idUser) async{
+    var url=baseUrl+'/list_campaign_user.php';
+    return await http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
+
 }
