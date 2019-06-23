@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
@@ -280,6 +282,35 @@ class _FormDonationState extends State<FormDonation> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Card(
+                  elevation: 4.0,
+                  borderOnForeground: true,
+                  child: Stack(
+                    children: <Widget>[
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ListTile(
+                          leading: Icon(
+                            FontAwesomeIcons.creditCard,
+                            color: Colors.lightBlue,
+                          ),
+                          title: (_saldoDOmpet!='')? Text(formatter.format(int.parse(_saldoDOmpet))): Text('cek koneksi anda'),
+                        ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 24.0,),
                 Text(
                   "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),

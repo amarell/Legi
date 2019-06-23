@@ -156,6 +156,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
   void _getImage(BuildContext context, ImageSource source){
     ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image){
       Navigator.pop(context);
+
       setState(() {
        _imageFile=image; 
       });

@@ -1,12 +1,17 @@
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:legi/src/API/api.dart';
+import 'package:http/http.dart' as http;
 import 'package:legi/src/model/read_profile.dart';
+import 'package:path/path.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -21,9 +26,9 @@ class MapScreenState extends State<ProfilePage>
   var akun = new List<ReadProfile>();
   var exnama, exemail, exidUser, extelpon, exalamat, exavatar, exktp;
 
-  TextEditingController controller, emailCont, telpCont;
+  TextEditingController controller, emailCont, telpCont, alamatCont;
 
-  File _imageFile;
+  File _imageFile, _imageKtp;
 
   @override
   void initState() {
@@ -60,10 +65,12 @@ class MapScreenState extends State<ProfilePage>
         exnama = akun[0].nama;
         exemail = akun[0].email;
         extelpon = akun[0].telpon;
+        exalamat=akun[0].alamat;
         print(exnama);
         controller=new TextEditingController(text: exnama);
         emailCont=new TextEditingController(text: exemail);
         telpCont=new TextEditingController(text: extelpon);
+        alamatCont=new TextEditingController(text: exalamat);
       });
     });
   }
@@ -73,6 +80,15 @@ class MapScreenState extends State<ProfilePage>
       Navigator.pop(context);
       setState(() {
         _imageFile = image;
+      });
+    });
+  }
+
+  void _getImageKtp(BuildContext context, ImageSource source) {
+    ImagePicker.pickImage(source: source, maxWidth: 400.0, maxHeight: 400.0 ).then((File image) {
+      Navigator.pop(context);
+      setState(() {
+        _imageKtp = image;
       });
     });
   }
@@ -114,6 +130,86 @@ class MapScreenState extends State<ProfilePage>
             ),
           );
         });
+  }
+
+  void _openImagePickerKtp(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            height: 150.0,
+            child: Column(
+              children: [
+                Text(
+                  "Pick An Image",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text("use Camera"),
+                  onPressed: () {
+                    _getImageKtp(context, ImageSource.camera);
+                  },
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text("Use Gallery"),
+                  onPressed: () {
+                    _getImageKtp(context, ImageSource.gallery);
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Future editProfile(File imageFile, File imageKtp, context) async{
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var uri = Uri.parse("https://letsgiving.com/API/edit_profile.php");
+    var request = new http.MultipartRequest("post", uri);
+    // var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
+    var multiPartFileKtp = new http.MultipartFile("image", stream, length, filename: basename(imageKtp.path));
+    request.fields['id_user']=_idUser;
+    request.fields['nama']=controller.text;
+    request.fields['email']=emailCont.text;
+    request.fields['alamat'] = alamatCont.text;
+    request.fields['no_hp']=telpCont.text;
+    // request.files.add(multiPartFile);
+    request.files.add(multiPartFileKtp);
+    _showProgress(context, 'show');
+    var response = await request.send();
+    if(response.statusCode==200){
+      print("image berhasil upload");
+      Navigator.of(context).pop();
+      Toast.show("Image berhasil upload", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      
+    }else{
+      print("gagal");
+      Navigator.of(context).pop();
+      Toast.show("gagals", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      
+    }
+  }
+
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
   }
 
 
@@ -371,6 +467,49 @@ class MapScreenState extends State<ProfilePage>
                               left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Alamat',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  onChanged: (value){
+                                    print(value);
+                                  },
+                                  controller: alamatCont,
+                                  decoration: const InputDecoration(
+                                    hintText: "Masukan alamat anda",
+                                  ),
+                                  
+                                  enabled: !_status,
+                                  autofocus: !_status,
+
+                                ),
+                              ),
+                            ],
+                          )),    
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Expanded(
@@ -425,7 +564,32 @@ class MapScreenState extends State<ProfilePage>
                               ),
                             ],
                           )),
-                      !_status ? _getActionButtons() : new Container(),
+                          OutlineButton(
+                    onPressed: (){
+                      _openImagePickerKtp(context);
+                    },
+                    borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.camera_alt),
+                        SizedBox(width: 5.0,),
+                        Text('Add foto ktp'),
+
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  _imageKtp == null ? Text("pick an image") 
+                    : Image.file(
+                      _imageKtp,
+                      fit: BoxFit.cover,
+                      height: 300,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.topCenter,
+                    ),
+                      !_status ? _getActionButtons(context) : new Container(),
                     ],
                   ),
                 ),
@@ -445,7 +609,7 @@ class MapScreenState extends State<ProfilePage>
     super.dispose();
   }
 
-  Widget _getActionButtons() {
+  Widget _getActionButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
       child: new Row(
@@ -462,8 +626,11 @@ class MapScreenState extends State<ProfilePage>
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
+                    // _status = true;
+                    // FocusScope.of(context).requestFocus(new FocusNode());
+
+                    print('hasil:'+telpCont.text);
+                    editProfile(_imageFile, _imageKtp, context);
                   });
                 },
                 shape: new RoundedRectangleBorder(

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:legi/src/model/history_model.dart';
 import 'package:path/path.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
+// import 'package:image/image.dart' as Img;
 
 class DetailHistory extends StatefulWidget {
   DetailHistory({Key key, this.historys}) : super(key: key);
@@ -53,9 +55,22 @@ class _DetailHistoryState extends State<DetailHistory> {
 
  
 
-  void _getImage(BuildContext context, ImageSource source) {
+  void _getImage(BuildContext context, ImageSource source){
     ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
+      
+      // final tempDir = await getTemporaryDirectory();
+      // final path= tempDir.path;
+      
+      // Img.Image image2= Img.decodeImage(image.readAsBytesSync());
+      // Img.Image smlImage = Img.copyResize(image2, width: 500);
+
+
+      // var compressImg= new File("$path/image_bukti_bayar.jpg")
+      //   ..writeAsBytesSync(Img.encodeJpg(smlImage, quality: 85));      
       Navigator.pop(context);
+      
+
+
       setState(() {
         _imageFile = image;
       });

@@ -100,7 +100,7 @@ class MyCard extends StatelessWidget {
                                 border: Border.all(color: greyColor),
                               ),
                               child: Text(
-                                sisaHari,
+                                'Sisa Hari: '+sisaHari,
                                 style: normalGreyTextStyle,
                               ),
                             )
@@ -139,8 +139,12 @@ class MyCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Icon(
+                      Icons.keyboard_arrow_left,
+                      color: Colors.green,
+                    ),
                     Text(
-                      status.toUpperCase(),
+                      'STATUS: '+status.toUpperCase(),
                       style: boldGreenLargeTextStyle,
                     ),
                     Icon(
