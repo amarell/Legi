@@ -27,7 +27,7 @@ class Campaign{
       no_hp: json['no_hp'],
       ajakan: json['ajakan'],
       deskripsi: json['deskripsi'],
-      dibuatOleh: json['dibuat_oleh'],
+      dibuatOleh: (json['dibuat_oleh']!=null) ? json['dibuat_oleh']:'Admin',
       target_donasi: int.parse(json['target_donasi']),
       batas_waktu: (json['batas_waktu']!=null) ? json['batas_waktu']:'Admin',
       foto_campaign: json['foto_campaign'],
