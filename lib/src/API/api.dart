@@ -68,7 +68,7 @@ class API {
   }
 
   static Future getLisUpdateBerita(idCampaign) async{
-    var url=baseUrl+'/list_update_berita.php';
+    var url=baseUrl+'/list_berita.php';
     return await http.post(url, body: {
       "id_campaign":'$idCampaign',
     });

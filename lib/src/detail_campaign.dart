@@ -10,6 +10,8 @@ import 'package:legi/src/ui_widget/text_icon.dart';
 import 'dart:convert';
 import 'package:share/share.dart';
 
+import 'model/list_update_model.dart';
+
 class DetailCampaign extends StatefulWidget {
   DetailCampaign({Key key, this.campaign}) : super(key: key);
   final Campaign campaign;
@@ -26,10 +28,12 @@ class _DetailCampaignState extends State<DetailCampaign> {
   final campaign;
 
   var donatur = new List<ListDonaturModel>();
+  var berita = new List<ListUpdateModel>();
   
   void initState() {
     super.initState();
     _getDonatur();
+    _getBerita();
     //_getHistory();
   }
 
@@ -44,6 +48,22 @@ class _DetailCampaignState extends State<DetailCampaign> {
         print(list);
         donatur = (list['data'] as List)
             .map<ListDonaturModel>((json) => new ListDonaturModel.fromJson(json))
+            .toList();
+      });
+    });
+  }
+
+  _getBerita() {
+    //_getData();
+    var haha =campaign.id_campaign;
+    print('haha '+campaign.id_campaign);
+    API.getLisUpdateBerita(haha).then((responses) {
+      setState(() {
+        print('gsgsg $haha');
+        final list = json.decode(responses.body);
+        print(list);
+        berita = (list['data'] as List)
+            .map<ListUpdateModel>((json) => new ListUpdateModel.fromJson(json))
             .toList();
       });
     });
@@ -352,9 +372,52 @@ class _DetailCampaignState extends State<DetailCampaign> {
                       ),
                     ],
                   ),
-                  Container(
-                    height: 200.0,
-                    color: Colors.purple,
+                  Column(
+                    children: <Widget>[
+                      Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: berita.length,
+                          itemBuilder: (context, index){
+                            return InkWell(
+                              onTap: (){
+
+                              },
+                              child: Card(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Divider(),
+                              Text(berita[index].namaKegiatan,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Spacer(),
+                              Text('Tanggal',style: TextStyle(color: Colors.grey),)
+                            ],
+                          ),
+                          
+                        ),
+                        Divider(),
+                        Text(berita[index].berita, textAlign: TextAlign.justify,),
+                        
+                        
+                      ],
+                ),
+              ),
+            ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

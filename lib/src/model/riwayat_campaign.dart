@@ -12,9 +12,10 @@ class RiwayatCampaignModel{
   final String link;
   final int danaTerkumpul;
   final String tanggalMulai;
+  final String status;
   
 
-  RiwayatCampaignModel({this.idCampaign, this.namaKategori, this.namaUser, this.judulCampaign, this.noHp, this.targetDonasi, this.batasWaktu, this.fotoCampaign, this.link, this.danaTerkumpul, this.tanggalMulai, this.dibuatOleh});
+  RiwayatCampaignModel({this.idCampaign, this.status,this.namaKategori, this.namaUser, this.judulCampaign, this.noHp, this.targetDonasi, this.batasWaktu, this.fotoCampaign, this.link, this.danaTerkumpul, this.tanggalMulai, this.dibuatOleh});
   
    factory RiwayatCampaignModel.fromJson(Map<String, dynamic> json) {
     return new RiwayatCampaignModel(
@@ -28,6 +29,7 @@ class RiwayatCampaignModel{
       batasWaktu: (json['batas_waktu']!=null) ? json['batas_waktu']:'Admin',
       fotoCampaign: json['foto_campaign'],
       link: json['link'],
+      status: json['status_campaign'],
       danaTerkumpul: int.parse(json['dana_terkumpul']),
       tanggalMulai: json['tanggal_mulai'],
 

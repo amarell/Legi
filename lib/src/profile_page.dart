@@ -564,7 +564,34 @@ class MapScreenState extends State<ProfilePage>
                               ),
                             ],
                           )),
-                          OutlineButton(
+                          
+                      !_status ? _getActionButtons(context) : new Container(),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    myFocusNode.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
+  Widget _getActionButtons(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          OutlineButton(
                     onPressed: (){
                       _openImagePickerKtp(context);
                     },
@@ -589,75 +616,54 @@ class MapScreenState extends State<ProfilePage>
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.topCenter,
                     ),
-                      !_status ? _getActionButtons(context) : new Container(),
-                    ],
-                  ),
+          new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: Container(
+                      child: new RaisedButton(
+                    child: new Text("Save"),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: () {
+                      setState(() {
+                        // _status = true;
+                        // FocusScope.of(context).requestFocus(new FocusNode());
+
+                        print('hasil:'+telpCont.text);
+                        editProfile(_imageFile, _imageKtp, context);
+                      });
+                    },
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0)),
+                  )),
                 ),
-              )
+                flex: 2,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Container(
+                      child: new RaisedButton(
+                    child: new Text("Cancel"),
+                    textColor: Colors.white,
+                    color: Colors.red,
+                    onPressed: () {
+                      setState(() {
+                        _status = true;
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      });
+                    },
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0)),
+                  )),
+                ),
+                flex: 2,
+              ),
             ],
-          ),
-        ],
-      ),
-    ));
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    myFocusNode.dispose();
-    controller.dispose();
-    super.dispose();
-  }
-
-  Widget _getActionButtons(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Container(
-                  child: new RaisedButton(
-                child: new Text("Save"),
-                textColor: Colors.white,
-                color: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    // _status = true;
-                    // FocusScope.of(context).requestFocus(new FocusNode());
-
-                    print('hasil:'+telpCont.text);
-                    editProfile(_imageFile, _imageKtp, context);
-                  });
-                },
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0)),
-              )),
-            ),
-            flex: 2,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Container(
-                  child: new RaisedButton(
-                child: new Text("Cancel"),
-                textColor: Colors.white,
-                color: Colors.red,
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0)),
-              )),
-            ),
-            flex: 2,
           ),
         ],
       ),

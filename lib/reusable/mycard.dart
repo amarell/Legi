@@ -109,10 +109,7 @@ class MyCard extends StatelessWidget {
                       ],
                     ),
                     Spacer(),
-                    Text(
-                      formatter.format(danaTerkumpul),
-                      style: boldPurpleTextStyle,
-                    ),
+                    
                   ],
                 ),
               ),
@@ -122,9 +119,19 @@ class MyCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  formatter.format(targetPencapaian),
+                  'Target: '+formatter.format(targetPencapaian),
                   style: boldPurpleTextStyle,
                 ),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                      'Dana Terkumpul: '+formatter.format(danaTerkumpul),
+                      style: boldPurpleTextStyle,
+                    ),
               ),
               SizedBox(
                 height: 16.0,
