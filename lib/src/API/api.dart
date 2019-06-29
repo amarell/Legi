@@ -81,4 +81,11 @@ class API {
     });
   }
 
+  static Future getInfoUser(idUser) async{
+    var url=baseUrl+'/info_user.php';
+    return await http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
+
 }

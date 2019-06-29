@@ -19,7 +19,7 @@ class RiwayatDompetModel{
       idBank: json['id_bank'],
       namaBank: json['nama_bank'],
       noRek: json['no_rek'],
-      atasNama: json['atas_nama'],
+      atasNama: json['nama_pemilik'],
       jumlahDana: int.parse(json['jumlah_dana']),
       statusTransaksi: json['status_transaksi'],
       tanggalTransaksi: json['tanggal_transaksi'],

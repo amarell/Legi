@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legi/reusable/mycard.dart';
@@ -67,14 +67,17 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
     }
   }
   String lastSelectedValue;
-
-  void showDemoDialog({BuildContext context, Widget child}) {
-    showCupertinoDialog<String>(
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  void showDemoDialog<T>({ BuildContext context, Widget child }) {
+    showDialog<T>(
       context: context,
       builder: (BuildContext context) => child,
-    ).then((String value) {
+    )
+    .then<void>((T value) { // The value passed to Navigator.pop() or null.
       if (value != null) {
-        setState(() { lastSelectedValue = value; });
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('You selected: $value'),
+        ));
       }
     });
   }
@@ -134,56 +137,83 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
               HapticFeedback.vibrate();
               (cam[index].status=='proses')?
               // HapticFeedback.vibrate();
-              showDemoDialog(
-                        context: context,
-                        child: AlertDialog(
-                          title: const Text('Form Update Berita'),
-                          content: const Text('Silahkan isi berita terkini tentang campaign anda'),
-                          actions: <Widget>[
-                            Form(
-                              key: _formkey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  TextFormField(
-                                  controller: contKegiatan,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: 'silahkan isi kegiatan campaign',
-                                    helperText: 'Silahkan isi kegiatan campaign',
-                                    labelText: 'Kegiatan Campaign',
-                                  ),
-                                    maxLines: 9,
-                                  ),
-                                  TextFormField(
-                                  controller: contBerita,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: 'silahkan isi berita',
-                                    helperText: 'Silahkan isi update berita campaign',
-                                    labelText: 'Isi Berita',
-                                  ),
-                                    maxLines: 9,
-                                  ),
-                                ],
-                              ),
+              // showDemoDialog<String>(
+              //   context: context,
+              //   child: SimpleDialog(
+              //     title: const Text('Set backup account'),
+              //     children: <Widget>[
+              //       TextFormField(
+                                        // controller: contKegiatan,
+                                        // decoration: const InputDecoration(
+                                        //   border: OutlineInputBorder(),
+                                        //   hintText: 'silahkan isi kegiatan campaign',
+                                        //   helperText: 'Silahkan isi kegiatan campaign',
+                                        //   labelText: 'Kegiatan Campaign',
+                                        // ),
+                                        //   maxLines: 9,
+                                        // ),
+              //       DialogDemoItem(
+              //         icon: Icons.account_circle,
+              //         color: theme.primaryColor,
+              //         text: 'user02@gmail.com',
+              //         onPressed: () { Navigator.pop(context, 'user02@gmail.com'); },
+              //       ),
+              //       DialogDemoItem(
+              //         icon: Icons.add_circle,
+              //         text: 'add account',
+              //         color: theme.disabledColor,
+              //       ),
+              //     ],
+              //   ),
+              // )
+              // HapticFeedback.vibrate();
+              showDemoDialog<String>(
+                context: context,
+                child: SimpleDialog(
+                  title: const Text('Set backup account'),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                                          controller: contKegiatan,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'silahkan isi kegiatan campaign',
+                                            helperText: 'Silahkan isi kegiatan campaign',
+                                            labelText: 'Kegiatan Campaign',
+                                          ),
+                                            maxLines: 2,
+                                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                                    controller: contBerita,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'silahkan isi berita',
+                                      helperText: 'Silahkan isi update berita campaign',
+                                      labelText: 'Isi Berita',
+                                    ),
+                                      maxLines: 2,
+                                    ),
+                    ),
+                    FlatButton(
+                              child: const Text('Batal'),
+                              onPressed: () {
+                                Navigator.pop(context, 'Batal');
+                              },
                             ),
-                            // CupertinoDialogAction(
-                            //   child: const Text('Batal'),
-                            //   onPressed: () {
-                            //     Navigator.pop(context, 'Batal');
-                            //   },
-                            // ),
-                            // CupertinoDialogAction(
-                            //   child: const Text('Setuju'),
-                            //   onPressed: () {
-                            //     _insertBerita(cam[index].idCampaign);
-                            //     Navigator.pop(context, 'Setuju');
-                            //   },
-                            // ),
-                          ],
-                        ),
-                      ): HapticFeedback.vibrate();
+                            FlatButton(
+                              child: const Text('Setuju'),
+                              onPressed: () {
+                                _insertBerita(cam[index].idCampaign);
+                                Navigator.pop(context, 'Setuju');
+                              },
+                            ),
+                  ],
+                ),
+              ): HapticFeedback.vibrate();
             },
             child: Container(
               padding: EdgeInsets.all(16.0),

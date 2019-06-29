@@ -394,6 +394,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           child: Row(
                             children: <Widget>[
                               Divider(),
+                              
                               Text(berita[index].namaKegiatan,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -406,7 +407,8 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           
                         ),
                         Divider(),
-                        Text(berita[index].berita, textAlign: TextAlign.justify,),
+                        // Text(berita[index].berita, textAlign: TextAlign.justify,),
+                        Html(data: berita[index].berita,),
                         
                         
                       ],

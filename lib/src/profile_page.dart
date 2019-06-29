@@ -171,9 +171,9 @@ class MapScreenState extends State<ProfilePage>
         });
   }
 
-  Future editProfile(File imageFile, File imageKtp, context) async{
-    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    var length = await imageFile.length();
+  Future editProfile(File imageKtp, context) async{
+    var stream = new http.ByteStream(DelegatingStream.typed(imageKtp.openRead()));
+    var length = await imageKtp.length();
     var uri = Uri.parse("https://letsgiving.com/API/edit_profile.php");
     var request = new http.MultipartRequest("post", uri);
     // var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
@@ -634,7 +634,7 @@ class MapScreenState extends State<ProfilePage>
                         // FocusScope.of(context).requestFocus(new FocusNode());
 
                         print('hasil:'+telpCont.text);
-                        editProfile(_imageFile, _imageKtp, context);
+                        editProfile(_imageKtp, context);
                       });
                     },
                     shape: new RoundedRectangleBorder(

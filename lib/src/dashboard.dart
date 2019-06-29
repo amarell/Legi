@@ -64,15 +64,17 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.black);
     Widget image_carousel = new Container(
       height: 200.0,
       child: new Carousel(
         boxFit: BoxFit.cover,
         images: [
-          AssetImage('assets/images/ede581967c723778d5332717ac56e0c7.png'),
-          AssetImage('assets/images/tb_slide_2.jpg'),
-          AssetImage('assets/images/tb_slide_1.jpg'),
-          AssetImage('assets/images/tb_slide_2.jpg'),
+          AssetImage('assets/images/a.jpeg'),
+          AssetImage('assets/images/b.jpeg'),
+          AssetImage('assets/images/c.jpeg'),
+          AssetImage('assets/images/d.jpeg'),
         ],
         autoplay: true,
         animationCurve: Curves.fastOutSlowIn,
@@ -224,20 +226,20 @@ class _DashboardState extends State<Dashboard> {
           image_carousel,
 
           //ini padding caegories
-          new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-                alignment: Alignment.centerLeft,
-                child: new Text('News Campaign')),
-          ),
-          //ini horizontal list view
-          NewsCampaign(),
+          // new Padding(
+          //   padding: const EdgeInsets.all(4.0),
+          //   child: Container(
+          //       alignment: Alignment.centerLeft,
+          //       child: new Text('News Campaign')),
+          // ),
+          // //ini horizontal list view
+          // NewsCampaign(),
           //kategori campaign
           new Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
                 alignment: Alignment.centerLeft,
-                child: new Text('Kategori Campaign')),
+                child: Center(child: new Text('Kategori Campaign',style: titleStyle,))),
           ),
           Flexible(child: KategoriScreen()),
         ],

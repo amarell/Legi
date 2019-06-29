@@ -36,7 +36,7 @@ class _SplashScreenState2 extends State<SplashScreen2> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/logo.jpg', scale: 3.0,),
+            Image.asset('assets/images/letsgiving.png', scale: 3.0,),
             Text('Lets Giving', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white),)
           ],
         )

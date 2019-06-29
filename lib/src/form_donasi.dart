@@ -283,34 +283,14 @@ class _FormDonationState extends State<FormDonation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Card(
-                  elevation: 4.0,
-                  borderOnForeground: true,
-                  child: Stack(
-                    children: <Widget>[
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ListTile(
+                        child: ListTile(
                           leading: Icon(
                             FontAwesomeIcons.creditCard,
                             color: Colors.lightBlue,
                           ),
                           title: (_saldoDOmpet!='')? Text(formatter.format(int.parse(_saldoDOmpet))): Text('cek koneksi anda'),
                         ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                      ),
                 const SizedBox(height: 24.0,),
                 Text(
                   "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),

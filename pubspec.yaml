@@ -69,7 +69,12 @@ flutter:
     - assets/images/DSC_0217.jpg
     - assets/images/tb_slide_1.jpg
     - assets/images/tb_slide_2.jpg
-    - assets/images/2.jpg
+    - assets/images/a.jpeg
+    - assets/images/b.jpeg
+    - assets/images/c.jpeg
+    - assets/images/d.jpeg
+    - assets/images/letsgiving.png
+    - assets/images/letgiving-square.png
     
 fonts:
     - family: WorkSansSemiBold

@@ -99,16 +99,23 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "sadf",
-                    style: Theme.of(context)
-                        .textTheme
-                        .title
-                        .copyWith(fontSize: 20),
+                  Center(
+                    child: Text(
+                      "Upload bukti bayar",
+                      style: Theme.of(context)
+                          .textTheme
+                          .title
+                          .copyWith(fontSize: 20),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Text('Nama Bank: '+ dompet.namaBank),
+                    
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Text('Nama Rekening: '+ dompet.tanggalTransaksi),
                     
                   ),
                   Padding(
@@ -126,22 +133,24 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                     child: Text('Status: '+ dompet.statusTransaksi),
                     
                   ),
-                  OutlineButton(
-                  onPressed: (){
-                    _openImagePicker(context);
-                  },
-                  borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.camera_alt),
-                      SizedBox(width: 5.0,),
-                      Text('Add Image'),
+                  Center(
+                    child: OutlineButton(
+                    onPressed: (){
+                      _openImagePicker(context);
+                    },
+                    borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.camera_alt),
+                        SizedBox(width: 5.0,),
+                        Text('Add Image'),
 
 
-                    ],
-                  ),
+                      ],
+                    ),
                 ),
+                  ),
                 SizedBox(height: 10.0,),
                 _imageFile == null ? Text("pick an image") 
                   : Image.file(
@@ -152,12 +161,14 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                     alignment: Alignment.topCenter,
                   ),
 
-                  RaisedButton(
-                    onPressed: (){
-                      upload(_imageFile, dompet.idDompet);
+                  Center(
+                    child: RaisedButton(
+                      onPressed: (){
+                        upload(_imageFile, dompet.idDompet);
 
-                    },
-                    child: Text("upload"),
+                      },
+                      child: Text("upload"),
+                    ),
                   )
 
                 ],

@@ -1,63 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 List list = [
  {
     "id": "1",
-    "name": "Pendidikan",
-    "icon": Icons.work,
-    "color": Colors.teal
+    "name": "Pendidikan dan Beasiswa",
+    "icon": FontAwesomeIcons.graduationCap,
+    "color": Colors.black
   },
   {
     "id": "2",
-    "name": "Technology",
-    "icon": Icons.smartphone,
+    "name": "Kesehatan",
+    "icon": FontAwesomeIcons.medkit,
     "color": Colors.grey[600]
   },
   {
     "id": "3",
-    "name": "Science and Nature",
-    "icon": Icons.nature_people,
-    "color": Colors.green[600]
-  },
-  {
-    "id": "4",
-    "name": "Sports",
-    "icon": Icons.directions_bike,
-    "color": Colors.deepOrange
-  },
-  {
-    "id": "gaming",
-    "name": "Gaming",
-    "icon": Icons.videogame_asset,
-    "color": Colors.orange
-  },
-  {
-    "id": "general",
-    "name": "General",
-    "icon": Icons.people,
-    "color": Colors.cyan
-  },
-  {
-    "id": "entertainment",
-    "name": "Entertainment",
-    "icon": Icons.local_movies,
-    "color": Colors.purple
-  },
-  {
-    "id": "health-and-medical",
-    "name": "Health and Medical",
-    "icon": Icons.local_hospital,
+    "name": "Bencana Alam",
+    "icon": FontAwesomeIcons.fire,
     "color": Colors.red
   },
   {
-    "id": "music",
-    "name": "Music",
-    "icon": Icons.music_note,
-    "color": Colors.amber
-  },
-  {
-    "id": "politics",
-    "name": "Politics",
-    "icon": Icons.assistant_photo,
-    "color": Colors.blueGrey
+    "id": "4",
+    "name": "Sosial",
+    "icon": FontAwesomeIcons.userPlus,
+    "color": Colors.blue
   },
 ];
