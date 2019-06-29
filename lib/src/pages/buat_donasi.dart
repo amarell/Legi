@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/model/info_user_model.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,6 +133,9 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
   String _idMember='';
 
+  var user= List<InfoUserModel>();
+  var _status='';
+
   _getData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -139,6 +143,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
     });
    _getCampaign();
+   _getStatus();
   }
 
   TextEditingController contJudulCampaign = new TextEditingController();
@@ -276,6 +281,22 @@ class _BuatDonasiState extends State<BuatDonasi> {
     });
   }
 
+  _getStatus() async {
+    //_getData();
+    print('haha $_idMember');
+    API.getInfoUser(_idMember).then((responses) {
+      setState(() {
+        print('gsgsg $_idMember');
+        final list = json.decode(responses.body);
+        print(list);
+        user = (list['data'] as List).map<InfoUserModel>((
+            json) => new InfoUserModel.fromJson(json)).toList();
+
+        _status = user[0].status;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -297,7 +318,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Builder(
+            child: (_status=='lengkap') ? Builder(
               builder: (context) => FlatButton.icon(
                 onPressed: (){
                   print(_fromDate2.toString().substring(0,10));
@@ -308,7 +329,14 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   
                 },
                 icon: Icon(Icons.launch),
-                label: Text("CheckOut"),
+                label: Text("Ajukan Campaign"),
+                textColor: Colors.white,
+              ),
+            ): Builder(
+              builder: (context) => FlatButton.icon(
+                onPressed: null,
+                icon: Icon(Icons.launch),
+                label: Text("Ajukan Campaign"),
                 textColor: Colors.white,
               ),
             ),
@@ -349,6 +377,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       hintText: 'Masukan Target Donasi',
                       labelText: 'Target Donasi*',
                     ),
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 24.0,),
                   Text("Masukan Kategori", style: TextStyle(fontSize: 15.0),),
@@ -411,23 +440,23 @@ class _BuatDonasiState extends State<BuatDonasi> {
                  const SizedBox(height: 24.0),
                   TextFormField(
                     controller: contAjakan,
-                    textCapitalization: TextCapitalization.words,
                     decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      filled: true,
+                      border: OutlineInputBorder(),
                       hintText: 'Masukan ajakan',
                       labelText: 'Ajakan Campaign*',
+                      helperText: 'Isi ajakan untuk campaign anda',
                     ),
+                    maxLines: 4,
                   ),
                   const SizedBox(height: 24.0,),
-                  Text("Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
+                  Text("Masukan Deskripsi Campaign", style: TextStyle(fontSize: 15.0),),
                   const SizedBox(height: 12.0,),
                   TextFormField(
                     controller: contDeskripsi,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Tell us about deskripsi',
-                      helperText: 'Keep it short, this is just a demo.',
+                      hintText: 'Deskripsi',
+                      helperText: 'Isi selengkap mungkin tentang deskripsi campaign.',
                       labelText: 'Deskripsi',
                     ),
                     maxLines: 9,

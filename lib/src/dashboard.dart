@@ -235,12 +235,12 @@ class _DashboardState extends State<Dashboard> {
           // //ini horizontal list view
           // NewsCampaign(),
           //kategori campaign
-          new Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                alignment: Alignment.centerLeft,
-                child: Center(child: new Text('Kategori Campaign',style: titleStyle,))),
-          ),
+          // new Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Container(
+          //       alignment: Alignment.centerLeft,
+          //       child: Center(child: new Text('Kategori Campaign',style: titleStyle,))),
+          // ),
           Flexible(child: KategoriScreen()),
         ],
       ),

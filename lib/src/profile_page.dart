@@ -85,7 +85,7 @@ class MapScreenState extends State<ProfilePage>
   }
 
   void _getImageKtp(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source, maxWidth: 400.0, maxHeight: 400.0 ).then((File image) {
+    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
       Navigator.pop(context);
       setState(() {
         _imageKtp = image;
@@ -505,65 +505,6 @@ class MapScreenState extends State<ProfilePage>
                               ),
                             ],
                           )),    
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  child: new Text(
-                                    'Pin Code',
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                flex: 2,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: new Text(
-                                    'State',
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                flex: 2,
-                              ),
-                            ],
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Pin Code"),
-                                    enabled: !_status,
-                                  ),
-                                ),
-                                flex: 2,
-                              ),
-                              Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                      hintText: "Enter State"),
-                                  enabled: !_status,
-                                ),
-                                flex: 2,
-                              ),
-                            ],
-                          )),
                           
                       !_status ? _getActionButtons(context) : new Container(),
                     ],

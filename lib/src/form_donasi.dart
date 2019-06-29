@@ -146,7 +146,7 @@ class _FormDonationState extends State<FormDonation> {
           if (success == '1') {
             print('berhasil donasi');
             _sendEmail(_emailUser, jumlah_donasi.text);
-            _showProgress(context, 'hide');
+            // _showProgress(context, 'hide');
             showInSnackBar('Berhasil Donasi');
             Navigator.of(context).pushReplacementNamed('/history');
           } else if (success == '0') {
