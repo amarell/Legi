@@ -45,8 +45,12 @@ dev_dependencies:
     sdk: flutter
 
   font_awesome_flutter: ^8.0.1
+  flutter_launcher_icons: "^0.7.2"
     
-
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/images/launcher.png"
     
 
 
@@ -75,6 +79,7 @@ flutter:
     - assets/images/d.jpeg
     - assets/images/letsgiving.png
     - assets/images/letgiving-square.png
+    - assets/images/launcher.png
     
 fonts:
     - family: WorkSansSemiBold
