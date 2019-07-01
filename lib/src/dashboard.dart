@@ -4,6 +4,7 @@ import 'package:legi/src/API/api.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_donasi.dart';
@@ -25,6 +26,7 @@ class _DashboardState extends State<Dashboard> {
   String _email = '';
   String _saldoDompet = '';
   String _idUser = '';
+  String _foto='';
 
   void initState() {
     super.initState();
@@ -40,6 +42,7 @@ class _DashboardState extends State<Dashboard> {
       _email = (prefs.getString('email') ?? '');
       _saldoDompet = (prefs.getString('jumlah_dompet') ?? '');
       _idUser = (prefs.getString('id') ?? '');
+      _foto = (prefs.getString('foto') ?? '');
     });
     _getHistory();
   }
@@ -113,10 +116,7 @@ class _DashboardState extends State<Dashboard> {
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
                     backgroundColor: Colors.grey,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    )),
+                    child: Image.network(URLAPI+'assets/uploads/avatar/'+_foto, fit: BoxFit.cover)),
               ),
               decoration: new BoxDecoration(
                 color: Color(0xFF0091EA),

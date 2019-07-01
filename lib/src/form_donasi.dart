@@ -83,7 +83,7 @@ class _FormDonationState extends State<FormDonation> {
     });
   }
 
-  _sendEmail(String email, String jumlah) async {
+  _sendEmail(String email, String jumlah, bool status) async {
      String username2 = 'support@letsgiving.com';
     String password2 = 'Bekonang123';
 
@@ -95,8 +95,8 @@ class _FormDonationState extends State<FormDonation> {
     final message = new Message()
       ..from = new Address(username2, 'Lets Giving - Support')
       ..recipients.add(email)
-      ..subject = 'Anda berhasil Donasi :: 😀 :: ${new DateTime.now()}'
-      ..html = "<h1>Thanks For your Donation</h1>\n<p>Anda telah berdonasi sebesar  Rp. $jumlah</p>";
+      ..subject = (status==true)?'(Lunas) Anda berhasil Donasi Via Android :: ${new DateTime.now()}':'(Belum Lunas) Anda berhasil Donasi Via Android :: ${new DateTime.now()}'
+      ..html = "<h2>Thanks For your Donation</h2>\n<p>Anda telah berdonasi sebesar  Rp. $jumlah</p>\n<p><i>Untuk pembayaran silahkan buka di history pembayaran</i></p>";
 
     // Use [catchExceptions]: true to prevent [send] from throwing.
     // Note that the default for [catchExceptions] will change from true to false
@@ -145,7 +145,7 @@ class _FormDonationState extends State<FormDonation> {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
-            _sendEmail(_emailUser, jumlah_donasi.text);
+            _sendEmail(_emailUser, jumlah_donasi.text, true);
             // _showProgress(context, 'hide');
             showInSnackBar('Berhasil Donasi');
             Navigator.of(context).pushReplacementNamed('/history');
@@ -175,7 +175,7 @@ class _FormDonationState extends State<FormDonation> {
         var success = jsonResponse['success'];
         if (success == '1') {
           print('berhasil donasi');
-          _sendEmail(_emailUser, jumlah_donasi.text);
+          _sendEmail(_emailUser, jumlah_donasi.text, false);
           showInSnackBar('Berhasil Donasi');
           Navigator.of(context).pushReplacementNamed('/history');
           

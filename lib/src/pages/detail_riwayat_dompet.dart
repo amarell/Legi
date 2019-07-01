@@ -6,6 +6,8 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:legi/src/model/riwayat_dompet_model.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:toast/toast.dart';
 
 class DetailRiwayatDompet extends StatefulWidget {
   DetailRiwayatDompet({Key key, this.dompet}) :super(key : key);
@@ -20,7 +22,19 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
 
   File _imageFile;
 
-  Future upload(File imageFile, idDompet) async{
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
+  Future upload(File imageFile, idDompet, context) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri = Uri.parse("https://letsgiving.com/API/upload_bukti_dompet.php");
@@ -29,10 +43,12 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
 
     request.fields['id_dompet']=idDompet;
     request.files.add(multiPartFile);
-
+    _showProgress(context, 'show');
     var response = await request.send();
     if(response.statusCode==200){
       print("image berhasil upload");
+      Navigator.of(context).pop();
+      Toast.show("Berhasil Upload bukti bayar", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       print(idDompet);
     }else{
       print("gagal");
@@ -115,7 +131,7 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text('Nama Rekening: '+ dompet.tanggalTransaksi),
+                    child: Text('Nama Rekening: '+ dompet.atasNama),
                     
                   ),
                   Padding(
@@ -164,7 +180,7 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                   Center(
                     child: RaisedButton(
                       onPressed: (){
-                        upload(_imageFile, dompet.idDompet);
+                        upload(_imageFile, dompet.idDompet, context);
 
                       },
                       child: Text("upload"),

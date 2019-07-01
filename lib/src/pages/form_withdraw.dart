@@ -5,6 +5,7 @@ import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FormWithdraw extends StatefulWidget {
@@ -89,12 +90,25 @@ class _FormWithdrawState extends State<FormWithdraw> {
     });
   }
 
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
   Future<dynamic> _withdraw() async{
     if(int.parse(jumlahPencairan.text)<=10000){
       showInSnackBar('jumlah pencairan dana anda kurang dari 10.000');
     }else if(int.parse(jumlahPencairan.text) >= int.parse(_saldoDOmpet.toString())){
       showInSnackBar('jumlah pencairan dana anda lebih besar dari saldo dompet anda');
     }else{
+      _showProgress(context, 'show');
       final response = await http.post(
             'https://letsgiving.com/API/withdraw_dompet.php', body: {
           "id_dompet": _idDompet,
@@ -102,7 +116,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
           "nama_pemilik_rek": namaPemilik.text,
           "no_rek": noRek.text,
           "jumlah_pencairan": jumlahPencairan.text,
-          "status": "proses",
+          "status": "pengajuan",
         });
 
         Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
@@ -111,9 +125,13 @@ class _FormWithdrawState extends State<FormWithdraw> {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
+            Navigator.of(context).pop();
             showInSnackBar('Berhasil Withdraw');
+            Navigator.of(context).pushReplacementNamed('/home');
           } else if (success == '0') {
+            Navigator.of(context).pop();
             showInSnackBar('Gagal');
+            
             print(jsonResponse);
           }
         }

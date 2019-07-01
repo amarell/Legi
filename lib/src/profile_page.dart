@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:legi/src/API/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/read_profile.dart';
 import 'package:path/path.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -23,6 +24,7 @@ class MapScreenState extends State<ProfilePage>
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   String _idUser = '';
+  String _foto='';
   var akun = new List<ReadProfile>();
   var exnama, exemail, exidUser, extelpon, exalamat, exavatar, exktp;
 
@@ -46,6 +48,7 @@ class MapScreenState extends State<ProfilePage>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _idUser = (prefs.getString('id') ?? '');
+      _foto = (prefs.getString('foto') ?? '');
     });
     _getUserDetail();
   }
@@ -263,7 +266,7 @@ class MapScreenState extends State<ProfilePage>
                                 decoration: new BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: new DecorationImage(
-                                    image: NetworkImage('https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/09/04/15/lionel-messi-0.jpg?'),
+                                    image: NetworkImage(URLAPI+'assets/uploads/avatar/'+_foto),
                                     fit: BoxFit.cover,
                                   ),
                                 )

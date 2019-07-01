@@ -5,6 +5,8 @@ import 'package:legi/src/model/login_model.dart';
 import 'package:legi/style/theme.dart' as Theme;
 import 'dart:async';
 import 'package:legi/src/SessionManager/app_pref.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -644,6 +646,39 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
+  _sendEmail(String email) async {
+     String username2 = 'support@letsgiving.com';
+    String password2 = 'Bekonang123';
+
+    final smtpServer= SmtpServer('mail.letsgiving.com', username: username2, password: password2);
+
+
+
+    // Create our message.
+    final message = new Message()
+      ..from = new Address(username2, 'Lets Giving - Support')
+      ..recipients.add(email)
+      ..subject = 'Berhasil Register :: ${new DateTime.now()}'
+      ..html = "Hai {$email}\n\nSelamat!\nAnda Telah berhasil Register di Lets Giving\n\nSekian Dan Terimakasih\n\nHormat kami,\nLets Giving Support";
+
+    // Use [catchExceptions]: true to prevent [send] from throwing.
+    // Note that the default for [catchExceptions] will change from true to false
+    // in the future!
+    final sendReports = await send(message, smtpServer);
+
+    sendReports.forEach((sr) {
+      if (sr.sent)
+        print('message sent');
+      else {
+        print('Message not sent.');
+        for (var p in sr.validationProblems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
+    });
+  }
+
+
   Future<dynamic> _login() async {
     if (loginEmailController.text.isEmpty) {
       showInSnackBar('email anda tidak boleh kosong');
@@ -674,6 +709,7 @@ class _LoginPageState extends State<LoginPage>
           prefs.setString('email', user.emailUser);
           prefs.setString('id_dompet', user.idDompet);
           prefs.setString('jumlah_dompet', user.saldoDompet);
+          prefs.setString('foto', user.foto);
         });
         print(data);
         SessionManager.setIsLogin(true);
@@ -722,6 +758,7 @@ class _LoginPageState extends State<LoginPage>
       if (success == '1') {
         print('berhasil register');
         showInSnackBar('Register Berhasil, Silahkan Login');
+        _sendEmail(signupEmailController.text);
       } else if (success == '0') {
         showInSnackBar('Register Gagal');
         print(jsonResponse);

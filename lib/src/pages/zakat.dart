@@ -4,6 +4,7 @@ import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -112,12 +113,24 @@ class _ZakatState extends State<Zakat> {
     });
   }
 
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
 
   Future<dynamic> _donasi() async {
     if (_radioValue == '0') {
       if (int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())) {
         showInSnackBar('saldo dompet anda tidak memenuhi');
       } else {
+        _showProgress(context, 'show');
         final response = await http.post(
             'https://letsgiving.com/API/donasi_zakat_dompet.php', body: {
           "id_user": _idUser,
@@ -135,10 +148,14 @@ class _ZakatState extends State<Zakat> {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
+            
             _sendEmail(_emailUser);
+            Navigator.of(context).pop();
             showInSnackBar('Berhasil Donasi');
+            Navigator.of(context).pushReplacementNamed('/history');
           } else if (success == '0') {
             showInSnackBar('Donasi Gagal');
+            Navigator.of(context).pop();
             print(jsonResponse);
           }
         }

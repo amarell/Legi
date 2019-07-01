@@ -10,7 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_user_model.dart';
 import 'package:path/path.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
@@ -197,7 +199,19 @@ class _BuatDonasiState extends State<BuatDonasi> {
       });
     }
 
-    Future submitCampaign(File imageFile) async{
+    _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
+    Future submitCampaign(File imageFile, context) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri = Uri.parse("https://letsgiving.com/API/submit_campaign.php");
@@ -214,9 +228,14 @@ class _BuatDonasiState extends State<BuatDonasi> {
     request.fields['batas_waktu']=_fromDate2.toString().substring(0,10);
     request.files.add(multiPartFile);
 
+    _showProgress(context, 'show');
     var response = await request.send();
     if(response.statusCode==200){
       print("image berhasil upload");
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/home');
+      Toast.show("Berhasil Mengajukan Campaign", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      
     }else{
       print("gagal");
     }
@@ -325,7 +344,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   print(_mySelection);
                   print(_idMember);
                   print(contTargetDonasi.text);
-                  submitCampaign(_imageFile);
+                  submitCampaign(_imageFile, context);
                   
                 },
                 icon: Icon(Icons.launch),
