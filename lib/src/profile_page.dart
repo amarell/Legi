@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:legi/src/API/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:legi/src/constant.dart';
+import 'package:legi/src/model/info_user_model.dart';
 import 'package:legi/src/model/read_profile.dart';
 import 'package:path/path.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -26,6 +27,8 @@ class MapScreenState extends State<ProfilePage>
   String _idUser = '';
   String _foto='';
   var akun = new List<ReadProfile>();
+  var user = new List<InfoUserModel>();
+  var _statusUser='';
   var exnama, exemail, exidUser, extelpon, exalamat, exavatar, exktp;
 
   TextEditingController controller, emailCont, telpCont, alamatCont;
@@ -51,6 +54,23 @@ class MapScreenState extends State<ProfilePage>
       _foto = (prefs.getString('foto') ?? '');
     });
     _getUserDetail();
+    _getStatus();
+  }
+
+  _getStatus() async {
+    //_getData();
+    print('haha $_idUser');
+    API.getInfoUser(_idUser).then((responses) {
+      setState(() {
+        print('gsgsg $_idUser');
+        final list = json.decode(responses.body);
+        print(list);
+        user = (list['data'] as List).map<InfoUserModel>((
+            json) => new InfoUserModel.fromJson(json)).toList();
+
+        _statusUser = user[0].status;
+      });
+    });
   }
 
   _getUserDetail() {
@@ -215,6 +235,15 @@ class MapScreenState extends State<ProfilePage>
     
   }
 
+  _showStatus(status){
+    if(status=='lengkap'){
+      return Text('Profil Anda sudah lengkap');
+    }else if(status=='tidak_lengkap'){
+      return Text('Silahkan lengkapi profil anda');
+    }else{
+      return Text('Silahkan perbaharui profil anda');
+    }
+  }
 
   
 
@@ -317,18 +346,37 @@ class MapScreenState extends State<ProfilePage>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
+                        padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                        child: Wrap(
+                                spacing: 8.0,
+                                runSpacing: 4.0,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Chip(
+                                      avatar: CircleAvatar(
+                                        backgroundColor: Colors.grey.shade800,
+                                        child: Icon(Icons.error),
+                                      ),
+                                      label: _showStatus(_statusUser),
+                                    )
+                                ],
+                              ),
+                      ),
+                      Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
+                              
                               new Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Text(
-                                    'Parsonal Information',
+                                    'Personal Information',
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold),
@@ -343,7 +391,8 @@ class MapScreenState extends State<ProfilePage>
                                 ],
                               )
                             ],
-                          )),
+                          )
+                          ),
                       Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),

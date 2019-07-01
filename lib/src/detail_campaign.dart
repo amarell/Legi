@@ -379,6 +379,10 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           shrinkWrap: true,
                           itemCount: berita.length,
                           itemBuilder: (context, index){
+                            var tgl =DateTime.parse(berita[index].tanggal);
+                       var  format= DateFormat('dd MMM yyyy');
+
+                      String formatted = format.format(tgl);
                             return InkWell(
                               onTap: (){
 
@@ -401,7 +405,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                                 ),
                               ),
                               Spacer(),
-                              Text('Tanggal',style: TextStyle(color: Colors.grey),)
+                              Text(formatted,style: TextStyle(color: Colors.grey),)
                             ],
                           ),
                           

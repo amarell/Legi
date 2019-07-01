@@ -66,6 +66,16 @@ class _HistoryState extends State<History> {
     }
   }
 
+  _status(status){
+    if(status=="proses"){
+      return 'Proses';
+    }else if(status=="verifikasi"){
+      return 'Lunas';
+    }else{
+      return 'Di tolak';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
@@ -123,7 +133,7 @@ class _HistoryState extends State<History> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Status: ' + history[index].statusDonasi, style: TextStyle(color: Colors.white)),
+                        child: Text('Status: ' + _status(history[index].statusDonasi), style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],

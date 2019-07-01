@@ -7,6 +7,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class FormWithdraw extends StatefulWidget {
   @override
@@ -128,6 +129,8 @@ class _FormWithdrawState extends State<FormWithdraw> {
             Navigator.of(context).pop();
             showInSnackBar('Berhasil Withdraw');
             Navigator.of(context).pushReplacementNamed('/home');
+                    Toast.show("Berhasil", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+
           } else if (success == '0') {
             Navigator.of(context).pop();
             showInSnackBar('Gagal');

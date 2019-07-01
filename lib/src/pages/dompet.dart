@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import 'package:toast/toast.dart';
 class Dompet extends StatefulWidget {
   @override
   _DompetState createState() => _DompetState();
@@ -36,12 +39,26 @@ class _DompetState extends State<Dompet> {
 
     });
   }
+
+  _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
   Future<dynamic> _dompet()async{
     if(jumlah_dana.text.isEmpty){
       showInSnackBar('jumlah donasi tidak boleh di kosongi');
     }else if(int.parse(jumlah_dana.text) <= 10000){
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
     }else{
+      _showProgress(context, 'show');
       final response =await http.post('https://letsgiving.com/API/tambah_dompet.php', body: {
       "id_dompet": _idDompet,
       "jumlah_dana": jumlah_dana.text,
@@ -56,7 +73,10 @@ class _DompetState extends State<Dompet> {
       var success = jsonResponse['success'];
       if (success == '1') {
         print('berhasil donasi');
+        Navigator.of(context).pop();
         showInSnackBar('Berhasil Donasi');
+        Navigator.of(context).pushReplacementNamed('/riwayatdompet');
+        Toast.show("Silahkan upload bukti bayar", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
        
       }else if(success == '0'){
         showInSnackBar('Donasi Gagal');

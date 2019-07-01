@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:flutter/gestures.dart';
+import 'package:toast/toast.dart';
 
 class Zakat extends StatefulWidget {
   @override
@@ -163,6 +164,7 @@ class _ZakatState extends State<Zakat> {
         return jsonResponse;
       }
     } else {
+       _showProgress(context, 'show');
       final response = await http.post(
           'https://letsgiving.com/API/donasi_zakat.php', body: {
         "id_user": _idUser,
@@ -179,7 +181,10 @@ class _ZakatState extends State<Zakat> {
         if (success == '1') {
           print('berhasil donasi');
           _sendEmail(_emailUser);
-          showInSnackBar('Berhasil Donasi');
+          Navigator.of(context).pop();
+            showInSnackBar('Berhasil Donasi');
+            Navigator.of(context).pushReplacementNamed('/history');
+            Toast.show("Berhasil Donasi", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
         } else if (success == '0') {
           showInSnackBar('Donasi Gagal');
           print(jsonResponse);

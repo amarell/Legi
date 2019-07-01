@@ -6,6 +6,7 @@ import 'package:legi/src/login.dart';
 import 'package:legi/src/login_page.dart';
 import 'package:legi/src/home.dart';
 import 'package:legi/src/pages/dompet.dart';
+import 'package:legi/src/pages/riwayat_dompet.dart';
 class App extends StatelessWidget {
 
   final Map<String, WidgetBuilder> routes= {
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
     '/home' : (context) => Home(),
     '/dompet' : (context) => Dompet(),
     '/history' : (context) => History(),
+    '/riwayatdompet' : (context) => RiwayatDompet(),
   };
 
   @override

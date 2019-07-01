@@ -13,6 +13,11 @@ class MyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
+
+    var tgl =DateTime.parse(tanggal);
+                       var  format= DateFormat('dd MMM yyyy');
+
+                      String formatted = format.format(tgl);    
     return Material(
       elevation: 4.0,
       color: Colors.white,
@@ -50,7 +55,7 @@ class MyCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          tanggal,
+                          formatted,
                           style: boldBlackLargeTextStyle,
                         ),
                       ],

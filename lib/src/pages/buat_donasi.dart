@@ -337,7 +337,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: (_status=='lengkap') ? Builder(
+            child: (_status=='lengkap' || _status=='ditolak') ? Builder(
               builder: (context) => FlatButton.icon(
                 onPressed: (){
                   print(_fromDate2.toString().substring(0,10));
