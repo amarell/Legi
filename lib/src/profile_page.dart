@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -104,6 +105,7 @@ class MapScreenState extends State<ProfilePage>
   void _getImage(BuildContext context, ImageSource source) {
     ImagePicker.pickImage(source: source, maxWidth: 400.0, maxHeight: 400.0 ).then((File image) {
       Navigator.pop(context);
+      uploadFotoProfile(image, context);
       setState(() {
         _imageFile = image;
       });
@@ -195,6 +197,35 @@ class MapScreenState extends State<ProfilePage>
             ),
           );
         });
+  }
+
+  Future uploadFotoProfile(File image, context) async{
+    // var rng = new Random();
+    //   var l = new List.generate(12, (_) => rng.nextInt(100));
+      
+    var stream = new http.ByteStream(DelegatingStream.typed(image.openRead()));
+    var length = await image.length();
+    var uri = Uri.parse(URLAPI+"/API/upload_foto_profile.php");
+    var request = new http.MultipartRequest("post", uri);
+    var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(image.path));
+    request.files.add(multiPartFile);
+    request.fields['id_user']=_idUser;
+    var response = await request.send();
+    if(response.statusCode==200){
+      print("image berhasil upload");
+      
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString('foto', basename(image.path));
+      });
+      Toast.show("Foto Profile berhasil di perbaharui", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      
+    }else{
+      print("gagal");
+      Toast.show("gagal", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      
+    }
+
   }
 
   Future editProfile(File imageKtp, context) async{

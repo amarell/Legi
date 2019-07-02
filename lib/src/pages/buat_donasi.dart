@@ -246,6 +246,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
     
 
   final String url = URLAPI+"/API/list_kategori.php";
+  final _formkey= GlobalKey<FormState>();
 
   List data; 
    Future<String> getSWData() async {
@@ -346,7 +347,9 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   print(_mySelection);
                   print(_idMember);
                   print(contTargetDonasi.numberValue.round());
+                  if(_formkey.currentState.validate()){
                   submitCampaign(_imageFile, context);
+                  }
                   
                 },
                 icon: Icon(Icons.launch),
@@ -370,6 +373,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
         top: false,
           bottom: false,
           child: Form(
+            key: _formkey,
                       child: ListView(
                padding: const EdgeInsets.all(16.0),
                children: <Widget>[
@@ -399,6 +403,11 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       hintText: 'Masukan nama campaign',
                       labelText: 'Nama Campaign *',
                     ),
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'Nama Campaign tidak boleh kosong';
+                      }
+                    },
                   ),
                   const SizedBox(height: 24.0,),
                   Text("Masukan Target Donasi", style: TextStyle(fontSize: 15.0),),
@@ -413,6 +422,11 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       labelText: 'Target Donasi*',
                     ),
                     keyboardType: TextInputType.number,
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'Target donasi tidak boleh kosong';
+                      }
+                    },
                   ),
                   const SizedBox(height: 24.0,),
                   Text("Masukan Kategori", style: TextStyle(fontSize: 15.0),),
@@ -422,6 +436,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       return DropdownMenuItem(
                         child: Text(item['nama_kategori']),
                         value: item['id_kategori'],
+                        
                       );
                     }).toList(),
                     onChanged: (newVal){
@@ -430,6 +445,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       });
                     },
                     value: _mySelection,
+                    
                   ) : Center(child: CircularProgressIndicator(),),
                   const SizedBox(height: 24.0,),
                   Text("Masukan Batas Waktu ", style: TextStyle(fontSize: 15.0),),
@@ -437,6 +453,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                 _DateTimePicker(
                   labelText: 'Batas Waktu*',
                   selectedDate: _fromDate2,
+                  
                   selectDate: (DateTime date) {
                     setState(() {
                       _fromDate2 = date;
@@ -448,6 +465,11 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   Text("Masukan link ", style: TextStyle(fontSize: 15.0),),
                  const SizedBox(height: 24.0),
                   TextFormField(
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'link campaign tidak boleh kosong';
+                      }
+                    },
                     controller: contlink,
                     textCapitalization: TextCapitalization.words,
                     decoration: const InputDecoration(
@@ -461,6 +483,11 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   Text("Masukan no hp", style: TextStyle(fontSize: 15.0),),
                  const SizedBox(height: 24.0),
                   TextFormField(
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'no hp tidak boleh kosong';
+                      }
+                    },
                     controller: contnohp,
                     textCapitalization: TextCapitalization.words,
                     decoration: const InputDecoration(
@@ -474,6 +501,13 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   Text("Masukan ajakan", style: TextStyle(fontSize: 15.0),),
                  const SizedBox(height: 24.0),
                   TextFormField(
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'ajakan tidak boleh kosong';
+                      }else if(value.length > 160){
+                        return 'tidak boleh lebih dari 160 karakter';
+                      }
+                    },
                     controller: contAjakan,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -487,6 +521,11 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   Text("Masukan Deskripsi Campaign", style: TextStyle(fontSize: 15.0),),
                   const SizedBox(height: 12.0,),
                   TextFormField(
+                    validator: (value){
+                      if(value.isEmpty){
+                        return 'Deskripsi tidak boleh kosong';
+                      }
+                    },
                     controller: contDeskripsi,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),

@@ -42,15 +42,6 @@ class _FormWithdrawState extends State<FormWithdraw> {
 
  String lastSelectedValue;
 
- String _validateNamaBank(String value) {
-   _formWasEdited = true;
-    if (value.isEmpty)
-      return 'Name is required.';
-    // final RegExp nameExp = RegExp(r'^[A-Za-z ]+$');
-    // if (!nameExp.hasMatch(value))
-    //   return 'Please enter only alphabetical characters.';
-    return null;
-  }
 
   void showDemoDialog({BuildContext context, Widget child}) {
     showCupertinoDialog<String>(
@@ -169,7 +160,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
     ));
   }
 
-
+  final _formkey= GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +198,8 @@ class _FormWithdrawState extends State<FormWithdraw> {
                             CupertinoDialogAction(
                               child: const Text('Setuju'),
                               onPressed: () {
-                                _withdraw();
+                                if(_formkey.currentState.validate())
+                                  _withdraw();
                                 Navigator.pop(context, 'Setuju');
                               },
                             ),
@@ -228,6 +220,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
         top: false,
         bottom: false,
         child: Form(
+          key: _formkey,
           child: SingleChildScrollView(
             dragStartBehavior: DragStartBehavior.down,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -245,6 +238,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
                       ),
                       SizedBox(height: 12.0,),
                 TextFormField(
+                  
                   controller: namaBank,
                   textCapitalization: TextCapitalization.words,
                   decoration: const InputDecoration(
@@ -253,7 +247,11 @@ class _FormWithdrawState extends State<FormWithdraw> {
                     hintText: 'Masukan Nama Bank Tujuan',
                     labelText: 'Nama Bank*',
                   ),
-                  validator: _validateNamaBank,
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Nama Bank tidak boleh kosong';
+                    }
+                  },
                   
                 ),
                 const SizedBox(height: 24.0,),
@@ -266,7 +264,10 @@ class _FormWithdrawState extends State<FormWithdraw> {
                     hintText: 'Masukan Nama Pemilik Rekening',
                     labelText: 'Nama Pemilik*',
                   ),
-                   validator: _validateNamaBank,
+                   validator: (value){
+                     if(value.isEmpty)
+                      return'nama pemilik tidak boleh kosong';
+                   },
                 ),
                 const SizedBox(height: 24.0,),
                 TextFormField(
@@ -278,7 +279,11 @@ class _FormWithdrawState extends State<FormWithdraw> {
                     hintText: 'Masukan No Rekening',
                     labelText: 'No Rekening*',
                   ),
-                   validator: _validateNamaBank,
+                   validator: (value){
+                     if(value.isEmpty){
+                       return 'No rekening tidak boleh kosong';
+                     }
+                   },
                 ),
                 const SizedBox(height: 24.0,),
                 Text(
@@ -296,12 +301,15 @@ class _FormWithdrawState extends State<FormWithdraw> {
                     suffixText: 'Rupiah',
                     suffixStyle: TextStyle(color: Colors.green),
                   ),
-                   validator: _validateNamaBank,
+                   validator: (value){
+                     if(value.isEmpty){
+                       return 'Jumlah pencairan tidak boleh kosong';
+                     }
+                   },
                   maxLines: 1,
                 ),
                 const SizedBox(height: 24.0),
-                Text(
-                  "Pilih Metode Pembayaran", style: TextStyle(fontSize: 15.0),),
+                
                   
                  ],
             ),

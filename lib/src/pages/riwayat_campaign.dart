@@ -14,21 +14,86 @@ class RiwayatCampaign extends StatefulWidget {
   _RiwayatCampaignState createState() => _RiwayatCampaignState();
 }
 
-class _RiwayatCampaignState extends State<RiwayatCampaign> {
+class _RiwayatCampaignState extends State<RiwayatCampaign> 
+  with SingleTickerProviderStateMixin{
   String _idUser = '';
   var warnakuning=Colors.yellow[500];
   var warnabiru= Colors.blue[300];
   var warnamerah= Colors.red[300];
   var cam= new List<RiwayatCampaignModel>();
 
+
+  bool isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _animateColor;
+  Animation<double> _animateIcon;
+  Curve _curve = Curves.easeOut;
+
   TextEditingController contBerita = new TextEditingController();
   TextEditingController contKegiatan = new TextEditingController();
 
   void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() {
+            setState(() {});
+          });
+    _animateIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _animateColor = ColorTween(
+      begin: Colors.blue,
+      end: Colors.red,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.00,
+        1.00,
+        curve: _curve,
+      ),
+    ));
     super.initState();
     _getData();
     //_getHistory();
   }  
+
+  animate() {
+    if (!isOpened) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    isOpened = !isOpened;
+  }
+
+
+  Widget toggle() {
+    return FloatingActionButton(
+      backgroundColor: _animateColor.value,
+      onPressed: (){
+        animate();
+        _showModal(context);
+      },
+      tooltip: 'Toggle',
+      child: AnimatedIcon(
+        icon: AnimatedIcons.menu_close,
+        progress: _animateIcon,
+      ),
+    );
+  }
+
+  void _showModal(BuildContext context){
+      showModalBottomSheet(context: context, builder: (BuildContext context){
+        return Container(
+          padding: EdgeInsets.all(10.0),
+          height: 150.0,
+          child: Wrap(
+            children: <Widget>[
+              Text('data')
+            ],
+          )
+        );
+      });
+    }
 
   _getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -55,6 +120,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
 
   @override
   void dispose() {
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -111,6 +177,8 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
         return jsonResponse;
     
   }
+
+  
   
 
 
@@ -118,6 +186,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
@@ -130,6 +199,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
               onPressed: () {}),
         ],
       ),
+      floatingActionButton: toggle(),
       body: ListView.builder(
         itemCount: cam.length,
         itemBuilder: (context, index){
@@ -171,7 +241,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
               showDemoDialog<String>(
                 context: context,
                 child: SimpleDialog(
-                  title: const Text('Set backup account'),
+                  title: const Text('Update Berita'),
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -229,6 +299,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
                 
               ),
             ),
+            
           );
         },
       ),
