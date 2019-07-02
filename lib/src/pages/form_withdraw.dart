@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'dart:convert' as convert;
@@ -164,6 +166,8 @@ class _FormWithdrawState extends State<FormWithdraw> {
 
   @override
   Widget build(BuildContext context) {
+    final NumberFormat formatter = NumberFormat.simpleCurrency(
+        locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -223,6 +227,16 @@ class _FormWithdrawState extends State<FormWithdraw> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Card(
+                        child: ListTile(
+                          leading: Icon(
+                            FontAwesomeIcons.creditCard,
+                            color: Colors.lightBlue,
+                          ),
+                          title: (_saldoDOmpet!='')? Text(formatter.format(int.parse(_saldoDOmpet))): Text('Loading...'),
+                        ),
+                      ),
+                      SizedBox(height: 12.0,),
                 TextFormField(
                   controller: namaBank,
                   textCapitalization: TextCapitalization.words,

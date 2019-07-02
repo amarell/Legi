@@ -14,6 +14,10 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
   String _idDompet='';
   var rwDompet = new List<RiwayatDompetModel>();
 
+  var warnakuning=Colors.yellow[500];
+  var warnabiru= Colors.blue[300];
+  var warnamerah= Colors.red[300];
+
   void initState(){
       super.initState();
       _getData();
@@ -42,6 +46,26 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
       });
 
     });
+  }
+
+  _color(status){
+    if(status=="proses"){
+      return warnakuning;
+    }else if(status=="verifikasi"){
+      return warnabiru;
+    }else{
+      return warnamerah;
+    }
+  }
+
+  _status(status){
+    if(status=="proses"){
+      return 'Proses';
+    }else if(status=="verifikasi"){
+      return 'Lunas';
+    }else{
+      return 'Di tolak';
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -81,10 +105,17 @@ class _RiwayatDompetState extends State<RiwayatDompet> {
                          padding: EdgeInsets.all(8.0),
                          child: Text('Jumlah Dana: '+formatter.format(rwDompet[index].jumlahDana)),
                        ),
-                  Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text('Status: '+rwDompet[index].statusTransaksi),
-                       ),     
+                  Container(
+                      padding: EdgeInsets.only(left: 4.0),
+                      decoration: BoxDecoration(
+                        color: _color(rwDompet[index].statusTransaksi),
+                        borderRadius: BorderRadius.all(const Radius.circular(40.0))
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Status: ' + _status(rwDompet[index].statusTransaksi), style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
                 ],
               ),
             ),

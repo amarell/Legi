@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
@@ -244,6 +245,15 @@ class _ZakatState extends State<Zakat> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Card(
+                        child: ListTile(
+                          leading: Icon(
+                            FontAwesomeIcons.creditCard,
+                            color: Colors.lightBlue,
+                          ),
+                          title: (_saldoDOmpet!='')? Text(formatter.format(int.parse(_saldoDOmpet))): Text('Loading...'),
+                        ),
+                      ),
                 const SizedBox(height: 24.0,),
                 Text(
                   "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),

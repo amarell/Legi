@@ -150,10 +150,23 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                     
                   ),
                   Center(
-                    child: OutlineButton(
+                    child: (dompet.statusTransaksi=='proses') ? OutlineButton(
                     onPressed: (){
                       _openImagePicker(context);
                     },
+                    borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.camera_alt),
+                        SizedBox(width: 5.0,),
+                        Text('Add Image'),
+
+
+                      ],
+                    ),
+                ):OutlineButton(
+                    onPressed: null,
                     borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -177,12 +190,15 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
                     alignment: Alignment.topCenter,
                   ),
 
-                  Center(
-                    child: RaisedButton(
+                 Center(
+                    child: (dompet.statusTransaksi=='proses') ? RaisedButton(
                       onPressed: (){
                         upload(_imageFile, dompet.idDompet, context);
 
                       },
+                      child: Text("upload"),
+                    ):RaisedButton(
+                      onPressed: null,
                       child: Text("upload"),
                     ),
                   )

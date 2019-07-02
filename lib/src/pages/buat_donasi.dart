@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/info_user_model.dart';
 import 'package:path/path.dart';
@@ -154,7 +155,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
   TextEditingController contnohp = new TextEditingController();
   TextEditingController contAjakan = new TextEditingController();
   TextEditingController contDeskripsi = new TextEditingController();
-  TextEditingController contTargetDonasi = new TextEditingController();
+  TextEditingController contTargetDonasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   TextEditingController contTanggalMulai = new TextEditingController();
   TextEditingController contBatasWaktu = new TextEditingController();
   
@@ -371,6 +372,20 @@ class _BuatDonasiState extends State<BuatDonasi> {
                       child: ListView(
                padding: const EdgeInsets.all(16.0),
                children: <Widget>[
+                 (_status!='lengkap') ? Wrap(
+                                spacing: 8.0,
+                                runSpacing: 4.0,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Chip(
+                                      avatar: CircleAvatar(
+                                        backgroundColor: Colors.grey.shade800,
+                                        child: Icon(Icons.error),
+                                      ),
+                                      label: Text('Silahkan lengkapi diri anda dahulu.'),
+                                    )
+                                ],
+                              ):SizedBox(height:2.0),
                  const SizedBox(height: 24.0,),
                   Text("Masukan Nama Campaign", style: TextStyle(fontSize: 15.0),),
                  const SizedBox(height: 24.0),

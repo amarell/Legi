@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:legi/src/dashboard.dart';
 import 'package:legi/src/history.dart';
-// import 'package:legi/src/account.dart';
-import 'package:bmnav/bmnav.dart' as bmnav;
+// // import 'package:legi/src/account.dart';
+// import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:legi/src/profile_page.dart';
 
 class Home extends StatefulWidget {
@@ -22,18 +23,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageStorage(child: currentScreen, bucket: bucket),
-      bottomNavigationBar: bmnav.BottomNav(
-        index: currentTab,
-        onTap: (i) {
-          setState(() {
-            currentTab = i;
-            currentScreen = screens[i];
-          });
-        },
-        items: [
-          bmnav.BottomNavItem(Icons.home, label: 'Dashboard'),
-          bmnav.BottomNavItem(Icons.fitness_center, label: 'History'),
-          bmnav.BottomNavItem(Icons.person, label: 'Account'),
+      bottomNavigationBar: FancyBottomNavigation(
+        onTabChangedListener: (i) {
+        setState(() {
+        currentTab = i;
+        currentScreen = screens[i];
+        });
+    },
+        tabs: [
+          TabData(iconData: Icons.home, title: "Dashboard"),
+        TabData(iconData: Icons.history, title: "History"),
+        TabData(iconData: Icons.person, title: "Account")
         ],
       ),
     );

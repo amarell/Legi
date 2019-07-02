@@ -22,13 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  bmnav:
-    dependency: "direct main"
-    description:
-      name: bmnav
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -106,6 +99,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2+dart2"
+  fancy_bottom_navigation:
+    dependency: "direct main"
+    description:
+      name: fancy_bottom_navigation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -125,6 +125,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.2+1"
+  flutter_masked_text:
+    dependency: "direct main"
+    description:
+      name: flutter_masked_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
