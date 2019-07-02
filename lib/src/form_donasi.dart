@@ -5,6 +5,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -128,7 +129,7 @@ class _FormDonationState extends State<FormDonation> {
       } else {
         _showProgress(context, 'show');
         final response = await http.post(
-            'https://letsgiving.com/API/donasi_campaign_dompet.php', body: {
+            URLAPI+'/API/donasi_campaign_dompet.php', body: {
           "id_user": _idUser,
           "id_campaign": idCampaign,
           "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
@@ -162,7 +163,7 @@ class _FormDonationState extends State<FormDonation> {
       // _showDialog(context);
       _showProgress(context, 'show');
       final response = await http.post(
-          'https://letsgiving.com/API/donasi_campaig.php', body: {
+          URLAPI+'/API/donasi_campaig.php', body: {
         "id_user": _idUser,
         "id_campaign": idCampaign,
         "jumlah_dana": jumlah_donasi.numberValue.round().toString(),

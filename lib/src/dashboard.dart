@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/painting.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
 import 'package:legi/src/compenents/newsCampaign.dart';
@@ -112,14 +114,21 @@ class _DashboardState extends State<Dashboard> {
             //header
             new UserAccountsDrawerHeader(
               accountName: Text('$_nama'),
-              accountEmail: Text('$_email' + '$_saldoDompet'),
+              accountEmail: Text('$_email'),
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
                     backgroundColor: Colors.grey,
-                    child: Image.network(URLAPI+'assets/uploads/avatar/'+_foto, fit: BoxFit.cover)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(URLAPI+'assets/uploads/avatar/'+_foto)
+                        )
+                      ),)),
               ),
               decoration: new BoxDecoration(
                 color: Color(0xFF0091EA),
+                
               ),
             
             ),

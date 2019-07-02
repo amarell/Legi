@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/login_model.dart';
 import 'package:legi/style/theme.dart' as Theme;
 import 'dart:async';
@@ -691,7 +692,7 @@ class _LoginPageState extends State<LoginPage>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _showProgress(context, 'show');
     final response =
-        await http.post('https://letsgiving.com/API/login.php', body: {
+        await http.post(URLAPI+'/API/login.php', body: {
       "email": loginEmailController.text,
       "password": loginPasswordController.text,
     });
@@ -746,7 +747,7 @@ class _LoginPageState extends State<LoginPage>
     }
 
     final response =
-        await http.post('https://letsgiving.com/API/register.php', body: {
+        await http.post(URLAPI+'/API/register.php', body: {
       "nama": signupNameController.text,
       "email": signupEmailController.text,
       "password": signupPasswordController.text,

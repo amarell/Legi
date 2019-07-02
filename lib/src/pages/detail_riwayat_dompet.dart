@@ -9,6 +9,8 @@ import 'package:legi/src/model/riwayat_dompet_model.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 
+import '../constant.dart';
+
 class DetailRiwayatDompet extends StatefulWidget {
   DetailRiwayatDompet({Key key, this.dompet}) :super(key : key);
   final RiwayatDompetModel dompet;
@@ -37,7 +39,7 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
   Future upload(File imageFile, idDompet, context) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("https://letsgiving.com/API/upload_bukti_dompet.php");
+    var uri = Uri.parse(URLAPI+"/API/upload_bukti_dompet.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legi/reusable/mycard.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/riwayat_campaign.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -86,7 +87,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign> {
   Future<dynamic> _insertBerita(idcampaign) async{
     
       final response = await http.post(
-            'https://letsgiving.com/API/insert_berita.php', body: {
+            URLAPI+'/API/insert_berita.php', body: {
               'id_campaign': idcampaign,
               'berita': contBerita.text,
               'nama_kegiatan': contKegiatan.text,

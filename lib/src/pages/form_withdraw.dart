@@ -5,6 +5,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -119,7 +120,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
     }else{
       _showProgress(context, 'show');
       final response = await http.post(
-            'https://letsgiving.com/API/withdraw_dompet.php', body: {
+            URLAPI+'/API/withdraw_dompet.php', body: {
           "id_dompet": _idDompet,
           "nama_bank_tujuan": namaBank.text,
           "nama_pemilik_rek": namaPemilik.text,

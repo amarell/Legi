@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:legi/src/model/list_donatur_model.dart';
@@ -72,7 +73,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
   _share(String link){
     Share.share(
       'Mari kita bantu saudara kita \n\n'+
-      'https://letsgiving.com/$link'
+      URLAPI+'/$link'
     );
   }
 
@@ -128,7 +129,7 @@ class _DetailCampaignState extends State<DetailCampaign> {
                     fit: StackFit.expand,
                     children: <Widget>[
                       Image.network(
-                        'https://letsgiving.com/assets/uploads/artikel/'+campaign.foto_campaign,
+                        URLAPI+'/assets/uploads/artikel/'+campaign.foto_campaign,
                         fit: BoxFit.cover,
                       ),
                       // This gradient ensures that the toolbar icons are distinct

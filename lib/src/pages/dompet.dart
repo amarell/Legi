@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import 'package:toast/toast.dart';
+
+import '../constant.dart';
 class Dompet extends StatefulWidget {
   @override
   _DompetState createState() => _DompetState();
@@ -59,7 +61,7 @@ class _DompetState extends State<Dompet> {
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
     }else{
       _showProgress(context, 'show');
-      final response =await http.post('https://letsgiving.com/API/tambah_dompet.php', body: {
+      final response =await http.post(URLAPI+'/API/tambah_dompet.php', body: {
       "id_dompet": _idDompet,
       "jumlah_dana": jumlah_dana.text,
       "status_transaksi": 'proses',

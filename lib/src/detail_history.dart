@@ -3,6 +3,7 @@ import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/history_model.dart';
 import 'package:path/path.dart';
 // import 'package:path_provider/path_provider.dart';
@@ -32,7 +33,7 @@ class _DetailHistoryState extends State<DetailHistory> {
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri =
-        Uri.parse("https://letsgiving.com/API/upload_bukti_donasi.php");
+        Uri.parse(URLAPI+"/API/upload_bukti_donasi.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length,
         filename: basename(imageFile.path));

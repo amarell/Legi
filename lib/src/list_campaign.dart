@@ -5,6 +5,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/detail_campaign.dart';
 import 'package:legi/src/hero/detail_foto_profile.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
@@ -224,7 +225,7 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
                                                 child: Hero(
                                                   tag: campaigns[index].foto_campaign, 
                                                   child: CachedNetworkImage(
-                                                    imageUrl: 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign,
+                                                    imageUrl: URLAPI+'/assets/uploads/artikel/'+campaigns[index].foto_campaign,
                                                     placeholder: (context, url)=>Center(child: Container(width: 32, height: 32,child: new CircularProgressIndicator())),
                                                     errorWidget: (context, url, error) => new Icon(Icons.error),
                                                     fit: BoxFit.cover,
@@ -235,7 +236,7 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
                                                   ),
                                                   onTap: (){
                                                     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                      return DetailFotoProfile(tag: campaigns[index].foto_campaign, url: 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign);
+                                                      return DetailFotoProfile(tag: campaigns[index].foto_campaign, url: URLAPI+'/assets/uploads/artikel/'+campaigns[index].foto_campaign);
                                                     }));
                                                   },
                                                 ),

@@ -200,7 +200,7 @@ class MapScreenState extends State<ProfilePage>
   Future editProfile(File imageKtp, context) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageKtp.openRead()));
     var length = await imageKtp.length();
-    var uri = Uri.parse("https://letsgiving.com/API/edit_profile.php");
+    var uri = Uri.parse(URLAPI+"/API/edit_profile.php");
     var request = new http.MultipartRequest("post", uri);
     // var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
     var multiPartFileKtp = new http.MultipartFile("image", stream, length, filename: basename(imageKtp.path));

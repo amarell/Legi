@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:legi/src/API/api.dart';
+import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/info_user_model.dart';
 import 'package:path/path.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -215,7 +216,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
     Future submitCampaign(File imageFile, context) async{
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("https://letsgiving.com/API/submit_campaign.php");
+    var uri = Uri.parse(URLAPI+"/API/submit_campaign.php");
     var request = new http.MultipartRequest("post", uri);
     var multiPartFile = new http.MultipartFile("image", stream, length, filename: basename(imageFile.path));
   request.fields['id_member']=_idMember;
@@ -244,7 +245,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
 
     
 
-  final String url = "https://letsgiving.com/API/list_kategori.php";
+  final String url = URLAPI+"/API/list_kategori.php";
 
   List data; 
    Future<String> getSWData() async {
@@ -265,7 +266,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
    
     
    
-    final response =await http.post('https://letsgiving.com/API/list_kategori.php');
+    final response =await http.post(URLAPI+'/API/list_kategori.php');
   //Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
 
   Map userMap = json.decode(response.body);
