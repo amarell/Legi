@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
@@ -34,7 +35,7 @@ class _ZakatState extends State<Zakat> {
 
   String _radioValue = "";
 
-  TextEditingController jumlah_donasi = new TextEditingController();
+  var jumlah_donasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   final _formkey= GlobalKey<FormState>();
 
 
@@ -129,14 +130,14 @@ class _ZakatState extends State<Zakat> {
 
   Future<dynamic> _donasi() async {
     if (_radioValue == '0') {
-      if (int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())) {
+      if (jumlah_donasi.numberValue.round() >= int.parse(_saldoDOmpet.toString())) {
         showInSnackBar('saldo dompet anda tidak memenuhi');
       } else {
         _showProgress(context, 'show');
         final response = await http.post(
             'https://letsgiving.com/API/donasi_zakat_dompet.php', body: {
           "id_user": _idUser,
-          "jumlah_dana": jumlah_donasi.text,
+          "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
           "metode_pembayaran": 'dompet',
           "status_donasi": 'verifikasi',
           "id_dompet": _idDompet,
@@ -169,7 +170,7 @@ class _ZakatState extends State<Zakat> {
       final response = await http.post(
           'https://letsgiving.com/API/donasi_zakat.php', body: {
         "id_user": _idUser,
-        "jumlah_dana": jumlah_donasi.text,
+        "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
         "metode_pembayaran": 'transfer',
         "id_bank": _radioValue,
       });
@@ -271,10 +272,10 @@ class _ZakatState extends State<Zakat> {
                     suffixStyle: TextStyle(color: Colors.green),
                   ),
                   validator: (value){
+                    
+                    
                     if(value.isEmpty){
                       return 'Anda belum mengisi jumlah donasi';
-                    }else if(int.parse(value) < 10000){
-                      return 'Donasi Minimal Rp. 10.000';
                     }
                   },
                   maxLines: 1,

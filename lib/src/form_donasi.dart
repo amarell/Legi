@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
@@ -46,7 +47,7 @@ class _FormDonationState extends State<FormDonation> {
 
   String _radioValue = "";
 
-  TextEditingController jumlah_donasi = new TextEditingController();
+  var jumlah_donasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.' );
 
 
   void _radioAction(String value) {
@@ -117,12 +118,12 @@ class _FormDonationState extends State<FormDonation> {
 
 
   Future<dynamic> _donasi() async {
-    if (jumlah_donasi.text.isEmpty) {
+    if (jumlah_donasi.numberValue.round().toString().isEmpty) {
       showInSnackBar('jumlah donasi tidak boleh di kosongi');
-    } else if (int.parse(jumlah_donasi.text) <= 10000) {
+    } else if (jumlah_donasi.numberValue.round() <= 10000) {
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
     } else if (_radioValue == '0') {
-      if (int.parse(jumlah_donasi.text) >= int.parse(_saldoDOmpet.toString())) {
+      if (jumlah_donasi.numberValue.round() >= int.parse(_saldoDOmpet.toString())) {
         showInSnackBar('saldo dompet anda tidak memenuhi');
       } else {
         _showProgress(context, 'show');
@@ -130,7 +131,7 @@ class _FormDonationState extends State<FormDonation> {
             'https://letsgiving.com/API/donasi_campaign_dompet.php', body: {
           "id_user": _idUser,
           "id_campaign": idCampaign,
-          "jumlah_dana": jumlah_donasi.text,
+          "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
           "metode_pembayaran": 'dompet',
           "status_donasi": 'verifikasi',
           "id_dompet": _idDompet,
@@ -145,7 +146,7 @@ class _FormDonationState extends State<FormDonation> {
           var success = jsonResponse['success'];
           if (success == '1') {
             print('berhasil donasi');
-            _sendEmail(_emailUser, jumlah_donasi.text, true);
+            _sendEmail(_emailUser, jumlah_donasi.numberValue.round().toString(), true);
             // _showProgress(context, 'hide');
             showInSnackBar('Berhasil Donasi');
             Navigator.of(context).pushReplacementNamed('/history');
@@ -164,7 +165,7 @@ class _FormDonationState extends State<FormDonation> {
           'https://letsgiving.com/API/donasi_campaig.php', body: {
         "id_user": _idUser,
         "id_campaign": idCampaign,
-        "jumlah_dana": jumlah_donasi.text,
+        "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
         "metode_pembayaran": 'transfer',
         "id_bank": _radioValue,
       });
@@ -175,7 +176,7 @@ class _FormDonationState extends State<FormDonation> {
         var success = jsonResponse['success'];
         if (success == '1') {
           print('berhasil donasi');
-          _sendEmail(_emailUser, jumlah_donasi.text, false);
+          _sendEmail(_emailUser, jumlah_donasi.numberValue.toString(), false);
           showInSnackBar('Berhasil Donasi');
           Navigator.of(context).pushReplacementNamed('/history');
           

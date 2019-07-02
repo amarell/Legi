@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
@@ -30,7 +31,10 @@ class _FormWithdrawState extends State<FormWithdraw> {
    TextEditingController namaBank = new TextEditingController();
     TextEditingController namaPemilik = new TextEditingController();
      TextEditingController noRek = new TextEditingController();
- TextEditingController jumlahPencairan = new TextEditingController();
+ var jumlahPencairan = new MoneyMaskedTextController();
+
+
+ 
 
  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -106,9 +110,11 @@ class _FormWithdrawState extends State<FormWithdraw> {
   }
 
   Future<dynamic> _withdraw() async{
-    if(int.parse(jumlahPencairan.text)<=10000){
+    if(jumlahPencairan.numberValue.round()<=10000){
+      int a = jumlahPencairan.numberValue.round();
+      print(a);
       showInSnackBar('jumlah pencairan dana anda kurang dari 10.000');
-    }else if(int.parse(jumlahPencairan.text) >= int.parse(_saldoDOmpet.toString())){
+    }else if(jumlahPencairan.numberValue.round() >= int.parse(_saldoDOmpet.toString())){
       showInSnackBar('jumlah pencairan dana anda lebih besar dari saldo dompet anda');
     }else{
       _showProgress(context, 'show');
@@ -118,7 +124,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
           "nama_bank_tujuan": namaBank.text,
           "nama_pemilik_rek": namaPemilik.text,
           "no_rek": noRek.text,
-          "jumlah_pencairan": jumlahPencairan.text,
+          "jumlah_pencairan": jumlahPencairan.numberValue.round().toString(),
           "status": "pengajuan",
         });
 

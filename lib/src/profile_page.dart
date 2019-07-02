@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:async/async.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,8 @@ import 'package:path/path.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import 'hero/detail_foto_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -289,27 +292,39 @@ class MapScreenState extends State<ProfilePage>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            _imageFile == null ? Container(
-                                width: 140.0,
-                                height: 140.0,
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    image: NetworkImage(URLAPI+'assets/uploads/avatar/'+_foto),
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                                ):Container(
-                                width: 140.0,
-                                height: 140.0,
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    image: FileImage(_imageFile),
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                                ),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                      return DetailFotoProfile(tag: _foto, url: URLAPI+'assets/uploads/avatar/'+_foto);
+                                                    }));
+                              },
+                                                          child: Hero(
+                                tag: _foto,
+                                                            child: _imageFile == null ? Container(
+                                    width: 140.0,
+                                    height: 140.0,
+                                    decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                          URLAPI+'assets/uploads/avatar/'+_foto,
+                                          ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                    ):Container(
+                                    width: 140.0,
+                                    height: 140.0,
+                                    decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        image: FileImage(_imageFile),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                    ),
+                              ),
+                            ),
                           ],
                         ),
                         Padding(

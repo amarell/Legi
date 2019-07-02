@@ -155,7 +155,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
   TextEditingController contnohp = new TextEditingController();
   TextEditingController contAjakan = new TextEditingController();
   TextEditingController contDeskripsi = new TextEditingController();
-  TextEditingController contTargetDonasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  var contTargetDonasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   TextEditingController contTanggalMulai = new TextEditingController();
   TextEditingController contBatasWaktu = new TextEditingController();
   
@@ -225,7 +225,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
     request.fields['no_hp']=contnohp.text;
     request.fields['ajakan']=contAjakan.text;
     request.fields['deskripsi']=contDeskripsi.text;
-    request.fields['target_donasi']=contTargetDonasi.text;
+    request.fields['target_donasi']=contTargetDonasi.numberValue.round().toString();
     request.fields['batas_waktu']=_fromDate2.toString().substring(0,10);
     request.files.add(multiPartFile);
 
@@ -344,7 +344,7 @@ class _BuatDonasiState extends State<BuatDonasi> {
                   print(_fromDate2.toString().substring(0,10));
                   print(_mySelection);
                   print(_idMember);
-                  print(contTargetDonasi.text);
+                  print(contTargetDonasi.numberValue.round());
                   submitCampaign(_imageFile, context);
                   
                 },

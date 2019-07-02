@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -5,6 +6,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:legi/src/detail_campaign.dart';
+import 'package:legi/src/hero/detail_foto_profile.dart';
 import 'package:legi/src/model/list_campaign_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -99,6 +101,7 @@ class _ListCampaignState extends State<ListCampaign> {
     }
   }
 
+  // var _tag='Foto Campaign';
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +220,25 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
                                           children: [
                                             Container(
                                               padding: const EdgeInsets.only(bottom: 8.0),
-                                              child: Image.network('https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign, fit: BoxFit.cover, height: 100,width: MediaQuery.of(context).size.width,),
+                                              child: GestureDetector(
+                                                child: Hero(
+                                                  tag: campaigns[index].foto_campaign, 
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign,
+                                                    placeholder: (context, url)=>Center(child: Container(width: 32, height: 32,child: new CircularProgressIndicator())),
+                                                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                                                    fit: BoxFit.cover,
+                                                    height: 100,
+                                                    width: MediaQuery.of(context).size.width
+                                                    // 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign, fit: BoxFit.cover, height: 100,width: MediaQuery.of(context).size.width,
+                                                    )
+                                                  ),
+                                                  onTap: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                      return DetailFotoProfile(tag: campaigns[index].foto_campaign, url: 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign);
+                                                    }));
+                                                  },
+                                                ),
                                               ),
                                               Divider(),
                                             Padding(
