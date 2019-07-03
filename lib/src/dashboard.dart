@@ -9,6 +9,7 @@ import 'package:legi/src/SessionManager/app_pref.dart';
 import 'package:legi/src/constant.dart';
 import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
+import 'package:legi/src/pages/buat_campaign.dart';
 import 'package:legi/src/pages/buat_donasi.dart';
 import 'package:legi/src/pages/dompet.dart';
 import 'package:legi/src/pages/riwayat_campaign.dart';
@@ -163,7 +164,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => BuatDonasi()));
+                    builder: (BuildContext context) => BuatCampaign()));
               },
               child: ListTile(
                 title: Text('Buat Campaign'),

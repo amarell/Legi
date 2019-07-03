@@ -103,7 +103,7 @@ class MapScreenState extends State<ProfilePage>
   }
 
   void _getImage(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source, maxWidth: 400.0, maxHeight: 400.0 ).then((File image) {
+    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
       Navigator.pop(context);
       uploadFotoProfile(image, context);
       setState(() {
