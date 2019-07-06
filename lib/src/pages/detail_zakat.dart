@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/constant.dart';
-import 'package:legi/src/form_donasi.dart';
 import 'package:legi/src/model/list_donatur_model.dart';
 import 'package:legi/src/model/list_update_model.dart';
 import 'package:legi/src/model/zakat_model.dart';
+import 'package:legi/src/pages/zakat.dart';
 import 'package:legi/src/ui_widget/text_icon.dart';
 import 'dart:convert';
 import 'package:share/share.dart';
@@ -102,8 +102,8 @@ class _DetailZakatState extends State<DetailZakat> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FormDonation(
-                                        idCampaign: campaign.id_campaign, dibuatOleh: campaign.dibuatOleh ,
+                                  builder: (context) => Zakat(
+                                        idCampaign: campaign.idCampaign
                                       )));
                         },
                         icon: Icon(Icons.launch),

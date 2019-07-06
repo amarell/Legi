@@ -9,6 +9,7 @@ import 'package:legi/src/constant.dart';
 import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_campaign.dart';
+import 'package:legi/src/pages/list_zakat.dart';
 import 'package:legi/src/pages/riwayat_campaign.dart';
 import 'dart:convert';
 import 'package:legi/src/pages/zakat.dart';
@@ -174,7 +175,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => Zakat()));
+                    builder: (BuildContext context) => ListZakat()));
               },
               child: ListTile(
                 title: Text('Zakat'),

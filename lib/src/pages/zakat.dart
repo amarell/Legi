@@ -15,17 +15,26 @@ import 'package:flutter/gestures.dart';
 import 'package:toast/toast.dart';
 
 class Zakat extends StatefulWidget {
+
+  final idCampaign;
+
+  const Zakat({Key key, this.idCampaign}) : super(key: key);
   @override
-  _ZakatState createState() => _ZakatState();
+  _ZakatState createState() => _ZakatState(idCampaign: this.idCampaign);
 }
 
 class _ZakatState extends State<Zakat> {
+
+  _ZakatState({this.idCampaign});
+  final idCampaign;
    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var datadompet = new List<InfoDompetModel>();
   String _idUser = '';
   String _idDompet = '';
   String _emailUser = '';
   var _saldoDOmpet = '';
+
+  
 
   void initState() {
     super.initState();
@@ -143,6 +152,7 @@ class _ZakatState extends State<Zakat> {
           "status_donasi": 'verifikasi',
           "id_dompet": _idDompet,
           "guna_pembayaran": 'donasi',
+          "id_campaign": idCampaign,
 
         });
         CircularProgressIndicator();
@@ -156,7 +166,9 @@ class _ZakatState extends State<Zakat> {
             _sendEmail(_emailUser);
             Navigator.of(context).pop();
             showInSnackBar('Berhasil Donasi');
-            Navigator.of(context).pushReplacementNamed('/history');
+            Navigator.of(context).pushReplacementNamed('/home');
+            Toast.show('Berhasil Donasi Zakat',  context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+
           } else if (success == '0') {
             showInSnackBar('Donasi Gagal');
             Navigator.of(context).pop();
@@ -173,6 +185,7 @@ class _ZakatState extends State<Zakat> {
         "id_user": _idUser,
         "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
         "metode_pembayaran": 'transfer',
+        "id_campaign": idCampaign,
         "id_bank": _radioValue,
       });
       
@@ -187,7 +200,7 @@ class _ZakatState extends State<Zakat> {
           Navigator.of(context).pop();
             showInSnackBar('Berhasil Donasi');
             Navigator.of(context).pushReplacementNamed('/history');
-            Toast.show("Berhasil Donasi", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+            Toast.show("Berhasil Donasi Zakat", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
         } else if (success == '0') {
           showInSnackBar('Donasi Gagal');
           print(jsonResponse);
