@@ -236,7 +236,22 @@ class _DetailHistoryState extends State<DetailHistory> {
                         ) : RaisedButton(
                           onPressed: null,
                           child: Text("upload"),
-                        ) 
+                        ) ,
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pushReplacementNamed('/home');
+                              },
+                              child: Text(
+                                "Back To Home",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontFamily: "WorkSansMedium"),
+                              )),
+                        ),
                       ],
                     ),
                   ),

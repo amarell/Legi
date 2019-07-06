@@ -47,22 +47,7 @@ class _ListCampaignState extends State<ListCampaign> {
     });
   }
 
-  Future<List<Campaign>> _getCampaign2() async{
-    
-    var listcam=await API.getListCampaign(idCampaign).then((responses) {
-      // Future.delayed(Duration(milliseconds: 500));
-        final list = json.decode(responses.body);
-        // print(list);
-        List<Campaign> haha= (list['data'] as List)
-            .map<Campaign>((json) => new Campaign.fromJson(json))
-            .toList();
-        print(haha);
-        return haha;
-    });
-
-    return listcam;
-  }
-
+  
   @override
   void initState() {
     super.initState();

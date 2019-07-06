@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-const baseUrl = 'http://192.168.43.64/legi/API';
+const baseUrl = 'https://letsgiving.com/API';
 
 class API {
   static Future getListCampaign(idKat) async{
@@ -29,6 +29,11 @@ class API {
 
   static Future getKategori() async{
     var url=baseUrl+'/list_kategori.php';
+    return await http.post(url);
+  }
+
+   static Future getListZakat() async{
+    var url=baseUrl+'/list_zakat.php';
     return await http.post(url);
   }
 

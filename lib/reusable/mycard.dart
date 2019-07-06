@@ -79,40 +79,48 @@ class MyCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          judul,
-                          style: boldBlackLargeTextStyle,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              kategori.toUpperCase(),
-                              style: normalGreyTextStyle,
-                            ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 4.0, vertical: 1.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(1.0),
-                                ),
-                                border: Border.all(color: greyColor),
+                     Column(
+                        
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Wrap(
+                            children: <Widget>[
+                              Text(
+                                judul,
+                                style: boldBlackLargeTextStyle,
+                                overflow: TextOverflow.fade,
+                                softWrap: false,
                               ),
-                              child: Text(
-                                'Sisa Hari: '+sisaHari,
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                kategori.toUpperCase(),
                                 style: normalGreyTextStyle,
                               ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.0, vertical: 1.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(1.0),
+                                  ),
+                                  border: Border.all(color: greyColor),
+                                ),
+                                child: Text(
+                                  'Sisa Hari: '+sisaHari,
+                                  style: normalGreyTextStyle,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    
                     Spacer(),
                     
                   ],

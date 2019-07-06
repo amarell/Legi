@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:toast/toast.dart';
 
 class FormDonation extends StatefulWidget {
   FormDonation({Key key, this.idCampaign, this.dibuatOleh}) : super(key: key);
@@ -150,7 +151,8 @@ class _FormDonationState extends State<FormDonation> {
             _sendEmail(_emailUser, jumlah_donasi.numberValue.round().toString(), true);
             // _showProgress(context, 'hide');
             showInSnackBar('Berhasil Donasi');
-            Navigator.of(context).pushReplacementNamed('/history');
+            Navigator.of(context).pushReplacementNamed('/home');
+            Toast.show('Berhasil Donasi',  context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
           } else if (success == '0') {
             showInSnackBar('Donasi Gagal');
             print(jsonResponse);

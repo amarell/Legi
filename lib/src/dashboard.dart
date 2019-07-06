@@ -4,17 +4,13 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/painting.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/compenents/KategoriScreen.dart';
-import 'package:legi/src/compenents/newsCampaign.dart';
 import 'package:legi/src/SessionManager/app_pref.dart';
 import 'package:legi/src/constant.dart';
 import 'package:legi/src/dashboard_dompet.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_campaign.dart';
-import 'package:legi/src/pages/buat_donasi.dart';
-import 'package:legi/src/pages/dompet.dart';
 import 'package:legi/src/pages/riwayat_campaign.dart';
 import 'dart:convert';
-import 'package:legi/src/pages/riwayat_dompet.dart';
 import 'package:legi/src/pages/zakat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

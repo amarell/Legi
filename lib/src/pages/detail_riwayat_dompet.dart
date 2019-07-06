@@ -101,7 +101,7 @@ class _DetailRiwayatDompetState extends State<DetailRiwayatDompet> {
       locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     return Scaffold(
        appBar: AppBar(
-      backgroundColor: Colors.greenAccent[400],
+      backgroundColor: const Color(0xFF0091EA),
         title: Text('Lets Giving'),
     ),
     backgroundColor: Colors.grey[300],
