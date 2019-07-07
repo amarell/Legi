@@ -11,6 +11,7 @@ import 'package:legi/src/model/info_dompet_model.dart';
 import 'package:legi/src/pages/buat_campaign.dart';
 import 'package:legi/src/pages/list_zakat.dart';
 import 'package:legi/src/pages/riwayat_campaign.dart';
+import 'package:legi/src/pages/statistik_user.dart';
 import 'dart:convert';
 import 'package:legi/src/pages/zakat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -193,6 +194,20 @@ class _DashboardState extends State<Dashboard> {
               },
               child: ListTile(
                 title: Text('List Campaign saya'),
+                leading: Icon(
+                  Icons.change_history,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => StatistikUser()));
+              },
+              child: ListTile(
+                title: Text('Statistik User'),
                 leading: Icon(
                   Icons.change_history,
                   color: Colors.red,

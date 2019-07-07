@@ -93,4 +93,11 @@ class API {
     });
   }
 
+  static Future getStatistikUser(idUser) async{
+    var url=baseUrl+'/statistik_user.php';
+    return await http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
+
 }
