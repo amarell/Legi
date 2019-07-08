@@ -51,7 +51,7 @@ class _StatistikUserState extends State<StatistikUser> {
   Widget build(BuildContext context) {
     var jumlah=[
           DataStatistik('Jumlah Donasi', jmldonasi, Colors.red),
-          DataStatistik('Jumlah Campaign', jmlcampaign, Colors.yellow),
+          DataStatistik('Jumlah Campaign', jmlcampaign, Colors.blue),
         ];
     var series=[
           charts.Series(
@@ -89,6 +89,23 @@ class _StatistikUserState extends State<StatistikUser> {
               height: 400,
               child: chart,
             ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+                          color: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                            child: Text('Jumlah Donasi Anda Sebanyak: ' + jmldonasi.toString(), style: TextStyle(color: Colors.white),),
+                          ),
+                        ),
+
+            Container(
+              width: MediaQuery.of(context).size.width,
+                          color: Colors.blue,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                            child: Text('Jumlah Campaign Anda Sebanyak: ' + jmlcampaign.toString(), style: TextStyle(color: Colors.white),),
+                          ),
+                        ),            
   
 
           ],
@@ -100,6 +117,8 @@ class _StatistikUserState extends State<StatistikUser> {
       
       
       : Center(child: CircularProgressIndicator(),) ,
+
+      
        )
 
     );
