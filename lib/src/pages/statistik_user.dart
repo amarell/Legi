@@ -13,7 +13,7 @@ class StatistikUser extends StatefulWidget {
 class _StatistikUserState extends State<StatistikUser> {
   var data= new List<StatistikModel>();
   var _idUser='';
-  int jmlcampaign, jmldonasi;
+  int jmlcampaign, donasiLunas, donasiTolak, donasiProses;
 
   StatistikModel sm;
   void initState(){
@@ -39,8 +39,10 @@ class _StatistikUserState extends State<StatistikUser> {
         print('fgfdsfg $_idUser');
         final list = json.decode(responses.body);
         sm = new StatistikModel.fromJson(list);
-        jmldonasi=sm.jmlDonasi;
+        donasiLunas=sm.donasiLunas;
         jmlcampaign=sm.jmlCampaign;
+        donasiProses=sm.donasiProses;
+        donasiTolak=sm.donasiTolak;
 
         
       });
@@ -50,8 +52,9 @@ class _StatistikUserState extends State<StatistikUser> {
   @override
   Widget build(BuildContext context) {
     var jumlah=[
-          DataStatistik('Jumlah Donasi', jmldonasi, Colors.red),
-          DataStatistik('Jumlah Campaign', jmlcampaign, Colors.blue),
+          DataStatistik('Lunas', donasiLunas, Colors.blue),
+          DataStatistik('Proses', donasiProses, Colors.yellow),
+          DataStatistik('Ditolak', donasiTolak, Colors.red),
         ];
     var series=[
           charts.Series(
@@ -78,48 +81,69 @@ class _StatistikUserState extends State<StatistikUser> {
         title: Text('Lets Giving'),
         backgroundColor: const Color(0xFF0091EA),
       ),
-      body: Card(
-      child: (sm != null && jmlcampaign != null) ? 
+      body: SingleChildScrollView(
+              child: Card(
+        child: (sm != null && jmlcampaign != null) ? 
 
-      Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: 400,
-              child: chart,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-                          color: Colors.red,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                            child: Text('Jumlah Donasi Anda Sebanyak: ' + jmldonasi.toString(), style: TextStyle(color: Colors.white),),
+        Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 400,
+                child: chart,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                            color: Colors.blue,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                              child: Text('Donasi Lunas: ' + donasiLunas.toString(), style: TextStyle(color: Colors.white),),
+                            ),
                           ),
-                        ),
+                          SizedBox(height: 20.0,),
 
-            Container(
-              width: MediaQuery.of(context).size.width,
-                          color: Colors.blue,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                            child: Text('Jumlah Campaign Anda Sebanyak: ' + jmlcampaign.toString(), style: TextStyle(color: Colors.white),),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                            color: Colors.yellow,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                              child: Text('Donasi Proses: ' + donasiProses.toString(), style: TextStyle(color: Colors.white),),
+                            ),
                           ),
-                        ),            
+                          SizedBox(height: 20.0,),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                              child: Text('Donasi Tolak: ' + donasiTolak.toString(), style: TextStyle(color: Colors.white),),
+                            ),
+                          ),
+                          SizedBox(height: 20.0,),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.indigo[100],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                              child: Text('Total Donasi: ' + (donasiTolak+donasiProses+donasiLunas).toString(), style: TextStyle(color: Colors.white),),
+                            ),
+                          ),                   
   
 
-          ],
-        ),
+            ],
+          ),
+          
+        )
         
-      )
-      
      
-      
-      
-      : Center(child: CircularProgressIndicator(),) ,
+        
+        
+        : Center(child: CircularProgressIndicator(),) ,
 
-      
-       )
+        
+         ),
+      )
 
     );
   }

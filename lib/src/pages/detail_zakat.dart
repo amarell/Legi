@@ -33,26 +33,10 @@ class _DetailZakatState extends State<DetailZakat> {
   
   void initState() {
     super.initState();
-    _getDonatur();
     _getBerita();
     //_getHistory();
   }
 
-  _getDonatur() {
-    //_getData();
-    var haha =campaign.idCampaign;
-    print('haha '+campaign.idCampaign);
-    API.getLisDonatur(haha).then((responses) {
-      setState(() {
-        print('gsgsg $haha');
-        final list = json.decode(responses.body);
-        print(list);
-        donatur = (list['data'] as List)
-            .map<ListDonaturModel>((json) => new ListDonaturModel.fromJson(json))
-            .toList();
-      });
-    });
-  }
 
   _getBerita() {
     //_getData();
@@ -185,7 +169,6 @@ class _DetailZakatState extends State<DetailZakat> {
                     
                     tabs: [
                       Tab(icon: Icon(Icons.info), text: "Deskripsi"),
-                      Tab(icon: Icon(Icons.people), text: "Donatur"),
                       Tab(icon: Icon(Icons.new_releases), text: "Update"),
                     ],
                   ),
@@ -323,53 +306,6 @@ class _DetailZakatState extends State<DetailZakat> {
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Flexible(
-                        // height: 400,
-                          child: ListView.builder(
-                            //  scrollDirection: Axis.vertical,
-                             shrinkWrap: true,
-                             itemCount: donatur.length,
-                             itemBuilder: (context, index){
-                               return InkWell(
-            onTap: () {
-              
-            },
-            child: Card(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-                child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Divider(),
-                              Text(donatur[index].namaUser+': ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),)
-                            ],
-                          ),
-                        ),
-                        Divider(),
-                        
-                        
-                      ],
-                ),
-              ),
-            ),
-          );
-                             }, 
-                            ),
-                          
                       ),
                     ],
                   ),

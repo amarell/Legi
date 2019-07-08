@@ -49,6 +49,8 @@ class _FormDonationState extends State<FormDonation> {
 
   String _radioValue = "";
 
+  String _radioAnonim="";
+
   var jumlah_donasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.' );
 
 
@@ -57,6 +59,14 @@ class _FormDonationState extends State<FormDonation> {
       _radioValue = value;
     });
   }
+
+  void _radioAnonimAction(String value) {
+    setState(() {
+      _radioAnonim = value;
+    });
+  }
+
+
 
   _getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -139,6 +149,7 @@ class _FormDonationState extends State<FormDonation> {
           "id_dompet": _idDompet,
           "guna_pembayaran": 'donasi',
           "dibuat_oleh": dibuatOleh,
+          "anonim": (_radioAnonim!='1')?'0':'1',
 
         });
         
@@ -171,6 +182,7 @@ class _FormDonationState extends State<FormDonation> {
         "jumlah_dana": jumlah_donasi.numberValue.round().toString(),
         "metode_pembayaran": 'transfer',
         "id_bank": _radioValue,
+        "anonim": (_radioAnonim!='1')?'0':'1',
       });
 
       Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
@@ -313,6 +325,24 @@ class _FormDonationState extends State<FormDonation> {
                   ),
                   maxLines: 1,
                 ),
+                const SizedBox(height: 24.0),
+                new Container(
+                    margin: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(3.0),
+                    decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.blueAccent)
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Radio(
+                          value: "1",
+                          groupValue: _radioAnonim,
+                          onChanged: _radioAnonimAction,
+                        ),
+                        Text('Donasi Sebagai Anonim'),
+                      ],
+                    ),
+                  ),
                 const SizedBox(height: 24.0),
                 Text(
                   "Pilih Metode Pembayaran", style: TextStyle(fontSize: 15.0),),
