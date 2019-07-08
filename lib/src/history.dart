@@ -104,39 +104,47 @@ class _HistoryState extends State<History> {
                 );
               }));
             },
-            child: Card(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        history[index].judulCampaign,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 4.0,
+                borderOnForeground: true,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          history[index].judulCampaign,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Divider(),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Jumlah Donasi: ' +
-                          formatter.format(history[index].jumlahDana),style: TextStyle(color: Colors.grey),),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 4.0),
-                      decoration: BoxDecoration(
-                        color: _color(history[index].statusDonasi),
-                        borderRadius: BorderRadius.all(const Radius.circular(40.0))
-                      ),
-                      child: Padding(
+                      Divider(),
+                      Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Status: ' + _status(history[index].statusDonasi), style: TextStyle(color: Colors.white)),
+                        child: Text(
+                            formatter.format(history[index].jumlahDana),style: TextStyle(color: Colors.grey, fontSize: 20),),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: EdgeInsets.only(left: 4.0),
+                          decoration: BoxDecoration(
+                            color: _color(history[index].statusDonasi),
+                            borderRadius: BorderRadius.all(const Radius.circular(40.0))
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Status: ' + _status(history[index].statusDonasi), style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

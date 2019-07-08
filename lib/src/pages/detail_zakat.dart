@@ -100,7 +100,7 @@ class _DetailZakatState extends State<DetailZakat> {
           ),
         ),
         body: DefaultTabController(
-            length: 3,
+            length: 2,
                   child: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(

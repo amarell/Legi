@@ -350,7 +350,12 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           child: Row(
                             children: <Widget>[
                               Divider(),
+                              (donatur[index].anonim!="1")?
                               Text(donatur[index].namaUser+': ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ):Text('Anonim: ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
