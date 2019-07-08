@@ -46,8 +46,9 @@ class _ZakatState extends State<Zakat> {
   String _radioValue = "";
 
   var jumlah_donasi = new MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  var tot= new MoneyMaskedTextController();
   final _formkey= GlobalKey<FormState>();
-
+  
 
   void _radioAction(String value) {
     setState(() {
@@ -217,6 +218,7 @@ class _ZakatState extends State<Zakat> {
     
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
+        int total= tot.numberValue.round()*0.025.toInt();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -269,10 +271,44 @@ class _ZakatState extends State<Zakat> {
                           title: (_saldoDOmpet!='')? Text(formatter.format(int.parse(_saldoDOmpet))): Text('Loading...'),
                         ),
                       ),
-                const SizedBox(height: 24.0,),
+
+                const SizedBox(height: 12.0,),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        TextField(
+                    controller: tot,
+                    
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Jumlah Penghasilan Anda',
+                      prefixText: '\Rp ',
+                      helperText: 'Kalkulator Zakat',
+                      suffixText: 'Rupiah',
+                      suffixStyle: TextStyle(color: Colors.green),
+                    ),
+                    maxLines: 1,
+                ),
+                const SizedBox(height: 12.0,),
+                Center(
+                    child: Text('Zakat Yang harus di bayarkan: '+formatter.format(tot.numberValue.toInt()*0.025))
+                ),
+                const SizedBox(height: 12.0,),
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 24.0,),
                 Text(
                   "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
-                const SizedBox(height: 12.0,),
                 TextFormField(
                   controller: jumlah_donasi,
                   keyboardType: TextInputType.number,
@@ -354,6 +390,11 @@ class _ZakatState extends State<Zakat> {
 
                   ],
                 ),
+                      ],
+                    ),
+                  ),
+                ),
+                
               ],
             ),
           ),
