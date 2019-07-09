@@ -53,7 +53,7 @@ class _StatistikUserState extends State<StatistikUser> {
   Widget build(BuildContext context) {
     var jumlah=[
           DataStatistik('Lunas', donasiLunas, Colors.blue),
-          DataStatistik('Proses', donasiProses, Colors.yellow),
+          DataStatistik('Proses', donasiProses, Colors.orange),
           DataStatistik('Ditolak', donasiTolak, Colors.red),
         ];
     var series=[
@@ -80,56 +80,101 @@ class _StatistikUserState extends State<StatistikUser> {
        appBar: AppBar(
         title: Text('Lets Giving'),
         backgroundColor: const Color(0xFF0091EA),
+        
       ),
       body: SingleChildScrollView(
-              child: Card(
         child: (sm != null && jmlcampaign != null) ? 
 
         Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 400,
-                child: chart,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 4.0,
+                                child: SizedBox(
+                    height: 400,
+                    child: chart,
+                  ),
+                ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                            color: Colors.blue,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                              child: Text('Donasi Lunas: ' + donasiLunas.toString(), style: TextStyle(color: Colors.white),),
-                            ),
-                          ),
-                          SizedBox(height: 20.0,),
 
-              Container(
-                width: MediaQuery.of(context).size.width,
-                            color: Colors.yellow,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                              child: Text('Donasi Proses: ' + donasiProses.toString(), style: TextStyle(color: Colors.white),),
-                            ),
-                          ),
-                          SizedBox(height: 20.0,),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.red,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                              child: Text('Donasi Tolak: ' + donasiTolak.toString(), style: TextStyle(color: Colors.white),),
-                            ),
-                          ),
-                          SizedBox(height: 20.0,),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.indigo[100],
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                              child: Text('Total Donasi: ' + (donasiTolak+donasiProses+donasiLunas).toString(), style: TextStyle(color: Colors.white),),
-                            ),
-                          ),                   
+              SizedBox(height: 10.0,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 4.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                                    color: Colors.blue,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                                      child: Text('Donasi Lunas: ', style: TextStyle(color: Colors.white),),
+                                    ),
+                                  ),
+                                Spacer(),
+                                Text( donasiLunas.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                          ],
+                        ),
+                              SizedBox(height: 20.0,),
+
+                Row(
+                    children: <Widget>[
+                      Container(
+                                    color: Colors.orange,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                                      child: Text('Donasi Proses: ', style: TextStyle(color: Colors.white),),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text( donasiProses.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                    ],
+                ),
+                              SizedBox(height: 20.0,),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    color: Colors.red,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                                      child: Text('Donasi Tolak: ', style: TextStyle(color: Colors.white),),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text( donasiTolak.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+
+                                ],
+                              ),
+                              SizedBox(height: 20.0,),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    color: Colors.indigo[100],
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                                      child: Text('Total Donasi: ' , style: TextStyle(color: Colors.white),),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text((donasiTolak+donasiProses+donasiLunas).toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                  
+                                ],
+                              ),                   
   
+                      ],
+                    ),
+                  ),
+                ),
+              )
+
+              
 
             ],
           ),
@@ -142,7 +187,7 @@ class _StatistikUserState extends State<StatistikUser> {
         : Center(child: CircularProgressIndicator(),) ,
 
         
-         ),
+         
       )
 
     );

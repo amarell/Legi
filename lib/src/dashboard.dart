@@ -153,7 +153,7 @@ class _DashboardState extends State<Dashboard> {
               child: ListTile(
                 title: Text('Dashboard Dompet'),
                 leading: Icon(
-                  Icons.person,
+                  Icons.account_balance_wallet,
                   color: Colors.red,
                 ),
               ),
@@ -167,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
               child: ListTile(
                 title: Text('Buat Campaign'),
                 leading: Icon(
-                  Icons.shopping_basket,
+                  Icons.create,
                   color: Colors.red,
                 ),
               ),
@@ -181,7 +181,7 @@ class _DashboardState extends State<Dashboard> {
               child: ListTile(
                 title: Text('Zakat'),
                 leading: Icon(
-                  Icons.dashboard,
+                  Icons.screen_share,
                   color: Colors.red,
                 ),
               ),
@@ -195,7 +195,7 @@ class _DashboardState extends State<Dashboard> {
               child: ListTile(
                 title: Text('List Campaign saya'),
                 leading: Icon(
-                  Icons.change_history,
+                  Icons.format_list_numbered,
                   color: Colors.red,
                 ),
               ),
@@ -207,9 +207,9 @@ class _DashboardState extends State<Dashboard> {
                     builder: (BuildContext context) => StatistikUser()));
               },
               child: ListTile(
-                title: Text('Statistik User'),
+                title: Text('Chart User'),
                 leading: Icon(
-                  Icons.change_history,
+                  Icons.pie_chart,
                   color: Colors.red,
                 ),
               ),
