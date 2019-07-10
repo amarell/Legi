@@ -215,35 +215,23 @@ class _DetailZakatState extends State<DetailZakat> {
                                     bottom: BorderSide(color: Colors.grey, width: 0.4),
                                   ),
                                 ),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      TextIcon(
-                                        icon: FontAwesomeIcons.handHoldingUsd,
-                                        text:
-                                            "Target Donasi:\n Rp. ∞ ",
-                                      ),
-                                      TextIcon(
-                                        icon: FontAwesomeIcons.handHoldingUsd,
-                                        text:
-                                            "Dana Terkumpul:\n ${formatter.format(campaign.danaTerkumpul) ?? "#"} ",
-                                      ),
-                                      TextIcon(
-                                        icon: FontAwesomeIcons.clock,
-                                        text:
-                                            "Sisa Waktu:\n ∞ hari ",
-                                      ),
-                                      TextIcon(
-                                        icon: FontAwesomeIcons.user,
-                                        text:
-                                            "Dibuat oleh:\n Baznas ",
+                                child: Container(
+                                  color: Colors.white,
+                                  margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                  padding: const EdgeInsets.all(16),
+                                    child: 
+                                      Center(
+                                        child: TextIcon(
+                                          icon: FontAwesomeIcons.handHoldingUsd,
+                                          text:
+                                              "Dana Terkumpul:\n ${formatter.format(campaign.danaTerkumpul) ?? "#"} ",
+                                        ),
                                       ),
                                       
-                                    ],
+                                      
+                                    
                                   ),
-                                ),
+                                
                               ),
                             ],
                           ),

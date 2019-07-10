@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -20,7 +21,7 @@ class _DompetState extends State<Dompet> {
   String _idDompet='';
   String _radioValue = "";
 
-  TextEditingController jumlah_dana = new TextEditingController();
+  var jumlah_dana = new MoneyMaskedTextController();
 
   @override
   void initState() {
@@ -57,13 +58,13 @@ class _DompetState extends State<Dompet> {
   Future<dynamic> _dompet()async{
     if(jumlah_dana.text.isEmpty){
       showInSnackBar('jumlah donasi tidak boleh di kosongi');
-    }else if(int.parse(jumlah_dana.text) <= 10000){
+    }else if(jumlah_dana.numberValue.round() <= 10000){
       showInSnackBar('donasi anda harus lebih dari Rp. 10,000');
     }else{
       _showProgress(context, 'show');
       final response =await http.post(URLAPI+'/API/tambah_dompet.php', body: {
       "id_dompet": _idDompet,
-      "jumlah_dana": jumlah_dana.text,
+      "jumlah_dana": jumlah_dana.numberValue.round().toString(),
       "status_transaksi": 'proses',
       "id_bank": _radioValue,
       "guna_pembayaran": 'saldo',

@@ -308,25 +308,32 @@ class _FormDonationState extends State<FormDonation> {
                         ),
                       ),
                 const SizedBox(height: 24.0,),
-                Text(
-                  "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
+                Card(
+                  elevation: 4.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                    "Masukan Jumlah Donasi", style: TextStyle(fontSize: 15.0),),
                 const SizedBox(height: 12.0,),
-                TextFormField(
-                  controller: jumlah_donasi,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.attach_money),
-                    border: OutlineInputBorder(),
-                    labelText: 'Jumlah Donasi',
-                    prefixText: '\Rp ',
-                    helperText: 'Donasi Minimal Rp. 10.000',
-                    suffixText: 'Rupiah',
-                    suffixStyle: TextStyle(color: Colors.green),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextFormField(
+                      controller: jumlah_donasi,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Jumlah Donasi',
+                        prefixText: '\Rp ',
+                        helperText: 'Donasi Minimal Rp. 10.000',
+                        suffixText: 'Rupiah',
+                        suffixStyle: TextStyle(color: Colors.green),
+                      ),
+                      maxLines: 1,
                   ),
-                  maxLines: 1,
                 ),
-                const SizedBox(height: 24.0),
-                new Container(
+                    new Container(
                     margin: const EdgeInsets.all(15.0),
                     padding: const EdgeInsets.all(3.0),
                     decoration: new BoxDecoration(
@@ -343,8 +350,43 @@ class _FormDonationState extends State<FormDonation> {
                       ],
                     ),
                   ),
-                const SizedBox(height: 24.0),
-                Text(
+                      ],
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height:0.5),
+                // Card(
+                //   elevation: 4.0,
+                //   child: Column(
+                //     children: <Widget>[
+                //       new Container(
+                //     margin: const EdgeInsets.all(15.0),
+                //     padding: const EdgeInsets.all(3.0),
+                //     decoration: new BoxDecoration(
+                //       border: new Border.all(color: Colors.blueAccent)
+                //     ),
+                //     child: Row(
+                //       children: <Widget>[
+                //         Radio(
+                //           value: "1",
+                //           groupValue: _radioAnonim,
+                //           onChanged: _radioAnonimAction,
+                //         ),
+                //         Text('Donasi Sebagai Anonim'),
+                //       ],
+                //     ),
+                //   ),
+                //     ],
+                //   ),
+                // ),
+                
+                // const SizedBox(height: 0.5),
+                Card(
+                  elevation: 4.0,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
                   "Pilih Metode Pembayaran", style: TextStyle(fontSize: 15.0),),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -403,6 +445,10 @@ class _FormDonationState extends State<FormDonation> {
 
                   ],
                 ),
+                    ],
+                  ),
+                ),
+                
               ],
             ),
           ),

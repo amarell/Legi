@@ -339,35 +339,39 @@ class _DetailCampaignState extends State<DetailCampaign> {
             onTap: () {
               
             },
-            child: Card(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-                child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Divider(),
-                              (donatur[index].anonim!="1")?
-                              Text(donatur[index].namaUser+': ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+              child: Card(
+                elevation: 4.0,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                  child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Divider(),
+                                (donatur[index].anonim!="1")?
+                                Text(donatur[index].namaUser+': ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ):Text('Anonim: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ):Text('Anonim: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),)
-                            ],
+                                Text(formatter.format(donatur[index].jumlahDana),style: TextStyle(color: Colors.grey),)
+                              ],
+                            ),
                           ),
-                        ),
-                        Divider(),
-                        
-                        
-                      ],
+                          Divider(),
+                          
+                          
+                        ],
+                  ),
                 ),
               ),
             ),
