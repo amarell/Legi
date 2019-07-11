@@ -17,9 +17,9 @@ class StatistikModel{
       donasiProses: int.parse(json['donasiProses']),
       donasiLunas: int.parse(json['donasiLunas']),
       donasiTolak: int.parse(json['donasiTolak']),
-      jmlLunas: int.parse(json['jmlLunas']),
-      jmlProses: int.parse(json['jmlProses']),
-      jmlTolak: int.parse(json['jmlTolak']),
+      jmlLunas: (json['jmlLunas']!=null)?int.parse(json['jmlLunas']):0,
+      jmlProses: (json['jmlProses']!=null)?int.parse(json['jmlProses']):0,
+      jmlTolak: (json['jmlTolak']!=null)?int.parse(json['jmlTolak']):0,
       success: json['success'],
       message: json['message'],
     );

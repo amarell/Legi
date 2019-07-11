@@ -75,23 +75,17 @@ class MyCard extends StatelessWidget {
               Divider(),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 8.0, bottom: 0.0, left: 16.0, right: 16.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                     Column(
+                    top: 8.0, bottom: 0.0, left: 16.0, right: 0.0),
+                child: Column(
                         
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Wrap(
-                            children: <Widget>[
-                              Text(
-                                judul,
-                                style: boldBlackLargeTextStyle,
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                              ),
-                            ],
+                          Card(
+                            elevation: 0.0,
+                                                      child: Text(
+                                    judul,
+                                    style: boldBlackLargeTextStyle,
+                                  ),
                           ),
                           Row(
                             children: <Widget>[
@@ -121,10 +115,8 @@ class MyCard extends StatelessWidget {
                         ],
                       ),
                     
-                    Spacer(),
+                    // Spacer(),
                     
-                  ],
-                ),
               ),
               SizedBox(
                 height: 8.0,
