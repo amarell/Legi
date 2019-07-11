@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/model/statistik_model.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -13,7 +14,7 @@ class StatistikUser extends StatefulWidget {
 class _StatistikUserState extends State<StatistikUser> {
   var data= new List<StatistikModel>();
   var _idUser='';
-  int jmlcampaign, donasiLunas, donasiTolak, donasiProses;
+  int jmlcampaign, donasiLunas, donasiTolak, donasiProses, jmlLunas, jmlProses, jmlTolak;
 
   StatistikModel sm;
   void initState(){
@@ -43,6 +44,9 @@ class _StatistikUserState extends State<StatistikUser> {
         jmlcampaign=sm.jmlCampaign;
         donasiProses=sm.donasiProses;
         donasiTolak=sm.donasiTolak;
+        jmlLunas=sm.jmlLunas;
+        jmlProses=sm.jmlProses;
+        jmlTolak=sm.jmlTolak;
 
         
       });
@@ -51,9 +55,11 @@ class _StatistikUserState extends State<StatistikUser> {
 
   @override
   Widget build(BuildContext context) {
+    final NumberFormat formatter = NumberFormat.simpleCurrency(
+        locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
     var jumlah=[
           DataStatistik('Lunas', donasiLunas, Colors.blue),
-          DataStatistik('Proses', donasiProses, Colors.orange),
+          DataStatistik('Proses', donasiProses, Colors.green),
           DataStatistik('Ditolak', donasiTolak, Colors.red),
         ];
     var series=[
@@ -115,11 +121,11 @@ class _StatistikUserState extends State<StatistikUser> {
                                     color: Colors.blue,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                                      child: Text('Donasi Lunas: ', style: TextStyle(color: Colors.white),),
+                                      child: Text('Donasi Lunas: '+donasiLunas.toString(), style: TextStyle(color: Colors.white),),
                                     ),
                                   ),
                                 Spacer(),
-                                Text( donasiLunas.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                Text( formatter.format(jmlLunas), style: TextStyle(fontSize: 14),)
                           ],
                         ),
                               SizedBox(height: 20.0,),
@@ -127,14 +133,14 @@ class _StatistikUserState extends State<StatistikUser> {
                 Row(
                     children: <Widget>[
                       Container(
-                                    color: Colors.orange,
+                                    color: Colors.green,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                                      child: Text('Donasi Proses: ', style: TextStyle(color: Colors.white),),
+                                      child: Text('Donasi Proses: '+donasiProses.toString(), style: TextStyle(color: Colors.white),),
                                     ),
                                   ),
                                   Spacer(),
-                                  Text( donasiProses.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                  Text( formatter.format(jmlProses), style: TextStyle(fontSize: 14),)
                     ],
                 ),
                               SizedBox(height: 20.0,),
@@ -144,11 +150,11 @@ class _StatistikUserState extends State<StatistikUser> {
                                     color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                                      child: Text('Donasi Tolak: ', style: TextStyle(color: Colors.white),),
+                                      child: Text('Donasi Tolak: '+donasiTolak.toString(), style: TextStyle(color: Colors.white),),
                                     ),
                                   ),
                                   Spacer(),
-                                  Text( donasiTolak.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                  Text( formatter.format(jmlTolak), style: TextStyle(fontSize: 14),)
 
                                 ],
                               ),
@@ -159,11 +165,11 @@ class _StatistikUserState extends State<StatistikUser> {
                                     color: Colors.indigo[100],
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-                                      child: Text('Total Donasi: ' , style: TextStyle(color: Colors.white),),
+                                      child: Text('Total Donasi: '+(donasiTolak+donasiProses+donasiLunas).toString() , style: TextStyle(color: Colors.white),),
                                     ),
                                   ),
                                   Spacer(),
-                                  Text((donasiTolak+donasiProses+donasiLunas).toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                  Text(formatter.format(jmlLunas+jmlProses+jmlTolak), style: TextStyle(fontSize: 14),)
                                   
                                 ],
                               ),                   

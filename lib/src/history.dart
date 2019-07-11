@@ -14,7 +14,7 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   String _idUser = '';
   var history = new List<HistoryDonasi>();
-  var warnakuning=Colors.yellow[500];
+  var warnakuning=Colors.green[500];
   var warnabiru= Colors.blue[300];
   var warnamerah= Colors.red[300];
 

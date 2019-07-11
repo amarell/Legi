@@ -221,10 +221,15 @@ class _DetailZakatState extends State<DetailZakat> {
                                   padding: const EdgeInsets.all(16),
                                     child: 
                                       Center(
-                                        child: TextIcon(
-                                          icon: FontAwesomeIcons.handHoldingUsd,
-                                          text:
-                                              "Dana Terkumpul:\n ${formatter.format(campaign.danaTerkumpul) ?? "#"} ",
+                                        child: Column(
+                                          children: <Widget>[
+                                            TextIcon(
+                                              icon: FontAwesomeIcons.handHoldingUsd,
+                                              text:
+                                                  "Dana Terkumpul: ",
+                                            ),
+                                            Text(formatter.format(campaign.danaTerkumpul) ?? "#", style: TextStyle(fontSize: 20.0),)
+                                          ],
                                         ),
                                       ),
                                       
