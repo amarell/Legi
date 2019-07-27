@@ -121,6 +121,7 @@ class _TambahBankState extends State<TambahBank> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Lets Giving'),
         backgroundColor: const Color(0xFF0091EA),
