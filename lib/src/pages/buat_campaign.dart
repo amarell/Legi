@@ -145,6 +145,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
 
   File _imageFile;
   String _mySelection;
+  String _tipeCamp;
 
   String _idMember='';
 
@@ -153,6 +154,8 @@ class _BuatCampaignState extends State<BuatCampaign> {
 
   int currStep = 0;
   static MyData myData = new MyData();
+
+  bool _tipeCampaign = true;
 
   
 
@@ -172,6 +175,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
   TextEditingController contJudulCampaign = new TextEditingController();
   TextEditingController contidKategori = new TextEditingController();
   TextEditingController contlink = new TextEditingController();
+  TextEditingController contInstansi = new TextEditingController();
   TextEditingController contnohp = new TextEditingController();
   TextEditingController contAjakan = new TextEditingController();
   TextEditingController contDeskripsi = new TextEditingController();
@@ -244,6 +248,8 @@ class _BuatCampaignState extends State<BuatCampaign> {
     request.fields['judul_campaign'] = contJudulCampaign.text;
     request.fields['no_hp']=contnohp.text;
     request.fields['ajakan']=contAjakan.text;
+    request.fields['instansi']=contInstansi.text;
+    request.fields['tipe_campaign']=_tipeCamp;
     request.fields['deskripsi']=contDeskripsi.text;
     request.fields['target_donasi']=contTargetDonasi.numberValue.round().toString();
     request.fields['batas_waktu']=_fromDate2.toString().substring(0,10);
@@ -362,6 +368,34 @@ class _BuatCampaignState extends State<BuatCampaign> {
       state: StepState.indexed,
       content: Column(
         children: <Widget>[
+          Card(
+            elevation: 4.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          DropdownButton<String>(
+                value: _tipeCamp,
+                hint: const Text('Pilih Tipe Campaign'),
+                onChanged: (String newValue) {
+                  setState(() {
+                    _tipeCamp = newValue;
+                    if(newValue=='individu'){
+                          _tipeCampaign=true;
+                    }else{
+                          _tipeCampaign=false;
+                    }
+                  });
+                },
+                items: <String>['individu', 'instansi'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+                        ],
+                      ),
+          ),
           TextFormField(
                     controller: contJudulCampaign,
                     textCapitalization: TextCapitalization.words,
@@ -402,7 +436,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
                   ),
                   const SizedBox(height: 24.0),
                   (data!= null) ? DropdownButton(
-                    
+                    hint: const Text('Pilih Kategori'),
                     items: data.map((item){
                       return DropdownMenuItem(
                         child: Text(item['nama_kategori']),
@@ -464,7 +498,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
                     ),
                   ),
                   const SizedBox(height: 24.0,),
-                  Text("Masukan no hp", style: TextStyle(fontSize: 15.0),),
+                  Text("Masukan no hp yang bisa di hubungi", style: TextStyle(fontSize: 15.0),),
                  const SizedBox(height: 24.0),
                   TextFormField(
                     onSaved: (value){
@@ -484,6 +518,22 @@ class _BuatCampaignState extends State<BuatCampaign> {
                       labelText: 'No Hp*',
                     ),
                   ),
+                 const SizedBox(height: 24.0,),
+                 (_tipeCampaign==false) ? Text("Masukan Nama Instansi ", style: TextStyle(fontSize: 15.0),):Container(),
+                 const SizedBox(height: 24.0),
+                 (_tipeCampaign==false) ?  TextFormField(
+                    onSaved: (value){
+                      myData.link=value;
+                    },
+                    controller: contInstansi,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      hintText: 'Masukan Nama Instansi',
+                      labelText: 'Nama Instansi*',
+                    ),
+                  ):Container(), 
         ],
       )
     ),
