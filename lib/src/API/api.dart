@@ -27,6 +27,22 @@ class API {
     });
   }
 
+  static Future getDetailBankUser(idUser) async{
+    var url=baseUrl+'/get_detail_bank_user.php';
+    print(idUser);
+    return await http.post(url, body: {
+      "id_rekening":'$idUser',
+    });
+  }
+
+  static Future getBankUser(idUser) async{
+    var url=baseUrl+'/list_bank_user.php';
+    print(idUser);
+    return await http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
+
   static Future getKategori() async{
     var url=baseUrl+'/list_kategori.php';
     return await http.post(url);

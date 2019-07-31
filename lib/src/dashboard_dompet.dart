@@ -60,6 +60,12 @@ class _DompetDashboardState extends State<DompetDashboard> {
   }
 
   @override
+  void dispose() {
+    _getDataDompet();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');

@@ -522,9 +522,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
                  (_tipeCampaign==false) ? Text("Masukan Nama Instansi ", style: TextStyle(fontSize: 15.0),):Container(),
                  const SizedBox(height: 24.0),
                  (_tipeCampaign==false) ?  TextFormField(
-                    onSaved: (value){
-                      myData.link=value;
-                    },
+                   
                     controller: contInstansi,
                     textCapitalization: TextCapitalization.words,
                     decoration: const InputDecoration(

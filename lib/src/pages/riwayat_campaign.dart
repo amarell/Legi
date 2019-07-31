@@ -1,10 +1,16 @@
 // import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:legi/reusable/mycard.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/riwayat_campaign.dart';
+import 'package:path/path.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -17,6 +23,7 @@ class RiwayatCampaign extends StatefulWidget {
 class _RiwayatCampaignState extends State<RiwayatCampaign> 
   with SingleTickerProviderStateMixin{
   String _idUser = '';
+  File _imageFile;
   var warnakuning=Colors.yellow[500];
   var warnabiru= Colors.blue[300];
   var warnamerah= Colors.red[300];
@@ -66,7 +73,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
   }
 
 
-  Widget toggle() {
+  Widget toggle(context) {
     return FloatingActionButton(
       backgroundColor: _animateColor.value,
       onPressed: (){
@@ -150,33 +157,63 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
   }
     final _formkey= GlobalKey<FormState>();
 
-  Future<dynamic> _insertBerita(idcampaign) async{
+  // Future<dynamic> _insertBerita(idcampaign) async{
     
-      final response = await http.post(
-            URLAPI+'/API/insert_berita.php', body: {
-              'id_campaign': idcampaign,
-              'berita': contBerita.text,
-              'nama_kegiatan': contKegiatan.text,
-        });
+  //     final response = await http.post(
+  //           URLAPI+'/API/insert_berita.php', body: {
+  //             'id_campaign': idcampaign,
+  //             'berita': contBerita.text,
+  //             'nama_kegiatan': contKegiatan.text,
+  //       });
 
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
-        //var jsonResponse= convert.jsonDecode(response.body);
-        if (response.statusCode == 200) {
-          var success = jsonResponse['success'];
-          if (success == '1') {
-            print('berhasil donasi');
-            Toast.show("Success", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-            // showInSnackBar('Berhasil Withdraw');
-          } else if (success == '0') {
-            // showInSnackBar('Gagal');
-            Toast.show("gagal", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-            print(jsonResponse);
-          }
-        }
+  //       Map<String, dynamic> jsonResponse = json.decode(response.body);
+  //       //var jsonResponse= convert.jsonDecode(response.body);
+  //       if (response.statusCode == 200) {
+  //         var success = jsonResponse['success'];
+  //         if (success == '1') {
+  //           print('berhasil donasi');
+  //           Toast.show("Success", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+  //           // showInSnackBar('Berhasil Withdraw');
+  //         } else if (success == '0') {
+  //           // showInSnackBar('Gagal');
+  //           Toast.show("gagal", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+  //           print(jsonResponse);
+  //         }
+  //       }
 
-        return jsonResponse;
+  //       return jsonResponse;
     
+  // }
+
+
+  Future upload(File imageFile, idCampaign, context) async {
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var uri =
+        Uri.parse(URLAPI+"/API/insert_berita.php");
+    var request = new http.MultipartRequest("post", uri);
+    var multiPartFile = new http.MultipartFile("image", stream, length,
+        filename: basename(imageFile.path));
+
+    request.fields['id_campaign'] = idCampaign;
+    request.fields['berita'] = contBerita.text;
+    request.fields['nama_kegiatan'] = contKegiatan.text;
+    request.files.add(multiPartFile);
+
+     _showProgress(context, 'show');
+    var response = await request.send();
+    
+    if (response.statusCode == 200) {
+      print("image berhasil upload");
+      Navigator.of(context).pop();
+      Toast.show("Success", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);     
+    } else {
+      print("gagal");
+    }
   }
+
+
 
   
   
@@ -199,7 +236,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
               onPressed: () {}),
         ],
       ),
-      floatingActionButton: toggle(),
+      floatingActionButton: toggle(context),
       body: ListView.builder(
         itemCount: cam.length,
         itemBuilder: (context, index){
@@ -269,6 +306,39 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
                                       maxLines: 2,
                                     ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: OutlineButton(
+                                onPressed: () {
+                                  _openImagePicker(context);
+                                },
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 2.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.camera_alt),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text('Add Image'),
+                                  ],
+                                ),
+                              ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: _imageFile == null
+                            ? Text("pick an image")
+                            : Image.file(
+                                _imageFile,
+                                fit: BoxFit.cover,
+                                height: 300,
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topCenter,
+                              ),
+                    ),
                     FlatButton(
                               child: const Text('Batal'),
                               onPressed: () {
@@ -278,7 +348,8 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
                             FlatButton(
                               child: const Text('Setuju'),
                               onPressed: () {
-                                _insertBerita(cam[index].idCampaign);
+                                // _insertBerita(cam[index].idCampaign);
+                                upload(_imageFile, cam[index].idCampaign, context);
                                 Navigator.pop(context, 'Setuju');
                               },
                             ),
@@ -305,4 +376,78 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
       ),
     );
   }
+
+  void _getImage(BuildContext context, ImageSource source){
+    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
+      
+      // final tempDir = await getTemporaryDirectory();
+      // final path= tempDir.path;
+      
+      // Img.Image image2= Img.decodeImage(image.readAsBytesSync());
+      // Img.Image smlImage = Img.copyResize(image2, width: 500);
+
+
+      // var compressImg= new File("$path/image_bukti_bayar.jpg")
+      //   ..writeAsBytesSync(Img.encodeJpg(smlImage, quality: 85));      
+      Navigator.pop(context);
+      
+
+
+      setState(() {
+        _imageFile = image;
+      });
+    });
+  }
+
+  void _openImagePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            height: 150.0,
+            child: Column(
+              children: [
+                Text(
+                  "Pick An Image",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text("use Camera"),
+                  onPressed: () {
+                    _getImage(context, ImageSource.camera);
+                  },
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text("Use Gallery"),
+                  onPressed: () {
+                    _getImage(context, ImageSource.gallery);
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+   _showProgress(BuildContext context, status){
+    ProgressDialog pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    
+    if(status=='show'){
+      pr.setMessage('Please wait...');
+    return pr.show();
+    }else if(status=='hide'){
+    return pr.hide();
+    }
+    
+  }
+
 }

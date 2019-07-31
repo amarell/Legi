@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/constant.dart';
+import 'package:legi/src/model/detail_bank_user_model.dart';
 import 'package:legi/src/model/info_dompet_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -24,10 +25,18 @@ class _FormWithdrawState extends State<FormWithdraw> {
   String _idDompet = '';
   String _emailUser = '';
 
+  String _namaPemilik='';
+
   bool _formWasEdited = false;
+
+  var akun = new List<DetailBankUserModel>();
 
   var datadompet = new List<InfoDompetModel>();
   var _saldoDOmpet = '';
+
+  bool _getStatus=false;
+
+  var exNamabank, exnamaPemilik, exnoRek;
 
    TextEditingController namaBank = new TextEditingController();
     TextEditingController namaPemilik = new TextEditingController();
@@ -57,8 +66,10 @@ class _FormWithdrawState extends State<FormWithdraw> {
   void initState() {
     super.initState();
     _getData();
+    
     print(_idUser);
     print(_idDompet);
+    print(_namaPemilik);
   }
 
   _getData() async {
@@ -69,6 +80,60 @@ class _FormWithdrawState extends State<FormWithdraw> {
       _emailUser = (prefs.getString('email') ?? '');
     });
     _getDataDompet();
+    _getBankUser();
+  }
+
+  final String url = URLAPI+"/API/list_bank_user.php";
+  String _mySelection;
+  List data; 
+   Future<String> getSWData() async {
+    var res = await http
+        .post(url, body: {
+          "id_user": _idUser,
+        });
+    var resBody = convert.jsonDecode(res.body);
+    //var data2 =resBody['data'][0];
+
+    setState(() {
+      data = resBody['data'];
+    });
+
+    print(resBody);
+
+    return "Sucess";
+  }
+
+  _getBankUser(){
+    API.getBankUser(_idUser).then((responses){
+      setState(() {
+       final list = convert.jsonDecode(responses.body); 
+       print(list);
+       setState(() {
+        data=list['data']; 
+      
+       });
+      //  campaigns = (list['data'] as List).map<Campaign>((json) => new Campaign.fromJson(json)).toList();
+      //  print(campaigns);
+      });
+    });
+  }
+
+  _getUserDetail(var idRek) {
+    //_getData()d;
+    API.getDetailBankUser(idRek).then((responses) {
+      setState(() {
+        final list = convert.jsonDecode(responses.body);
+        akun = (list['data'] as List)
+            .map<DetailBankUserModel>((json) => new DetailBankUserModel.fromJson(json))
+            .toList();
+
+        print(akun);
+        exNamabank = akun[0].namaBank;
+        exnamaPemilik = akun[0].namaPemilik;
+        exnoRek = akun[0].noRek;
+        print(exNamabank);
+      });
+    });
   }
 
   _getDataDompet() async {
@@ -113,9 +178,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
       final response = await http.post(
             URLAPI+'/API/withdraw_dompet.php', body: {
           "id_dompet": _idDompet,
-          "nama_bank_tujuan": namaBank.text,
-          "nama_pemilik_rek": namaPemilik.text,
-          "no_rek": noRek.text,
+          "id_bank": _mySelection,
           "jumlah_pencairan": jumlahPencairan.numberValue.round().toString(),
           "status": "pengajuan",
         });
@@ -143,6 +206,8 @@ class _FormWithdrawState extends State<FormWithdraw> {
     }
   }
 
+  
+
   void showInSnackBar(String value) {
     FocusScope.of(context).requestFocus(new FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
@@ -162,10 +227,17 @@ class _FormWithdrawState extends State<FormWithdraw> {
 
   final _formkey= GlobalKey<FormState>();
 
+   @override
+  void dispose() {
+    _getDataDompet();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString(), name: 'Rp. ');
+        
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -237,54 +309,45 @@ class _FormWithdrawState extends State<FormWithdraw> {
                         ),
                       ),
                       SizedBox(height: 12.0,),
-                TextFormField(
-                  
-                  controller: namaBank,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan Nama Bank Tujuan',
-                    labelText: 'Nama Bank*',
-                  ),
-                  validator: (value){
-                    if(value.isEmpty){
-                      return 'Nama Bank tidak boleh kosong';
-                    }
-                  },
-                  
-                ),
-                const SizedBox(height: 24.0,),
-                TextFormField(
-                  controller: namaPemilik,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan Nama Pemilik Rekening',
-                    labelText: 'Nama Pemilik*',
-                  ),
-                   validator: (value){
-                     if(value.isEmpty)
-                      return'nama pemilik tidak boleh kosong';
-                   },
-                ),
-                const SizedBox(height: 24.0,),
-                TextFormField(
-                  controller: noRek,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    filled: true,
-                    hintText: 'Masukan No Rekening',
-                    labelText: 'No Rekening*',
-                  ),
-                   validator: (value){
-                     if(value.isEmpty){
-                       return 'No rekening tidak boleh kosong';
-                     }
-                   },
-                ),
+                (data!= null) ? DropdownButton(
+                    elevation: 4,
+                    hint: const Text('Pilih Bank Yang Di Tuju'),
+                    items: data.map((item){
+                      return DropdownMenuItem(
+                        child: Text(item['nama_bank']),
+                        value: item['id_rekening'],
+                        
+                      );
+                    }).toList(),
+                    onChanged: (newVal){
+                      setState(() {
+                       _mySelection = newVal; 
+                       _getUserDetail(newVal);
+                       if(newVal!='')
+                        _getStatus=true;
+                      });
+                    },
+                    value: _mySelection,
+                    
+                  ) : Center(child: CircularProgressIndicator(),),
+                  (_getStatus==true)?
+                  Column(
+                    children: <Widget>[
+                      
+                      ListTile(
+                        title: new Text('Nama Bank: '+ exNamabank.toString())
+                      ),
+                          
+                      ListTile(
+                        title: new Text('Nama Pemilik: '+exnamaPemilik),
+                      ),
+                      ListTile(
+                        title: new Text('No Rekenin: '+exnamaPemilik),
+                      )
+                    ],
+                  )
+                  :Container(),      
+                
                 const SizedBox(height: 24.0,),
                 Text(
                   "Masukan Jumlah Pencairan", style: TextStyle(fontSize: 15.0),),
