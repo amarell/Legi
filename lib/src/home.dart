@@ -5,6 +5,7 @@ import 'package:legi/src/history.dart';
 // import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:legi/src/profile_page.dart';
+import 'package:legi/src/update_berita_user.dart';
 
 class Home extends StatefulWidget {
 
@@ -15,7 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentTab = 0;
 
-  final List<Widget> screens = [Dashboard(), History(), ProfilePage()];
+  final List<Widget> screens = [Dashboard(),UpdateBeritaUser(), History(), ProfilePage()];
   
   Widget currentScreen = Dashboard();
 
@@ -37,6 +38,7 @@ class _HomeState extends State<Home> {
     },
         tabs: [
           TabData(iconData: Icons.home, title: "Dashboard"),
+          TabData(iconData: Icons.notifications, title: "Update"),
         TabData(iconData: Icons.history, title: "History"),
         TabData(iconData: Icons.person, title: "Account")
         ],

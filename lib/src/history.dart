@@ -94,6 +94,7 @@ class _HistoryState extends State<History> {
         ],
       ),
       body: ListView.builder(
+        key: new PageStorageKey('history'),
         itemCount: history.length,
         itemBuilder: (context, index) {
           return InkWell(

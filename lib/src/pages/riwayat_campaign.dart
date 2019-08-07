@@ -9,6 +9,7 @@ import 'package:legi/reusable/mycard.dart';
 import 'package:legi/src/API/api.dart';
 import 'package:legi/src/constant.dart';
 import 'package:legi/src/model/riwayat_campaign.dart';
+import 'package:legi/src/pages/insert_berita.dart';
 import 'package:path/path.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
   Curve _curve = Curves.easeOut;
 
   TextEditingController contBerita = new TextEditingController();
+  TextEditingController contDana = new TextEditingController();
   TextEditingController contKegiatan = new TextEditingController();
 
   void initState() {
@@ -199,6 +201,7 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
     request.fields['id_campaign'] = idCampaign;
     request.fields['berita'] = contBerita.text;
     request.fields['nama_kegiatan'] = contKegiatan.text;
+    request.fields['jumlah_dana'] = contDana.text;
     request.files.add(multiPartFile);
 
      _showProgress(context, 'show');
@@ -241,6 +244,12 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
         itemCount: cam.length,
         itemBuilder: (context, index){
           return InkWell(
+            onTap: (){
+              (cam[index].status=='proses')?Navigator.push(context, MaterialPageRoute<DismissDialogAction>(
+                builder: (BuildContext context) => InsertBerita(idCamp: cam[index].idCampaign,),
+                fullscreenDialog: true,
+              )):HapticFeedback.vibrate();
+            },
             onLongPress: (){
               HapticFeedback.vibrate();
               (cam[index].status=='proses')?
@@ -302,6 +311,20 @@ class _RiwayatCampaignState extends State<RiwayatCampaign>
                                       hintText: 'silahkan isi berita',
                                       helperText: 'Silahkan isi update berita campaign',
                                       labelText: 'Isi Berita',
+                                    ),
+                                      maxLines: 2,
+                                    ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                                    controller: contDana,
+                                    keyboardType: TextInputType.number,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Masukan jumlah pengeluaran',
+                                      helperText: 'Silahkan isi jumlah pengeluaran',
+                                      labelText: 'Isi Pengeluaran Dana',
                                     ),
                                       maxLines: 2,
                                     ),

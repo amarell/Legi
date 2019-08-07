@@ -36,7 +36,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
 
   bool _getStatus=false;
 
-  var exNamabank, exnamaPemilik, exnoRek;
+  var exNamabank='', exnamaPemilik='', exnoRek='';
 
    TextEditingController namaBank = new TextEditingController();
     TextEditingController namaPemilik = new TextEditingController();
@@ -342,7 +342,7 @@ class _FormWithdrawState extends State<FormWithdraw> {
                         title: new Text('Nama Pemilik: '+exnamaPemilik),
                       ),
                       ListTile(
-                        title: new Text('No Rekenin: '+exnamaPemilik),
+                        title: new Text('No Rekening: '+exnoRek),
                       )
                     ],
                   )

@@ -34,6 +34,13 @@ class API {
       "id_rekening":'$idUser',
     });
   }
+  static Future getUpdateBeritaUser(idUser) async{
+    var url=baseUrl+'/update_berita_user.php';
+    print(idUser);
+    return await http.post(url, body: {
+      "id_user":'$idUser',
+    });
+  }
 
   static Future getBankUser(idUser) async{
     var url=baseUrl+'/list_bank_user.php';

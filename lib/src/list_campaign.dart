@@ -129,6 +129,7 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
             ),
             Expanded(
                           child: ListView.builder(
+                            key: new PageStorageKey('feed'),
                     itemCount: campaigns.length,
                     itemBuilder: (context, index) {
                       var tgl =DateTime.parse(campaigns[index].tanggal_mulai);
@@ -151,6 +152,8 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
                           campaigns[index].target_donasi *
                           100.round();
                       String haha = average3.toStringAsFixed(2);
+
+                      int danaKurang=  campaigns[index].target_donasi - campaigns[index].dana_terkumpul;
 
                       //double ave=average*100;
                       // String persen = double.parse(ave.toString());
@@ -290,12 +293,17 @@ final TextStyle titleStyle = theme.textTheme.headline.copyWith(color: Colors.bla
                                                     crossAxisAlignment: CrossAxisAlignment.end,
                                                     children: <Widget>[
                                                       Text(
-                                                            "Tanggal Mulai: "
+                                                            "Dana Kurang: "
                                                         ),
                                                         SizedBox(height: 5.0,),
-                                                        Text(
-                                                          formatted,
-                                                          style: descriptionStyle.copyWith(color: Colors.black54),
+                                                        Card(
+                                                          elevation: 0.0,
+                                                            child: (danaKurang>0)?Text(
+                                                            
+                                                            formatter.format(danaKurang),
+                                                            style: descriptionStyle.copyWith(color: Colors.black54),
+                                                            overflow: TextOverflow.fade,
+                                                          ):Text('Rp. 0'),
                                                         )
                                                     ],
                                                   ),

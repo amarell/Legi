@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -397,7 +398,10 @@ class _DetailCampaignState extends State<DetailCampaign> {
                               onTap: (){
 
                               },
-                              child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Card(
+                                  elevation: 4.0,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
                 child: Column(
@@ -407,15 +411,15 @@ class _DetailCampaignState extends State<DetailCampaign> {
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             children: <Widget>[
-                              Divider(),
-                              
-                              Text(berita[index].namaKegiatan,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                Divider(),
+                                
+                                Text(berita[index].namaKegiatan,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Spacer(),
-                              Text(formatted,style: TextStyle(color: Colors.grey),)
+                                Spacer(),
+                                Text(formatted,style: TextStyle(color: Colors.grey),)
                             ],
                           ),
                           
@@ -423,12 +427,23 @@ class _DetailCampaignState extends State<DetailCampaign> {
                         Divider(),
                         // Text(berita[index].berita, textAlign: TextAlign.justify,),
                         Html(data: berita[index].berita,),
+
+                        CachedNetworkImage(
+                                                      imageUrl: URLAPI+'/assets/uploads/transaksi/saldo/'+berita[index].fotoKegiatan,
+                                                      placeholder: (context, url)=>Center(child: Container(width: 32, height: 32,child: new CircularProgressIndicator())),
+                                                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                                                      fit: BoxFit.cover,
+                                                      height: 150,
+                                                      width: MediaQuery.of(context).size.width
+                                                      // 'https://letsgiving.com/assets/uploads/artikel/'+campaigns[index].foto_campaign, fit: BoxFit.cover, height: 100,width: MediaQuery.of(context).size.width,
+                                                      )
                         
                         
                       ],
                 ),
               ),
             ),
+                              ),
                             );
                           },
                         ),
