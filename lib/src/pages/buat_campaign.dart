@@ -677,6 +677,7 @@ class _BuatCampaignState extends State<BuatCampaign> {
                                 ],
                               ):SizedBox(height:2.0),
                  Stepper(
+                   physics: ClampingScrollPhysics(),
                    steps: step,
                    type: StepperType.vertical,
                    currentStep: this.currStep,
